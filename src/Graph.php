@@ -4,8 +4,7 @@
  *
  * PHP Version 5
  *
- * @category  phpDocumentor
- * @package   Core
+ * @package   phpDocumentor\GraphViz
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -20,8 +19,7 @@
  * of this graph will be grouped and a border will be added. Otherwise it is
  * used as logical container to place defaults in.
  *
- * @category  phpDocumentor
- * @package   GraphViz
+ * @package   phpDocumentor\GraphViz
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
