@@ -11,7 +11,9 @@
  * @link      http://phpDocumentor-project.org
  */
 
-require_once __DIR__ . '/../src/Node.php';
+namespace phpDocumentor\GraphViz;
+
+require_once __DIR__ . '/../../src/GraphViz/Node.php';
 
 /**
  * Test for the the class representing a GraphViz node.
@@ -21,9 +23,9 @@ require_once __DIR__ . '/../src/Node.php';
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpDocumentor-project.org
  */
-class phpDocumentor_GraphViz_NodeTest extends PHPUnit_Framework_TestCase
+class phpDocumentor_GraphViz_NodeTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var phpDocumentor_GraphViz_Node */
+    /** @var \phpDocumentor\GraphViz\Node */
     protected $fixture = null;
 
     /**
@@ -33,7 +35,7 @@ class phpDocumentor_GraphViz_NodeTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->fixture = new phpDocumentor_GraphViz_Node('name', 'label');
+        $this->fixture = new Node('name', 'label');
     }
 
     public function testCreate()

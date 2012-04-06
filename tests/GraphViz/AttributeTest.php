@@ -4,26 +4,26 @@
  *
  * PHP Version 5
  *
- * @package   phpDocumentor\GraphViz\Tests
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpDocumentor-project.org
  */
 
-require_once __DIR__.'/../src/Attribute.php';
+namespace phpDocumentor\GraphViz;
+
+require_once __DIR__ . '/../../src/GraphViz/Attribute.php';
 
 /**
  * Test for the the class representing a GraphViz attribute.
  *
- * @package phpDocumentor\GraphViz\Tests
  * @author  Mike van Riel <mike.vanriel@naenius.com>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpDocumentor-project.org
  */
-class phpDocumentor_GraphViz_AttributeTest extends PHPUnit_Framework_TestCase
+class AttributeTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var phpDocumentor_GraphViz_Attribute */
+    /** @var \phpDocumentor\GraphViz\Attribute */
     protected $fixture = null;
 
     /**
@@ -33,7 +33,7 @@ class phpDocumentor_GraphViz_AttributeTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->fixture = new phpDocumentor_GraphViz_Attribute('a', '1');
+        $this->fixture = new Attribute('a', '1');
     }
 
     /**
@@ -105,7 +105,7 @@ class phpDocumentor_GraphViz_AttributeTest extends PHPUnit_Framework_TestCase
      */
     public function testToString()
     {
-        $this->fixture = new phpDocumentor_GraphViz_Attribute('a', 'b');
+        $this->fixture = new Attribute('a', 'b');
         $this->assertSame(
             'a="b"', (string)$this->fixture,
             'Strings should be surrounded with quotes'

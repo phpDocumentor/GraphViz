@@ -4,44 +4,44 @@
  *
  * PHP Version 5
  *
- * @package   phpDocumentor\GraphViz
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
+
+namespace phpDocumentor\GraphViz;
 
 /**
  * Class representing an edge (arrow, line).
  *
- * @package   phpDocumentor\GraphViz
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class phpDocumentor_GraphViz_Edge
+class Edge
 {
-    /** @var phpDocumentor_GraphViz_Node Node from where to link */
+    /** @var \phpDocumentor\GraphViz\Node Node from where to link */
     protected $from = null;
 
-    /** @var phpDocumentor_GraphViz_Node Node where to to link */
+    /** @var \phpDocumentor\GraphViz\Node Node where to to link */
     protected $to = null;
 
-    /** @var phpDocumentor_GraphViz_Attribute List of attributes for this edge */
+    /** @var \phpDocumentor\GraphViz\Attribute List of attributes for this edge */
     protected $attributes = array();
 
     /**
      * Creates a new Edge / Link between the given nodes.
      *
-     * @param phpDocumentor_GraphViz_Node $from Starting node to create an Edge from.
-     * @param phpDocumentor_GraphViz_Node $to   Destination node where to create and
+     * @param \phpDocumentor\GraphViz\Node $from Starting node to create an Edge from.
+     * @param \phpDocumentor\GraphViz\Node $to   Destination node where to create and
      *  edge to.
      */
-    function __construct(phpDocumentor_GraphViz_Node $from, phpDocumentor_GraphViz_Node $to)
+    function __construct(Node $from, Node $to)
     {
         $this->from = $from;
-        $this->to = $to;
+        $this->to   = $to;
     }
 
     /**
@@ -49,22 +49,20 @@ class phpDocumentor_GraphViz_Edge
      *
      * See the examples for more details.
      *
-     * @param phpDocumentor_GraphViz_Node $from Starting node to create an Edge from.
-     * @param phpDocumentor_GraphViz_Node $to   Destination node where to create and
+     * @param \phpDocumentor\GraphViz\Node $from Starting node to create an Edge from.
+     * @param \phpDocumentor\GraphViz\Node $to   Destination node where to create and
      *  edge to.
      *
-     * @return phpDocumentor_GraphViz_Edge
+     * @return \phpDocumentor\GraphViz\Edge
      */
-    public static function create(phpDocumentor_GraphViz_Node $from,
-        phpDocumentor_GraphViz_Node $to
-    ) {
+    public static function create(Node $from, Node $to) {
         return new self($from, $to);
     }
 
     /**
      * Returns the source Node for this Edge.
      *
-     * @return phpDocumentor_GraphViz_Node
+     * @return \phpDocumentor\GraphViz\Node
      */
     public function getFrom()
     {
@@ -74,7 +72,7 @@ class phpDocumentor_GraphViz_Edge
     /**
      * Returns the destination Node for this Edge.
      *
-     * @return phpDocumentor_GraphViz_Node
+     * @return \phpDocumentor\GraphViz\Node
      */
     public function getTo()
     {
@@ -95,15 +93,13 @@ class phpDocumentor_GraphViz_Edge
      *  setX or getX.
      * @param mixed[] $arguments Arguments for the setter, only 1 is expected: value
      *
-     * @return phpDocumentor_GraphViz_Attribute[]|phpDocumentor_GraphViz_Edge|null
+     * @return \phpDocumentor\GraphViz\Attribute[]|\phpDocumentor\GraphViz\Edge|null
      */
     function __call($name, $arguments)
     {
         $key = strtolower(substr($name, 3));
         if (strtolower(substr($name, 0, 3)) == 'set') {
-            $this->attributes[$key] = new phpDocumentor_GraphViz_Attribute(
-                $key, $arguments[0]
-            );
+            $this->attributes[$key] = new Attribute($key, $arguments[0]);
 
             return $this;
         }

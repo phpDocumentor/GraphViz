@@ -4,12 +4,13 @@
  *
  * PHP Version 5
  *
- * @package   phpDocumentor\GraphViz
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
+
+namespace phpDocumentor\GraphViz;
 
 /**
  * Class representing a graph; this may be a main graph but also a subgraph.
@@ -19,13 +20,12 @@
  * of this graph will be grouped and a border will be added. Otherwise it is
  * used as logical container to place defaults in.
  *
- * @package   phpDocumentor\GraphViz
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class phpDocumentor_GraphViz_Graph
+class Graph
 {
 
     /** @var string Name of this graph */
@@ -34,16 +34,16 @@ class phpDocumentor_GraphViz_Graph
     /** @var string Type of this graph; may be digraph, graph or subgraph */
     protected $type = 'digraph';
 
-    /** @var phpDocumentor_GraphViz_Attribute[] A list of attributes for this Graph */
+    /** @var \phpDocumentor\GraphViz\Attribute[] A list of attributes for this Graph */
     protected $attributes = array();
 
-    /** @var phpDocumentor_GraphViz_Graph[] A list of subgraphs for this Graph */
+    /** @var \phpDocumentor\GraphViz\Graph[] A list of subgraphs for this Graph */
     protected $graphs = array();
 
-    /** @var phpDocumentor_GraphViz_Node[] A list of nodes for this Graph */
+    /** @var \phpDocumentor\GraphViz\Node[] A list of nodes for this Graph */
     protected $nodes = array();
 
-    /** @var phpDocumentor_GraphViz_Edge[] A list of edges / arrows for this Graph */
+    /** @var \phpDocumentor\GraphViz\Edge[] A list of edges / arrows for this Graph */
     protected $edges = array();
 
     /**
@@ -53,7 +53,7 @@ class phpDocumentor_GraphViz_Graph
      * @param string $name        The name for this graph.
      * @param bool   $directional Whether this is a directed or undirected graph.
      *
-     * @return phpDocumentor_GraphViz_Graph
+     * @return \phpDocumentor\GraphViz\Graph
      */
     public static function create($name = 'G', $directional = true)
     {
@@ -73,7 +73,7 @@ class phpDocumentor_GraphViz_Graph
      *
      * @param string $name The new name for this graph.
      *
-     * @return phpDocumentor_GraphViz_Graph
+     * @return \phpDocumentor\GraphViz\Graph
      */
     public function setName($name)
     {
@@ -96,15 +96,15 @@ class phpDocumentor_GraphViz_Graph
      *
      * @param string $type Must be either "digraph", "graph" or "subgraph".
      *
-     * @throw InvalidArgumentException if $type is not "digraph", "graph" or
+     * @throws \InvalidArgumentException if $type is not "digraph", "graph" or
      *  "subgraph".
      *
-     * @return phpDocumentor_GraphViz_Graph
+     * @return \phpDocumentor\GraphViz\Graph
      */
     public function setType($type)
     {
         if (!in_array($type, array('digraph', 'graph', 'subgraph'))) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'The type for a graph must be either "digraph", "graph" or '
                 . '"subgraph"'
             );
@@ -137,15 +137,13 @@ class phpDocumentor_GraphViz_Graph
      * @param string  $name      Name of the method including get/set
      * @param mixed[] $arguments The arguments, should be 1: the value
      *
-     * @return phpDocumentor_GraphViz_Attribute[]|phpDocumentor_GraphViz_Graph|null
+     * @return \phpDocumentor\GraphViz\Attribute[]|\phpDocumentor\GraphViz\Graph|null
      */
     function __call($name, $arguments)
     {
         $key = strtolower(substr($name, 3));
         if (strtolower(substr($name, 0, 3)) == 'set') {
-            $this->attributes[$key] = new phpDocumentor_GraphViz_Attribute(
-                $key, $arguments[0]
-            );
+            $this->attributes[$key] = new Attribute($key, $arguments[0]);
 
             return $this;
         }
@@ -163,14 +161,14 @@ class phpDocumentor_GraphViz_Graph
      * Thus if you have 2 subgraphs with the same name that the first will be
      * overwritten by the latter.
      *
-     * @param phpDocumentor_GraphViz_Graph $graph The graph to add onto this graph as
+     * @param \phpDocumentor\GraphViz\Graph $graph The graph to add onto this graph as
      *  subgraph.
      *
-     * @see phpDocumentor_GraphViz_Graph::create()
+     * @see \phpDocumentor\GraphViz\Graph::create()
      *
-     * @return phpDocumentor_GraphViz_Graph
+     * @return \phpDocumentor\GraphViz\Graph
      */
-    public function addGraph(phpDocumentor_GraphViz_Graph $graph)
+    public function addGraph(\phpDocumentor\GraphViz\Graph $graph)
     {
         $graph->setType('subgraph');
         $this->graphs[$graph->getName()] = $graph;
@@ -194,7 +192,7 @@ class phpDocumentor_GraphViz_Graph
      *
      * @param string $name Name of the requested graph.
      *
-     * @return phpDocumentor_GraphViz_Graph
+     * @return \phpDocumentor\GraphViz\Graph
      */
     public function getGraph($name)
     {
@@ -207,13 +205,13 @@ class phpDocumentor_GraphViz_Graph
      * Nodes can be retrieved by retrieving the property with the same name.
      * Thus 'node1' can be retrieved by invoking: $graph->node1
      *
-     * @param phpDocumentor_GraphViz_Node $node The node to set onto this Graph.
+     * @param \phpDocumentor\GraphViz\Node $node The node to set onto this Graph.
      *
-     * @see phpDocumentor_GraphViz_Node::create()
+     * @see \phpDocumentor\GraphViz\Node::create()
      *
-     * @return phpDocumentor_GraphViz_Graph
+     * @return \phpDocumentor\GraphViz\Graph
      */
-    public function setNode(phpDocumentor_GraphViz_Node $node)
+    public function setNode(Node $node)
     {
         $this->nodes[$node->getName()] = $node;
         return $this;
@@ -224,7 +222,7 @@ class phpDocumentor_GraphViz_Graph
      *
      * @param string $name Name of the node to find.
      *
-     * @return phpDocumentor_GraphViz_Node
+     * @return \phpDocumentor\GraphViz\Node
      */
     public function findNode($name)
     {
@@ -245,10 +243,10 @@ class phpDocumentor_GraphViz_Graph
     /**
      * Sets a node using a custom name.
      *
-     * @param string                $name  Name of the node.
-     * @param phpDocumentor_GraphViz_Node $value Node to set on the given name.
+     * @param string                       $name  Name of the node.
+     * @param \phpDocumentor\GraphViz\Node $value Node to set on the given name.
      *
-     * @see phpDocumentor_GraphViz_Graph::setNode()
+     * @see \phpDocumentor\GraphViz\Graph::setNode()
      *
      * @return void
      */
@@ -263,9 +261,9 @@ class phpDocumentor_GraphViz_Graph
      *
      * @param string $name The name of the node to retrieve.
      *
-     * @see phpDocumentor_GraphViz_Graph::setNode()
+     * @see \phpDocumentor\GraphViz\Graph::setNode()
      *
-     * @return phpDocumentor_GraphViz_Node
+     * @return \phpDocumentor\GraphViz\Node
      */
     function __get($name)
     {
@@ -275,13 +273,13 @@ class phpDocumentor_GraphViz_Graph
     /**
      * Links two nodes to eachother and registers the Edge onto this graph.
      *
-     * @param phpDocumentor_GraphViz_Edge $edge The link between two classes.
+     * @param \phpDocumentor\GraphViz\Edge $edge The link between two classes.
      *
-     * @see phpDocumentor_GraphViz_Edge::create()
+     * @see \phpDocumentor\GraphViz\Edge::create()
      *
-     * @return phpDocumentor_GraphViz_Graph
+     * @return \phpDocumentor\GraphViz\Graph
      */
-    public function link(phpDocumentor_GraphViz_Edge $edge)
+    public function link(Edge $edge)
     {
         $this->edges[] = $edge;
         return $this;
@@ -300,9 +298,9 @@ class phpDocumentor_GraphViz_Graph
      *
      * @link http://www.graphviz.org/content/output-formats
      *
-     * @throws phpDocumentor_GraphViz_Exception if an error occurred in GraphViz.
+     * @throws \phpDocumentor\GraphViz\Exception if an error occurred in GraphViz.
      *
-     * @return phpDocumentor_GraphViz_Graph
+     * @return \phpDocumentor\GraphViz\Graph
      */
     public function export($type, $filename)
     {
@@ -323,7 +321,7 @@ class phpDocumentor_GraphViz_Graph
         unlink($tmpfile);
 
         if ($code != 0) {
-            throw new phpDocumentor_GraphViz_Exception(
+            throw new Exception(
                 'An error occurred while creating the graph; GraphViz returned: '
                 . implode(PHP_EOL, $output)
             );

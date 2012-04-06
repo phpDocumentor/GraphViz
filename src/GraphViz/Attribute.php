@@ -4,23 +4,23 @@
  *
  * PHP Version 5
  *
- * @package   phpDocumentor\GraphViz
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
+namespace phpDocumentor\GraphViz;
+
 /**
  * Class representing a single GraphViz attribute.
  *
- * @package   phpDocumentor\GraphViz
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class phpDocumentor_GraphViz_Attribute
+class Attribute
 {
     /** @var string The name of this attribute */
     protected $key = '';
@@ -45,7 +45,7 @@ class phpDocumentor_GraphViz_Attribute
      *
      * @param string $key The new name of this attribute.
      *
-     * @return phpDocumentor_GraphViz_Attribute
+     * @return \phpDocumentor\GraphViz\Attribute
      */
     public function setKey($key)
     {
@@ -68,7 +68,7 @@ class phpDocumentor_GraphViz_Attribute
      *
      * @param string $value The new value.
      *
-     * @return phpDocumentor_GraphViz_Attribute
+     * @return \phpDocumentor\GraphViz\Attribute
      */
     public function setValue($value)
     {

@@ -4,29 +4,31 @@
  *
  * PHP Version 5
  *
- * @package   phpDocumentor\GraphViz
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
+namespace phpDocumentor\GraphViz;
+
 /**
  * Class representing a node / element in a graph.
  *
- * @package   phpDocumentor\GraphViz
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
+ *
+ * @method void setLabel(string $name) Sets the label for this node.
  */
-class phpDocumentor_GraphViz_Node
+class Node
 {
 
     /** @var string Name for this node */
     protected $name = '';
 
-    /** @var phpDocumentor_GraphViz_Attribute[] List of attributes for this node */
+    /** @var \phpDocumentor\GraphViz\Attribute[] List of attributes for this node */
     protected $attributes = array();
 
     /**
@@ -51,7 +53,7 @@ class phpDocumentor_GraphViz_Node
      * @param string      $name  Name of the new node.
      * @param string|null $label Optional label text.
      *
-     * @return phpDocumentor_GraphViz_Node
+     * @return \phpDocumentor\GraphViz\Node
      */
     public static function create($name, $label = null)
     {
@@ -65,7 +67,7 @@ class phpDocumentor_GraphViz_Node
      *
      * @param string $name Name for this node.
      *
-     * @return phpDocumentor_GraphViz_Node
+     * @return \phpDocumentor\GraphViz\Node
      */
     public function setName($name)
     {
@@ -96,15 +98,13 @@ class phpDocumentor_GraphViz_Node
      * @param string  $name      Method name; either getX or setX is expected.
      * @param mixed[] $arguments List of arguments; only 1 is expected for setX.
      *
-     * @return phpDocumentor_GraphViz_Attribute[]|phpDocumentor_GraphViz_Node|null
+     * @return \phpDocumentor\GraphViz\Attribute[]|\phpDocumentor\GraphViz\Node|null
      */
     function __call($name, $arguments)
     {
         $key = strtolower(substr($name, 3));
         if (strtolower(substr($name, 0, 3)) == 'set') {
-            $this->attributes[$key] = new phpDocumentor_GraphViz_Attribute(
-                $key, $arguments[0]
-            );
+            $this->attributes[$key] = new Attribute($key, $arguments[0]);
             return $this;
         }
 
