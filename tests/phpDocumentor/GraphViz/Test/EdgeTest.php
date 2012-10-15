@@ -24,7 +24,8 @@ use phpDocumentor\GraphViz\Node;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpDocumentor-project.org
  */
-class EdgeTest extends \PHPUnit_Framework_TestCase {
+class EdgeTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * @var phpDocumentor\GraphViz\Edge
@@ -37,7 +38,8 @@ class EdgeTest extends \PHPUnit_Framework_TestCase {
      *
      * @return void
      */
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->fixture = new Edge(new Node('from'), new Node('to'));
     }
 
@@ -47,7 +49,8 @@ class EdgeTest extends \PHPUnit_Framework_TestCase {
      *
      * @return void
      */
-    protected function tearDown() {
+    protected function tearDown()
+    {
 
     }
 
@@ -58,7 +61,8 @@ class EdgeTest extends \PHPUnit_Framework_TestCase {
      *
      * @return void
      */
-    public function testCreate() {
+    public function testCreate()
+    {
         $this->assertInstanceOf(
             'phpDocumentor\GraphViz\Edge',
             Edge::create(new Node('from'), new Node('to'))
@@ -73,7 +77,8 @@ class EdgeTest extends \PHPUnit_Framework_TestCase {
      *
      * @return void
      */
-    public function testGetFrom() {
+    public function testGetFrom()
+    {
         $from = new Node('from');
         $edge = Edge::create($from, new Node('to'));
         $this->assertSame($from, $edge->getFrom());
@@ -87,7 +92,8 @@ class EdgeTest extends \PHPUnit_Framework_TestCase {
      *
      * @return void
      */
-    public function testGetTo() {
+    public function testGetTo()
+    {
         $to = new Node('to');
         $edge = Edge::create(new Node('from'), $to);
         $this->assertSame($to, $edge->getTo());
@@ -102,7 +108,8 @@ class EdgeTest extends \PHPUnit_Framework_TestCase {
      *
      * @return void
      */
-    public function test__call() {
+    public function testCall()
+    {
         $label = 'my label';
         $this->assertInstanceOf('phpDocumentor\GraphViz\Edge', $this->fixture->setLabel($label));
         $this->assertSame($label, $this->fixture->getLabel()->getValue());
@@ -117,7 +124,8 @@ class EdgeTest extends \PHPUnit_Framework_TestCase {
      *
      * @return void
      */
-    public function test__toString() {
+    public function testToString()
+    {
         $this->fixture->setLabel('MyLabel');
         $this->fixture->setWeight(45);
 
