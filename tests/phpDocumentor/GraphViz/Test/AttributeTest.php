@@ -4,19 +4,21 @@
  *
  * PHP Version 5
  *
+ * @package   phpDocumentor\GraphViz\Test
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpDocumentor-project.org
  */
 
-namespace phpDocumentor\GraphViz;
+namespace phpDocumentor\GraphViz\Test;
 
-require_once __DIR__ . '/../../src/GraphViz/Attribute.php';
+use phpDocumentor\GraphViz\Attribute;
 
 /**
  * Test for the the class representing a GraphViz attribute.
  *
+ * @package   phpDocumentor\GraphViz\Test
  * @author  Mike van Riel <mike.vanriel@naenius.com>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpDocumentor-project.org
@@ -39,6 +41,9 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the getting and setting of the key.
      *
+     * @covers \phpDocumentor\GraphViz\Attribute::getKey
+     * @covers \phpDocumentor\GraphViz\Attribute::setKey
+     *
      * @return void
      */
     public function testKey()
@@ -59,6 +64,9 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests the getting and setting of the value.
+     *
+     * @covers \phpDocumentor\GraphViz\Attribute::getValue
+     * @covers \phpDocumentor\GraphViz\Attribute::setValue
      *
      * @return void
      */
@@ -81,6 +89,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests whether a string starting with a < is recognized as HTML.
      *
+     * @covers \phpDocumentor\GraphViz\Attribute::isValueInHtml
+     *
      * @return void
      */
     public function testIsValueInHtml()
@@ -100,6 +110,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests whether the toString provides a valid GraphViz attribute string.
+     *
+     * @covers \phpDocumentor\GraphViz\Attribute::__toString
      *
      * @return void
      */
