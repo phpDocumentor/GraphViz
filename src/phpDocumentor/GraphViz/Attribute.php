@@ -97,6 +97,11 @@ class Attribute
         return (bool)(isset($value[0]) && ($value[0] == '<'));
     }
 
+    public function isValueContainingSpecials()
+    {
+        return strstr($this->value, "\l") !== false;
+    }
+
     /**
      * Returns the attribute definition as is requested by GraphViz.
      *
@@ -110,7 +115,7 @@ class Attribute
         }
 
         $value = $this->getValue();
-        if (!$this->isValueInHtml()) {
+        if (!$this->isValueInHtml() && !$this->isValueContainingSpecials()) {
             $value = '"' . addslashes($value) . '"';
         }
         return $key . '=' . $value;
