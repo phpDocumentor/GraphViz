@@ -13,8 +13,6 @@
 
 namespace phpDocumentor\GraphViz;
 
-require_once __DIR__ . '/../../src/GraphViz/Node.php';
-
 /**
  * Test for the the class representing a GraphViz node.
  *
