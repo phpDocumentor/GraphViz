@@ -4,7 +4,6 @@
  *
  * PHP Version 5
  *
- * @package   phpDocumentor\GraphViz\Test
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -18,7 +17,6 @@ use phpDocumentor\GraphViz\Attribute;
 /**
  * Test for the the class representing a GraphViz attribute.
  *
- * @package   phpDocumentor\GraphViz\Test
  * @author  Mike van Riel <mike.vanriel@naenius.com>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpDocumentor-project.org
