@@ -9,7 +9,7 @@
          processIsolation="false"
          stopOnFailure="true"
          syntaxCheck="true"
-         bootstrap="tests/bootstrap.php"
+         bootstrap="vendor/autoload.php"
          strict="true"
 >
     <testsuites>
