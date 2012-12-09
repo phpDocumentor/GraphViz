@@ -248,11 +248,12 @@ class Graph
      *
      * @see \phpDocumentor\GraphViz\Graph::setNode()
      *
-     * @return void
+     * @return \phpDocumentor\GraphViz\Graph
      */
     function __set($name, $value)
     {
-        $this->setNode($name, $value);
+        $this->nodes[$name] = $value;
+        return $this;
     }
 
 
