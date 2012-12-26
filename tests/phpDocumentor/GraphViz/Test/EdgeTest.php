@@ -55,6 +55,33 @@ class EdgeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the construct method
+     *
+     * @covers phpDocumentor\GraphViz\Edge::__construct
+     *
+     * @return void
+     */
+    public function testConstruct()
+    {
+        $fromNode = $this->getMock('phpDocumentor\GraphViz\Node', array(), array(), '', false);
+        $toNode = $this->getMock('phpDocumentor\GraphViz\Node', array(), array(), '', false);
+        $fixture = new Edge($fromNode, $toNode);
+
+        $this->assertInstanceOf(
+            'phpDocumentor\GraphViz\Edge',
+            $fixture
+        );
+        $this->assertSame(
+            $fromNode,
+            $fixture->getFrom()
+        );
+        $this->assertSame(
+            $toNode,
+            $fixture->getTo()
+        );
+    }
+
+    /**
      * Tests the create method
      *
      * @covers phpDocumentor\GraphViz\Edge::create

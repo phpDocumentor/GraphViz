@@ -37,6 +37,24 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the construct method
+     *
+     * @covers phpDocumentor\GraphViz\Attribute::__construct
+     *
+     * @returnn void
+     */
+    public function testConstruct()
+    {
+        $fixture = new Attribute('MyKey', 'MyValue');
+        $this->assertInstanceOf(
+            'phpDocumentor\GraphViz\Attribute',
+            $fixture
+        );
+        $this->assertSame('MyKey', $fixture->getKey());
+        $this->assertSame('MyValue', $fixture->getValue());
+    }
+
+    /**
      * Tests the getting and setting of the key.
      *
      * @covers \phpDocumentor\GraphViz\Attribute::getKey
@@ -138,5 +156,21 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             'URL=<a>test</a>', (string)$this->fixture,
             'HTML strings should not be surrounded with quotes'
         );
+    }
+
+    /**
+     * Tests whether the isValueContainingSpecials function
+     *
+     * @covers \phpDocumentor\GraphViz\Attribute::isValueContainingSpecials
+     *
+     * @return void
+     */
+    public function testIsValueContainingSpecials()
+    {
+        $this->fixture->setValue('+ name : string\l+ home_country : string\l');
+        $this->assertTrue($this->fixture->isValueContainingSpecials());
+
+        $this->fixture->setValue('+ ship(): boolean');
+        $this->assertFalse($this->fixture->isValueContainingSpecials());
     }
 }

@@ -39,6 +39,24 @@ class NodeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the construct method
+     *
+     * @covers phpDocumentor\GraphViz\Node::__construct
+     *
+     * @returnn void
+     */
+    public function testConstruct()
+    {
+        $fixture = new Node('MyName', 'MyLabel');
+        $this->assertInstanceOf(
+            'phpDocumentor\GraphViz\Node',
+            $fixture
+        );
+        $this->assertSame('MyName', $fixture->getName());
+        $this->assertSame('MyLabel', $fixture->getLabel()->getValue());
+    }
+
+    /**
      * Tests the create method
      *
      * @covers phpDocumentor\GraphViz\Node::create
