@@ -87,27 +87,11 @@ class Attribute
     }
 
     /**
-     * Returns whether the value contains HTML.
-     *
-     * @return bool
-     */
-    public function isValueInHtml()
-    {
-        $value = $this->getValue();
-        return (bool)(isset($value[0]) && ($value[0] == '<'));
-    }
-
-    public function isValueContainingSpecials()
-    {
-        return strstr($this->value, "\l") !== false;
-    }
-
-    /**
      * Returns the attribute definition as is requested by GraphViz.
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         $key = $this->getKey();
         if ($key == 'url') {
@@ -119,5 +103,27 @@ class Attribute
             $value = '"' . addslashes($value) . '"';
         }
         return $key . '=' . $value;
+    }
+
+    /**
+     * Returns whether the value contains HTML.
+     *
+     * @return bool
+     */
+    public function isValueInHtml()
+    {
+        $value = $this->getValue();
+
+        return (bool)(isset($value[0]) && ($value[0] == '<'));
+    }
+
+    /**
+     * Checks whether the value contains any any special characters needing escaping.
+     *
+     * @return bool
+     */
+    public function isValueContainingSpecials()
+    {
+        return strstr($this->getValue(), "\\") !== false;
     }
 }
