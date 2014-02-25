@@ -99,7 +99,7 @@ class Attribute
         }
 
         $value = $this->getValue();
-        if (!$this->isValueInHtml() && !$this->isValueContainingSpecials()) {
+        if (!$this->isValueInHtml() || $this->isValueContainingSpecials()) {
             $value = '"' . addslashes($value) . '"';
         }
         return $key . '=' . $value;
