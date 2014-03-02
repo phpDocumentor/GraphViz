@@ -109,7 +109,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         $fontname = 'Bitstream Vera Sans';
         $this->assertInstanceOf('phpDocumentor\GraphViz\Node', $this->fixture->setfontname($fontname));
         $this->assertSame($fontname, $this->fixture->getfontname()->getValue());
-        $this->assertNull($this->fixture->someNonExcistingMethod());
+        $this->assertNull($this->fixture->someNonExistingMethod());
     }
 
     /**
@@ -128,6 +128,29 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         $dot = <<<DOT
 "name" [
 label="label"
+fontsize="12"
+fontname="Bitstream Vera Sans"
+]
+DOT;
+
+        $this->assertSame($dot, (string) $this->fixture);
+    }
+
+    /**
+     * Tests whether the magic __toString method returns a well formatted string
+     * as specified in the DOT standard when the label contains slashes.
+     *
+     * @covers phpDocumentor\GraphViz\Node::__toString
+     */
+    public function testToStringWithLabelContainingSlashes()
+    {
+        $this->fixture->setfontsize(12);
+        $this->fixture->setfontname('Bitstream Vera Sans');
+        $this->fixture->setLabel('\phpDocumentor\Descriptor\ProjectDescriptor');
+
+        $dot = <<<DOT
+"name" [
+label="\\\\phpDocumentor\\\\Descriptor\\\\ProjectDescriptor"
 fontsize="12"
 fontname="Bitstream Vera Sans"
 ]
