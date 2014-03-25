@@ -24,6 +24,13 @@ namespace phpDocumentor\GraphViz;
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
+ * 
+ * @method Graph setRankSep(string $rankSep)
+ * @method Graph setCenter(string $center)
+ * @method Graph setRank(string $rank)
+ * @method Graph setRankDir(string $rankDir)
+ * @method Graph setSplines(string $splines)
+ * @method Graph setConcentrate(string $concentrate)
  */
 class Graph
 {
