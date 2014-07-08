@@ -53,6 +53,8 @@ class Graph
     /** @var \phpDocumentor\GraphViz\Edge[] A list of edges / arrows for this Graph */
     protected $edges = array();
 
+    protected $path = '';
+
     /**
      * Factory method to instantiate a Graph so that you can use fluent coding
      * to chain everything.
@@ -70,6 +72,21 @@ class Graph
             ->setType($directional ? 'digraph' : 'graph');
 
         return $graph;
+    }
+
+    /**
+     * Sets the path for the execution. Only needed if it is not in the PATH env.
+     *
+     * @param string $path The path to execute dot from
+     *
+     * @return \phpDocumentor\GraphViz\Graph
+     */
+    public function setPath($path)
+    {
+        if ($path && $path = realpath($path)) {
+            $this->path = $path . DIRECTORY_SEPARATOR;
+        }
+        return $this;
     }
 
     /**
@@ -149,12 +166,12 @@ class Graph
     function __call($name, $arguments)
     {
         $key = strtolower(substr($name, 3));
-        if (strtolower(substr($name, 0, 3)) == 'set') {
+        if (strtolower(substr($name, 0, 3)) === 'set') {
             $this->attributes[$key] = new Attribute($key, $arguments[0]);
 
             return $this;
         }
-        if (strtolower(substr($name, 0, 3)) == 'get') {
+        if (strtolower(substr($name, 0, 3)) === 'get') {
             return $this->attributes[$key];
         }
 
@@ -320,12 +337,12 @@ class Graph
         file_put_contents($tmpfile, (string)$this);
 
         // escape the temp file for use as argument
-        $tmpfile_arg = escapeshellarg($tmpfile);
+        $tmpfileArg = escapeshellarg($tmpfile);
 
         // create the dot output
         $output = array();
         $code = 0;
-        exec("dot -T$type -o$filename < $tmpfile_arg 2>&1", $output, $code);
+        exec($this->path . "dot -T$type -o$filename < $tmpfileArg 2>&1", $output, $code);
         unlink($tmpfile);
 
         if ($code != 0) {
