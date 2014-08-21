@@ -10,7 +10,6 @@
          stopOnFailure="true"
          syntaxCheck="true"
          bootstrap="vendor/autoload.php"
-         strict="true"
 >
     <testsuites>
         <testsuite name="phpDocumentor\GraphViz">
