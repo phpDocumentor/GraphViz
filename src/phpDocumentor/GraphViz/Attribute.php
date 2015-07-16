@@ -132,12 +132,12 @@ class Attribute
     /**
      * Encode special characters so the escape sequences aren't removed
      *
+     * @see http://www.graphviz.org/doc/info/attrs.html#k:escString
      * @return string
      */
     protected function encodeSpecials()
     {
         $value = $this->getValue();
-        $validEscapes = 'NGEGTHLnlr';
         $regex = '(\'|"|\\x00|\\\\(?![\\\\NGETHLnlr]))';
         return preg_replace($regex, '\\\\$0', $value);
     }
