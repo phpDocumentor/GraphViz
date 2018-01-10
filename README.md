@@ -1,11 +1,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Travis Status](https://travis-ci.org/phpDocumentor/GraphViz.svg?branch=master)](https://travis-ci.org/phpDocumentor/GraphViz)
-[![Appveyor Status](https://ci.appveyor.com/api/projects/status/fmqflblbx03ax3x9/branch/master?svg=true)](https://ci.appveyor.com/project/phpDocumentor/graphviz/branch/master)
-[![Code Quality](https://scrutinizer-ci.com/g/phpDocumentor/GraphViz/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/GraphViz/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/phpDocumentor/GraphViz/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/GraphViz/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/phpDocumentor/GraphViz/badge.svg?branch=master)](https://coveralls.io/github/phpDocumentor/GraphViz?branch=master)
-[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
-
+[![Travis Status](https://img.shields.io/travis/phpDocumentor/GraphViz.svg?label=Linux)](https://travis-ci.org/phpDocumentor/GraphViz)
+[![Appveyor Status](https://img.shields.io/appveyor/ci/phpDocumentor/GraphViz.svg?label=Windows)](https://ci.appveyor.com/project/phpDocumentor/GraphViz/branch/master)
+[![Coveralls Coverage](https://img.shields.io/coveralls/github/phpDocumentor/GraphViz.svg)](https://coveralls.io/github/phpDocumentor/GraphViz?branch=master)
+[![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/phpDocumentor/GraphViz.svg)](https://scrutinizer-ci.com/g/phpDocumentor/GraphViz/?branch=master)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/phpDocumentor/GraphViz.svg)](https://scrutinizer-ci.com/g/phpDocumentor/GraphViz/?branch=master)
+[![Stable Version](https://img.shields.io/packagist/v/phpDocumentor/GraphViz.svg)](https://packagist.org/packages/phpDocumentor/GraphViz)
+[![Unstable Version](https://img.shields.io/packagist/vpre/phpDocumentor/GraphViz.svg)](https://packagist.org/packages/phpDocumentor/GraphViz)
 
 
 GraphViz
