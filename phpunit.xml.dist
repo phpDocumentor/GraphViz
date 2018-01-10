@@ -14,7 +14,7 @@
          syntaxCheck="true"
 >
     <testsuites>
-        <testsuite name="phpDocumentor\GraphViz">
+        <testsuite name="unit">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>

@@ -13,6 +13,7 @@
 namespace phpDocumentor\GraphViz\Test;
 
 use phpDocumentor\GraphViz\Attribute;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for the the class representing a GraphViz attribute.
@@ -21,7 +22,7 @@ use phpDocumentor\GraphViz\Attribute;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpDocumentor-project.org
  */
-class AttributeTest extends \PHPUnit_Framework_TestCase
+class AttributeTest extends TestCase
 {
     /** @var \phpDocumentor\GraphViz\Attribute */
     protected $fixture = null;
