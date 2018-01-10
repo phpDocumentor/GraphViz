@@ -358,21 +358,29 @@ class GraphTest extends TestCase {
     {
         $graph = Graph::create('My First Graph');
         $this->assertSame(
-            (string) $graph,
-            ('digraph "My First Graph" {' . PHP_EOL . PHP_EOL . '}')
+            $this->normalizeLineEndings( (string) $graph ),
+            $this->normalizeLineEndings( ('digraph "My First Graph" {' . PHP_EOL . PHP_EOL . '}' ))
         );
 
         $graph->setLabel('PigeonPost');
         $this->assertSame(
-            (string) $graph,
-            ('digraph "My First Graph" {' . PHP_EOL . 'label="PigeonPost"' . PHP_EOL . '}')
+            $this->normalizeLineEndings( (string) $graph ),
+            $this->normalizeLineEndings( ('digraph "My First Graph" {' . PHP_EOL . 'label="PigeonPost"' . PHP_EOL . '}' ))
         );
 
         $graph->setStrict(true);
         $this->assertSame(
-            (string) $graph,
-            ('strict digraph "My First Graph" {' . PHP_EOL . 'label="PigeonPost"' . PHP_EOL . '}')
+            $this->normalizeLineEndings( (string) $graph ),
+            $this->normalizeLineEndings( ('strict digraph "My First Graph" {' . PHP_EOL . 'label="PigeonPost"' . PHP_EOL . '}' ))
         );
+    }
+
+    /**
+     * Help avoid issue of "#Warning: Strings contain different line endings!" on Windows.
+     */
+    private function normalizeLineEndings($string)
+    {
+        return preg_replace('~\R~u', "\r\n", $string);
     }
 
 }
