@@ -27,6 +27,8 @@ init:
   - SET PATH=c:\php\%PHP_VERSION%;%PATH%
 
 install:
+  - cinst graphviz
+  - dot -V
   - IF NOT EXIST c:\php mkdir c:\php
   - IF NOT EXIST c:\php\%PHP_VERSION% mkdir c:\php\%PHP_VERSION%
   - cd c:\php\%PHP_VERSION%
