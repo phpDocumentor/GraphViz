@@ -14,6 +14,7 @@
 namespace phpDocumentor\GraphViz\Test;
 
 use phpDocumentor\GraphViz\Node;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for the the class representing a GraphViz node.
@@ -23,7 +24,7 @@ use phpDocumentor\GraphViz\Node;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpDocumentor-project.org
  */
-class NodeTest extends \PHPUnit_Framework_TestCase
+class NodeTest extends TestCase
 {
     /** @var \phpDocumentor\GraphViz\Node */
     protected $fixture = null;
