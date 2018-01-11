@@ -116,7 +116,7 @@ class Attribute
     {
         $value = $this->getValue();
 
-        return (bool)(isset($value[0]) && ($value[0] == '<'));
+        return (isset($value[0]) && ($value[0] == '<'));
     }
 
     /**

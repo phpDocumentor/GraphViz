@@ -98,7 +98,7 @@ class Node
      * @param string  $name      Method name; either getX or setX is expected.
      * @param mixed[] $arguments List of arguments; only 1 is expected for setX.
      *
-     * @return \phpDocumentor\GraphViz\Attribute[]|\phpDocumentor\GraphViz\Node|null
+     * @return \phpDocumentor\GraphViz\Attribute|\phpDocumentor\GraphViz\Node|null
      */
     function __call($name, $arguments)
     {

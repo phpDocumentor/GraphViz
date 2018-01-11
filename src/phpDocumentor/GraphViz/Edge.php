@@ -28,7 +28,7 @@ class Edge
     /** @var \phpDocumentor\GraphViz\Node Node where to to link */
     protected $to = null;
 
-    /** @var \phpDocumentor\GraphViz\Attribute List of attributes for this edge */
+    /** @var \phpDocumentor\GraphViz\Attribute[] List of attributes for this edge */
     protected $attributes = array();
 
     /**
@@ -93,7 +93,7 @@ class Edge
      *  setX or getX.
      * @param mixed[] $arguments Arguments for the setter, only 1 is expected: value
      *
-     * @return \phpDocumentor\GraphViz\Attribute[]|\phpDocumentor\GraphViz\Edge|null
+     * @return \phpDocumentor\GraphViz\Attribute|\phpDocumentor\GraphViz\Edge|null
      */
     function __call($name, $arguments)
     {

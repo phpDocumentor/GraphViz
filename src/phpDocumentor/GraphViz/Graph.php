@@ -187,7 +187,7 @@ class Graph
      * @param string  $name      Name of the method including get/set
      * @param mixed[] $arguments The arguments, should be 1: the value
      *
-     * @return \phpDocumentor\GraphViz\Attribute[]|\phpDocumentor\GraphViz\Graph|null
+     * @return \phpDocumentor\GraphViz\Attribute|\phpDocumentor\GraphViz\Graph|null
      */
     function __call($name, $arguments)
     {
@@ -272,7 +272,7 @@ class Graph
      *
      * @param string $name Name of the node to find.
      *
-     * @return \phpDocumentor\GraphViz\Node
+     * @return \phpDocumentor\GraphViz\Node|null
      */
     public function findNode($name)
     {
@@ -314,7 +314,7 @@ class Graph
      *
      * @see \phpDocumentor\GraphViz\Graph::setNode()
      *
-     * @return \phpDocumentor\GraphViz\Node
+     * @return \phpDocumentor\GraphViz\Node|null
      */
     function __get($name)
     {
