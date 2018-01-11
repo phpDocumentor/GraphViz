@@ -24,12 +24,11 @@ namespace phpDocumentor\GraphViz;
  */
 class Node
 {
-
     /** @var string Name for this node */
     protected $name = '';
 
     /** @var \phpDocumentor\GraphViz\Attribute[] List of attributes for this node */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * Creates a new node with name and optional label.
@@ -37,7 +36,7 @@ class Node
      * @param string      $name  Name of the new node.
      * @param string|null $label Optional label text.
      */
-    function __construct($name, $label = null)
+    public function __construct($name, $label = null)
     {
         $this->setName($name);
         if ($label !== null) {
@@ -100,15 +99,15 @@ class Node
      *
      * @return \phpDocumentor\GraphViz\Attribute|\phpDocumentor\GraphViz\Node|null
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         $key = strtolower(substr($name, 3));
-        if (strtolower(substr($name, 0, 3)) == 'set') {
+        if (strtolower(substr($name, 0, 3)) === 'set') {
             $this->attributes[$key] = new Attribute($key, $arguments[0]);
             return $this;
         }
 
-        if (strtolower(substr($name, 0, 3)) == 'get') {
+        if (strtolower(substr($name, 0, 3)) === 'get') {
             return $this->attributes[$key];
         }
 
@@ -122,17 +121,18 @@ class Node
      */
     public function __toString()
     {
-        $attributes = array();
+        $attributes = [];
         foreach ($this->attributes as $value) {
-            $attributes[] = (string)$value;
+            $attributes[] = (string) $value;
         }
+
         $attributes = implode("\n", $attributes);
 
         $name = addslashes($this->getName());
 
         return <<<DOT
 "{$name}" [
-$attributes
+${attributes}
 ]
 DOT;
     }

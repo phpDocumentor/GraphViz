@@ -25,7 +25,7 @@ class Attribute
     /** @var string The name of this attribute */
     protected $key = '';
 
-    /** @var string The value of this attribute*/
+    /** @var string The value of this attribute */
     protected $value = '';
 
     /**
@@ -94,7 +94,7 @@ class Attribute
     public function __toString()
     {
         $key = $this->getKey();
-        if ($key == 'url') {
+        if ($key === 'url') {
             $key = 'URL';
         }
 
@@ -104,6 +104,7 @@ class Attribute
         } elseif (!$this->isValueInHtml()) {
             $value = '"' . addslashes($value) . '"';
         }
+
         return $key . '=' . $value;
     }
 
@@ -116,7 +117,7 @@ class Attribute
     {
         $value = $this->getValue();
 
-        return (isset($value[0]) && ($value[0] == '<'));
+        return isset($value[0]) && ($value[0] === '<');
     }
 
     /**
@@ -126,7 +127,7 @@ class Attribute
      */
     public function isValueContainingSpecials()
     {
-        return strstr($this->getValue(), "\\") !== false;
+        return strstr($this->getValue(), '\\') !== false;
     }
 
     /**

@@ -31,8 +31,6 @@ class NodeTest extends TestCase
 
     /**
      * Initializes the fixture for this test.
-     *
-     * @return void
      */
     protected function setUp()
     {
@@ -77,21 +75,22 @@ class NodeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Node::getName
      * @covers \phpDocumentor\GraphViz\Node::setName
-     *
-     * @return void
      */
     public function testName()
     {
         $this->assertSame(
-            $this->fixture->getName(), 'name',
+            $this->fixture->getName(),
+            'name',
             'Expecting the name to match the initial state'
         );
         $this->assertSame(
-            $this->fixture, $this->fixture->setName('otherName'),
+            $this->fixture,
+            $this->fixture->setName('otherName'),
             'Expecting a fluent interface'
         );
         $this->assertSame(
-            $this->fixture->getName(), 'otherName',
+            $this->fixture->getName(),
+            'otherName',
             'Expecting the name to contain the new value'
         );
     }
@@ -102,8 +101,6 @@ class NodeTest extends TestCase
      * for the remaining method calls
      *
      * @covers phpDocumentor\GraphViz\Node::__call
-     *
-     * @return void
      */
     public function testCall()
     {
@@ -118,8 +115,6 @@ class NodeTest extends TestCase
      * as specified in the DOT standard
      *
      * @covers phpDocumentor\GraphViz\Node::__toString
-     *
-     * @return void
      */
     public function testToString()
     {
