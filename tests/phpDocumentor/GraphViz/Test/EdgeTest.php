@@ -27,7 +27,6 @@ use PHPUnit\Framework\TestCase;
  */
 class EdgeTest extends TestCase
 {
-
     /**
      * @var phpDocumentor\GraphViz\Edge
      */
@@ -36,8 +35,6 @@ class EdgeTest extends TestCase
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
-     *
-     * @return void
      */
     protected function setUp()
     {
@@ -47,27 +44,22 @@ class EdgeTest extends TestCase
     /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
-     *
-     * @return void
      */
     protected function tearDown()
     {
-
     }
 
     /**
      * Tests the construct method
      *
      * @covers phpDocumentor\GraphViz\Edge::__construct
-     *
-     * @return void
      */
     public function testConstruct()
     {
         $this->markTestIncomplete('Need to redo mock technique.');
 
-        $fromNode = $this->getMock('phpDocumentor\GraphViz\Node', array(), array(), '', false);
-        $toNode = $this->getMock('phpDocumentor\GraphViz\Node', array(), array(), '', false);
+        $fromNode = $this->getMock('phpDocumentor\GraphViz\Node', [], [], '', false);
+        $toNode = $this->getMock('phpDocumentor\GraphViz\Node', [], [], '', false);
         $fixture = new Edge($fromNode, $toNode);
 
         $this->assertInstanceOf(
@@ -88,8 +80,6 @@ class EdgeTest extends TestCase
      * Tests the create method
      *
      * @covers phpDocumentor\GraphViz\Edge::create
-     *
-     * @return void
      */
     public function testCreate()
     {
@@ -104,8 +94,6 @@ class EdgeTest extends TestCase
      * in the create method
      *
      * @covers phpDocumentor\GraphViz\Edge::getFrom
-     *
-     * @return void
      */
     public function testGetFrom()
     {
@@ -119,8 +107,6 @@ class EdgeTest extends TestCase
      * in the create method
      *
      * @covers phpDocumentor\GraphViz\Edge::getTo
-     *
-     * @return void
      */
     public function testGetTo()
     {
@@ -135,8 +121,6 @@ class EdgeTest extends TestCase
      * for the remaining method calls
      *
      * @covers phpDocumentor\GraphViz\Edge::__call
-     *
-     * @return void
      */
     public function testCall()
     {
@@ -151,8 +135,6 @@ class EdgeTest extends TestCase
      * as specified in the DOT standard
      *
      * @covers phpDocumentor\GraphViz\Edge::__toString
-     *
-     * @return void
      */
     public function testToString()
     {

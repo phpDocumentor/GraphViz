@@ -34,7 +34,6 @@ namespace phpDocumentor\GraphViz;
  */
 class Graph
 {
-
     /** @var string Name of this graph */
     protected $name = 'G';
 
@@ -45,16 +44,16 @@ class Graph
     protected $strict = false;
 
     /** @var \phpDocumentor\GraphViz\Attribute[] A list of attributes for this Graph */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /** @var \phpDocumentor\GraphViz\Graph[] A list of subgraphs for this Graph */
-    protected $graphs = array();
+    protected $graphs = [];
 
     /** @var \phpDocumentor\GraphViz\Node[] A list of nodes for this Graph */
-    protected $nodes = array();
+    protected $nodes = [];
 
     /** @var \phpDocumentor\GraphViz\Edge[] A list of edges / arrows for this Graph */
-    protected $edges = array();
+    protected $edges = [];
 
     /** @var string The path to execute dot from */
     protected $path = '';
@@ -87,9 +86,11 @@ class Graph
      */
     public function setPath($path)
     {
-        if ($path && $path = realpath($path)) {
+        $realpath = realpath($path);
+        if ($path && $path === $realpath) {
             $this->path = $path . DIRECTORY_SEPARATOR;
         }
+
         return $this;
     }
 
@@ -131,7 +132,7 @@ class Graph
      */
     public function setType($type)
     {
-        if (!in_array($type, array('digraph', 'graph', 'subgraph'))) {
+        if (!in_array($type, ['digraph', 'graph', 'subgraph'])) {
             throw new \InvalidArgumentException(
                 'The type for a graph must be either "digraph", "graph" or '
                 . '"subgraph"'
@@ -187,9 +188,9 @@ class Graph
      * @param string  $name      Name of the method including get/set
      * @param mixed[] $arguments The arguments, should be 1: the value
      *
-     * @return \phpDocumentor\GraphViz\Attribute[]|\phpDocumentor\GraphViz\Graph|null
+     * @return \phpDocumentor\GraphViz\Attribute|\phpDocumentor\GraphViz\Graph|null
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         $key = strtolower(substr($name, 3));
         if (strtolower(substr($name, 0, 3)) === 'set') {
@@ -197,6 +198,7 @@ class Graph
 
             return $this;
         }
+
         if (strtolower(substr($name, 0, 3)) === 'get') {
             return $this->attributes[$key];
         }
@@ -272,7 +274,7 @@ class Graph
      *
      * @param string $name Name of the node to find.
      *
-     * @return \phpDocumentor\GraphViz\Node
+     * @return \phpDocumentor\GraphViz\Node|null
      */
     public function findNode($name)
     {
@@ -300,12 +302,11 @@ class Graph
      *
      * @return \phpDocumentor\GraphViz\Graph
      */
-    function __set($name, $value)
+    public function __set($name, $value)
     {
         $this->nodes[$name] = $value;
         return $this;
     }
-
 
     /**
      * Returns the requested node by its name.
@@ -314,9 +315,9 @@ class Graph
      *
      * @see \phpDocumentor\GraphViz\Graph::setNode()
      *
-     * @return \phpDocumentor\GraphViz\Node
+     * @return \phpDocumentor\GraphViz\Node|null
      */
-    function __get($name)
+    public function __get($name)
     {
         return isset($this->nodes[$name]) ? $this->nodes[$name] : null;
     }
@@ -360,18 +361,18 @@ class Graph
 
         // write the dot file to a temporary file
         $tmpfile = tempnam(sys_get_temp_dir(), 'gvz');
-        file_put_contents($tmpfile, (string)$this);
+        file_put_contents($tmpfile, (string) $this);
 
         // escape the temp file for use as argument
         $tmpfileArg = escapeshellarg($tmpfile);
 
         // create the dot output
-        $output = array();
+        $output = [];
         $code = 0;
-        exec($this->path . "dot -T$type -o$filename < $tmpfileArg 2>&1", $output, $code);
+        exec($this->path . "dot -T${type} -o${filename} < ${tmpfileArg} 2>&1", $output, $code);
         unlink($tmpfile);
 
-        if ($code != 0) {
+        if ($code !== 0) {
             throw new Exception(
                 'An error occurred while creating the graph; GraphViz returned: '
                 . implode(PHP_EOL, $output)
@@ -392,22 +393,25 @@ class Graph
     public function __toString()
     {
         $elements = array_merge(
-            $this->graphs, $this->attributes, $this->edges, $this->nodes
+            $this->graphs,
+            $this->attributes,
+            $this->edges,
+            $this->nodes
         );
 
-        $attributes = array();
+        $attributes = [];
         foreach ($elements as $value) {
-            $attributes[] = (string)$value;
+            $attributes[] = (string) $value;
         }
+
         $attributes = implode(PHP_EOL, $attributes);
 
         $strict = ($this->isStrict() ? 'strict ' : '');
 
         return <<<DOT
 {$strict}{$this->getType()} "{$this->getName()}" {
-$attributes
+${attributes}
 }
 DOT;
     }
-
 }

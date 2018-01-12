@@ -28,8 +28,8 @@ class Edge
     /** @var \phpDocumentor\GraphViz\Node Node where to to link */
     protected $to = null;
 
-    /** @var \phpDocumentor\GraphViz\Attribute List of attributes for this edge */
-    protected $attributes = array();
+    /** @var \phpDocumentor\GraphViz\Attribute[] List of attributes for this edge */
+    protected $attributes = [];
 
     /**
      * Creates a new Edge / Link between the given nodes.
@@ -38,10 +38,10 @@ class Edge
      * @param \phpDocumentor\GraphViz\Node $to   Destination node where to create and
      *  edge to.
      */
-    function __construct(Node $from, Node $to)
+    public function __construct(Node $from, Node $to)
     {
         $this->from = $from;
-        $this->to   = $to;
+        $this->to = $to;
     }
 
     /**
@@ -55,7 +55,8 @@ class Edge
      *
      * @return \phpDocumentor\GraphViz\Edge
      */
-    public static function create(Node $from, Node $to) {
+    public static function create(Node $from, Node $to)
+    {
         return new self($from, $to);
     }
 
@@ -93,17 +94,18 @@ class Edge
      *  setX or getX.
      * @param mixed[] $arguments Arguments for the setter, only 1 is expected: value
      *
-     * @return \phpDocumentor\GraphViz\Attribute[]|\phpDocumentor\GraphViz\Edge|null
+     * @return \phpDocumentor\GraphViz\Attribute|\phpDocumentor\GraphViz\Edge|null
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         $key = strtolower(substr($name, 3));
-        if (strtolower(substr($name, 0, 3)) == 'set') {
+        if (strtolower(substr($name, 0, 3)) === 'set') {
             $this->attributes[$key] = new Attribute($key, $arguments[0]);
 
             return $this;
         }
-        if (strtolower(substr($name, 0, 3)) == 'get') {
+
+        if (strtolower(substr($name, 0, 3)) === 'get') {
             return $this->attributes[$key];
         }
 
@@ -117,18 +119,19 @@ class Edge
      */
     public function __toString()
     {
-        $attributes = array();
+        $attributes = [];
         foreach ($this->attributes as $value) {
-            $attributes[] = (string)$value;
+            $attributes[] = (string) $value;
         }
+
         $attributes = implode("\n", $attributes);
 
         $from_name = addslashes($this->getFrom()->getName());
-        $to_name   = addslashes($this->getTo()->getName());
+        $to_name = addslashes($this->getTo()->getName());
 
         return <<<DOT
-"$from_name" -> "$to_name" [
-$attributes
+"${from_name}" -> "${to_name}" [
+${attributes}
 ]
 DOT;
     }

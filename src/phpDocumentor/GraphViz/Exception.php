@@ -22,5 +22,4 @@ namespace phpDocumentor\GraphViz;
  */
 class Exception extends \Exception
 {
-
 }

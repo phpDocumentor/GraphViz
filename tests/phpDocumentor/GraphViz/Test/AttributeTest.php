@@ -29,8 +29,6 @@ class AttributeTest extends TestCase
 
     /**
      * Initializes the fixture for this test.
-     *
-     * @return void
      */
     protected function setUp()
     {
@@ -60,21 +58,22 @@ class AttributeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Attribute::getKey
      * @covers \phpDocumentor\GraphViz\Attribute::setKey
-     *
-     * @return void
      */
     public function testKey()
     {
         $this->assertSame(
-            $this->fixture->getKey(), 'a',
+            $this->fixture->getKey(),
+            'a',
             'Expecting the key to match the initial state'
         );
         $this->assertSame(
-            $this->fixture, $this->fixture->setKey('b'),
+            $this->fixture,
+            $this->fixture->setKey('b'),
             'Expecting a fluent interface'
         );
         $this->assertSame(
-            $this->fixture->getKey(), 'b',
+            $this->fixture->getKey(),
+            'b',
             'Expecting the key to contain the new value'
         );
     }
@@ -84,21 +83,22 @@ class AttributeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Attribute::getValue
      * @covers \phpDocumentor\GraphViz\Attribute::setValue
-     *
-     * @return void
      */
     public function testValue()
     {
         $this->assertSame(
-            $this->fixture->getValue(), '1',
+            $this->fixture->getValue(),
+            '1',
             'Expecting the value to match the initial state'
         );
         $this->assertSame(
-            $this->fixture, $this->fixture->setValue('2'),
+            $this->fixture,
+            $this->fixture->setValue('2'),
             'Expecting a fluent interface'
         );
         $this->assertSame(
-            $this->fixture->getValue(), '2',
+            $this->fixture->getValue(),
+            '2',
             'Expecting the value to contain the new value'
         );
     }
@@ -107,8 +107,6 @@ class AttributeTest extends TestCase
      * Tests whether a string starting with a < is recognized as HTML.
      *
      * @covers \phpDocumentor\GraphViz\Attribute::isValueInHtml
-     *
-     * @return void
      */
     public function testIsValueInHtml()
     {
@@ -129,32 +127,34 @@ class AttributeTest extends TestCase
      * Tests whether the toString provides a valid GraphViz attribute string.
      *
      * @covers \phpDocumentor\GraphViz\Attribute::__toString
-     *
-     * @return void
      */
     public function testToString()
     {
         $this->fixture = new Attribute('a', 'b');
         $this->assertSame(
-            'a="b"', (string)$this->fixture,
+            'a="b"',
+            (string) $this->fixture,
             'Strings should be surrounded with quotes'
         );
 
         $this->fixture->setValue('a"a');
         $this->assertSame(
-            'a="a\"a"', (string)$this->fixture,
+            'a="a\"a"',
+            (string) $this->fixture,
             'Strings should be surrounded with quotes'
         );
 
         $this->fixture->setKey('url');
         $this->assertSame(
-            'URL="a\"a"', (string)$this->fixture,
+            'URL="a\"a"',
+            (string) $this->fixture,
             'The key named URL must be uppercased'
         );
 
         $this->fixture->setValue('<a>test</a>');
         $this->assertSame(
-            'URL=<a>test</a>', (string)$this->fixture,
+            'URL=<a>test</a>',
+            (string) $this->fixture,
             'HTML strings should not be surrounded with quotes'
         );
     }
@@ -164,8 +164,6 @@ class AttributeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Attribute::__toString
      * @covers \phpDocumentor\GraphViz\Attribute::encodeSpecials
-     *
-     * @return void
      */
     public function testToStringWithSpecials()
     {
@@ -173,17 +171,20 @@ class AttributeTest extends TestCase
 
         $this->fixture->setValue('a\la');
         $this->assertSame(
-            'a="a\la"', (string)$this->fixture,
+            'a="a\la"',
+            (string) $this->fixture,
             'Specials should not be escaped'
         );
         $this->fixture->setValue('a\l"a');
         $this->assertSame(
-            'a="a\l\"a"', (string)$this->fixture,
+            'a="a\l\"a"',
+            (string) $this->fixture,
             'Specials should not be escaped, but quotes should'
         );
         $this->fixture->setValue('a\\\\l"a');
         $this->assertSame(
-            'a="a\\\\l\"a"', (string)$this->fixture,
+            'a="a\\\\l\"a"',
+            (string) $this->fixture,
             'Double backslashes should stay the same'
         );
     }
@@ -192,8 +193,6 @@ class AttributeTest extends TestCase
      * Tests whether the isValueContainingSpecials function
      *
      * @covers \phpDocumentor\GraphViz\Attribute::isValueContainingSpecials
-     *
-     * @return void
      */
     public function testIsValueContainingSpecials()
     {
@@ -203,6 +202,4 @@ class AttributeTest extends TestCase
         $this->fixture->setValue('+ ship(): boolean');
         $this->assertFalse($this->fixture->isValueContainingSpecials());
     }
-
-    
 }
