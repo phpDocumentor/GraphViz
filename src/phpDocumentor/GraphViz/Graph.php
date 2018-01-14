@@ -132,7 +132,7 @@ class Graph
      */
     public function setType($type)
     {
-        if (!in_array($type, ['digraph', 'graph', 'subgraph'])) {
+        if (!in_array($type, ['digraph', 'graph', 'subgraph'], true)) {
             throw new \InvalidArgumentException(
                 'The type for a graph must be either "digraph", "graph" or '
                 . '"subgraph"'
