@@ -1,8 +1,5 @@
 language: php
-php:
-  - 7.1
-  - 7.2
-  - nightly
+php: [ 7.1, 7.2, nightly ]
 
 env:
 
@@ -14,28 +11,30 @@ matrix:
 install:
   - sudo apt install graphviz
   - composer install --no-interaction --prefer-dist --optimize-autoloader
+  - wget https://phar.io/releases/phive.phar
+  - php phive.phar --no-progress install --trust-gpg-keys 4AA394086372C20A phpunit
+
+script:
+  - ./tools/phpunit --no-coverage
 
 jobs:
   include:
-    - stage: test
-      script:
-      - vendor/bin/phpunit --no-coverage
-
     - stage: coverage
       php: 7.1
       script:
-        - vendor/bin/phpunit
+        - ./tools/phpunit
       after_script:
+        - php phive.phar --no-progress install --trust-gpg-keys E82B2FB314E9906E php-coveralls && ./tools/php-coveralls --verbose
         - wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
-        - wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar && php coveralls.phar --verbose
 
     - stage: lint
       php: 7.1
       before_script:
-        - composer create-project symplify/easy-coding-standard temp/ecs
+        - wget https://phar.io/releases/phive.phar
+        - php phive.phar --no-progress install --trust-gpg-keys 8E730BA25823D8B5 phpstan
       script:
-        - temp/ecs/bin/ecs check src tests
-        - vendor/bin/phpstan analyse src --level max --configuration phpstan.neon
+        - ./tools/phpstan analyse src --level max --configuration phpstan.neon
+        - composer create-project symplify/easy-coding-standard temp/ecs && temp/ecs/bin/ecs check src tests
 
 cache:
   directories:
