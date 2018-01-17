@@ -26,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  */
 class NodeTest extends TestCase
 {
-    /** @var \phpDocumentor\GraphViz\Node */
+    /** @var Node */
     protected $fixture = null;
 
     /**
@@ -48,7 +48,7 @@ class NodeTest extends TestCase
     {
         $fixture = new Node('MyName', 'MyLabel');
         $this->assertInstanceOf(
-            'phpDocumentor\GraphViz\Node',
+            Node::class,
             $fixture
         );
         $this->assertSame('MyName', $fixture->getName());
@@ -65,7 +65,7 @@ class NodeTest extends TestCase
     public function testCreate()
     {
         $this->assertInstanceOf(
-            'phpDocumentor\GraphViz\Node',
+            Node::class,
             Node::create('name', 'label')
         );
     }
@@ -105,7 +105,7 @@ class NodeTest extends TestCase
     public function testCall()
     {
         $fontname = 'Bitstream Vera Sans';
-        $this->assertInstanceOf('phpDocumentor\GraphViz\Node', $this->fixture->setfontname($fontname));
+        $this->assertInstanceOf(Node::class, $this->fixture->setfontname($fontname));
         $this->assertSame($fontname, $this->fixture->getfontname()->getValue());
         $this->assertNull($this->fixture->someNonExistingMethod());
     }

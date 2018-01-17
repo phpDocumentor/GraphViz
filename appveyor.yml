@@ -53,4 +53,4 @@ install:
 
 test_script:
   - cd c:\graphviz
-  - vendor/bin/phpunit --no-coverage
+  - vendor\bin\phpunit --no-coverage

@@ -13,6 +13,7 @@
 
 namespace phpDocumentor\GraphViz\Test;
 
+use Mockery as m;
 use phpDocumentor\GraphViz\Edge;
 use phpDocumentor\GraphViz\Node;
 use PHPUnit\Framework\TestCase;
@@ -28,25 +29,12 @@ use PHPUnit\Framework\TestCase;
 class EdgeTest extends TestCase
 {
     /**
-     * @var phpDocumentor\GraphViz\Edge
-     */
-    protected $fixture;
-
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->fixture = new Edge(new Node('from'), new Node('to'));
-    }
-
-    /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
     protected function tearDown()
     {
+        m::close();
     }
 
     /**
@@ -56,14 +44,12 @@ class EdgeTest extends TestCase
      */
     public function testConstruct()
     {
-        $this->markTestIncomplete('Need to redo mock technique.');
-
-        $fromNode = $this->getMock('phpDocumentor\GraphViz\Node', [], [], '', false);
-        $toNode = $this->getMock('phpDocumentor\GraphViz\Node', [], [], '', false);
+        $fromNode = m::mock(Node::class);
+        $toNode = m::mock(Node::class);
         $fixture = new Edge($fromNode, $toNode);
 
         $this->assertInstanceOf(
-            'phpDocumentor\GraphViz\Edge',
+            Edge::class,
             $fixture
         );
         $this->assertSame(
@@ -84,7 +70,7 @@ class EdgeTest extends TestCase
     public function testCreate()
     {
         $this->assertInstanceOf(
-            'phpDocumentor\GraphViz\Edge',
+            Edge::class,
             Edge::create(new Node('from'), new Node('to'))
         );
     }
@@ -125,9 +111,10 @@ class EdgeTest extends TestCase
     public function testCall()
     {
         $label = 'my label';
-        $this->assertInstanceOf('phpDocumentor\GraphViz\Edge', $this->fixture->setLabel($label));
-        $this->assertSame($label, $this->fixture->getLabel()->getValue());
-        $this->assertNull($this->fixture->someNonExcistingMethod());
+        $fixture = new Edge(new Node('from'), new Node('to'));
+        $this->assertInstanceOf(Edge::class, $fixture->setLabel($label));
+        $this->assertSame($label, $fixture->getLabel()->getValue());
+        $this->assertNull($fixture->someNonExcistingMethod());
     }
 
     /**
@@ -138,8 +125,9 @@ class EdgeTest extends TestCase
      */
     public function testToString()
     {
-        $this->fixture->setLabel('MyLabel');
-        $this->fixture->setWeight(45);
+        $fixture = new Edge(new Node('from'), new Node('to'));
+        $fixture->setLabel('MyLabel');
+        $fixture->setWeight(45);
 
         $dot = <<<DOT
 "from" -> "to" [
@@ -148,6 +136,6 @@ weight="45"
 ]
 DOT;
 
-        $this->assertSame($dot, (string) $this->fixture);
+        $this->assertSame($dot, (string) $fixture);
     }
 }
