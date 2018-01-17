@@ -2,13 +2,14 @@
 /**
  * phpDocumentor
  *
- * PHP Version 5
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
  * @package   phpDocumentor\GraphViz\Test
  * @author    Danny van der Sluijs <danny.vandersluijs@fleppuhstein.com>
- * @copyright 2012 Danny van der Sluijs (http://www.dannyvandersluijs.com)
+ * @copyright 2012-2018 Danny van der Sluijs (http://www.dannyvandersluijs.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpDocumentor-project.org
+ * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\GraphViz\Test;
@@ -24,7 +25,7 @@ use PHPUnit\Framework\TestCase;
  * @package phpDocumentor\GraphViz\Test
  * @author  Danny van der Sluijs <danny.vandersluijs@fleppuhstein.com>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
- * @link    http://phpDocumentor-project.org
+ * @link    http://phpdoc.org
  */
 class EdgeTest extends TestCase
 {
