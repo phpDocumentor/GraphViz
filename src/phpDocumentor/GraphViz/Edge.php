@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
@@ -22,20 +24,20 @@ namespace phpDocumentor\GraphViz;
  */
 class Edge
 {
-    /** @var \phpDocumentor\GraphViz\Node Node from where to link */
+    /** @var Node Node from where to link */
     protected $from = null;
 
-    /** @var \phpDocumentor\GraphViz\Node Node where to to link */
+    /** @var Node Node where to to link */
     protected $to = null;
 
-    /** @var \phpDocumentor\GraphViz\Attribute[] List of attributes for this edge */
+    /** @var Attribute[] List of attributes for this edge */
     protected $attributes = [];
 
     /**
      * Creates a new Edge / Link between the given nodes.
      *
-     * @param \phpDocumentor\GraphViz\Node $from Starting node to create an Edge from.
-     * @param \phpDocumentor\GraphViz\Node $to   Destination node where to create and
+     * @param Node $from Starting node to create an Edge from.
+     * @param Node $to   Destination node where to create and
      *  edge to.
      */
     public function __construct(Node $from, Node $to)
@@ -49,33 +51,27 @@ class Edge
      *
      * See the examples for more details.
      *
-     * @param \phpDocumentor\GraphViz\Node $from Starting node to create an Edge from.
-     * @param \phpDocumentor\GraphViz\Node $to   Destination node where to create and
-     *  edge to.
-     *
-     * @return \phpDocumentor\GraphViz\Edge
+     * @param Node $from Starting node to create an Edge from.
+     * @param Node $to Destination node where to create and
+     * edge to.
      */
-    public static function create(Node $from, Node $to)
+    public static function create(Node $from, Node $to): self
     {
         return new self($from, $to);
     }
 
     /**
      * Returns the source Node for this Edge.
-     *
-     * @return \phpDocumentor\GraphViz\Node
      */
-    public function getFrom()
+    public function getFrom(): Node
     {
         return $this->from;
     }
 
     /**
      * Returns the destination Node for this Edge.
-     *
-     * @return \phpDocumentor\GraphViz\Node
      */
-    public function getTo()
+    public function getTo(): Node
     {
         return $this->to;
     }
@@ -94,13 +90,13 @@ class Edge
      *  setX or getX.
      * @param mixed[] $arguments Arguments for the setter, only 1 is expected: value
      *
-     * @return \phpDocumentor\GraphViz\Attribute|\phpDocumentor\GraphViz\Edge|null
+     * @return Attribute|Edge|null
      */
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments)
     {
         $key = strtolower(substr($name, 3));
         if (strtolower(substr($name, 0, 3)) === 'set') {
-            $this->attributes[$key] = new Attribute($key, $arguments[0]);
+            $this->attributes[$key] = new Attribute($key, (string) $arguments[0]);
 
             return $this;
         }
@@ -114,10 +110,8 @@ class Edge
 
     /**
      * Returns the edge definition as is requested by GraphViz.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $attributes = [];
         foreach ($this->attributes as $value) {

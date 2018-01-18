@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
@@ -34,7 +36,7 @@ class Attribute
      * @param string $key   Id for the new attribute.
      * @param string $value Value for this attribute,
      */
-    public function __construct($key, $value)
+    public function __construct(string $key, string $value)
     {
         $this->key = $key;
         $this->value = $value;
@@ -44,10 +46,8 @@ class Attribute
      * Sets the key for this attribute.
      *
      * @param string $key The new name of this attribute.
-     *
-     * @return \phpDocumentor\GraphViz\Attribute
      */
-    public function setKey($key)
+    public function setKey(string $key): self
     {
         $this->key = $key;
         return $this;
@@ -55,10 +55,8 @@ class Attribute
 
     /**
      * Returns the name for this attribute.
-     *
-     * @return string
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -67,10 +65,8 @@ class Attribute
      * Sets the value for this attribute.
      *
      * @param string $value The new value.
-     *
-     * @return \phpDocumentor\GraphViz\Attribute
      */
-    public function setValue($value)
+    public function setValue(string $value): self
     {
         $this->value = $value;
         return $this;
@@ -78,20 +74,16 @@ class Attribute
 
     /**
      * Returns the value for this attribute.
-     *
-     * @return string
      */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
 
     /**
      * Returns the attribute definition as is requested by GraphViz.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $key = $this->getKey();
         if ($key === 'url') {
@@ -110,10 +102,8 @@ class Attribute
 
     /**
      * Returns whether the value contains HTML.
-     *
-     * @return bool
      */
-    public function isValueInHtml()
+    public function isValueInHtml(): bool
     {
         $value = $this->getValue();
 
@@ -122,10 +112,8 @@ class Attribute
 
     /**
      * Checks whether the value contains any any special characters needing escaping.
-     *
-     * @return bool
      */
-    public function isValueContainingSpecials()
+    public function isValueContainingSpecials(): bool
     {
         return strstr($this->getValue(), '\\') !== false;
     }
@@ -134,9 +122,8 @@ class Attribute
      * Encode special characters so the escape sequences aren't removed
      *
      * @see http://www.graphviz.org/doc/info/attrs.html#k:escString
-     * @return string
      */
-    protected function encodeSpecials()
+    protected function encodeSpecials(): string
     {
         $value = $this->getValue();
         $regex = '(\'|"|\\x00|\\\\(?![\\\\NGETHLnlr]))';
