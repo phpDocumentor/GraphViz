@@ -29,6 +29,8 @@ init:
 
 
 install:
+  - cinst graphviz
+  - dot -V
   - IF EXIST c:\tools\php (SET PHP=0)
   - ps: appveyor-retry cinst --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
   - cd c:\tools\php
