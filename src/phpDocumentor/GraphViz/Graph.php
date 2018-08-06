@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace phpDocumentor\GraphViz;
 
+use \InvalidArgumentException;
+
 /**
  * Class representing a graph; this may be a main graph but also a subgraph.
  *
@@ -127,7 +129,7 @@ class Graph
     public function setType(string $type): self
     {
         if (!in_array($type, ['digraph', 'graph', 'subgraph'], true)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'The type for a graph must be either "digraph", "graph" or '
                 . '"subgraph"'
             );
@@ -324,7 +326,7 @@ class Graph
         $filename = escapeshellarg($filename);
 
         // write the dot file to a temporary file
-        $tmpfile = tempnam(sys_get_temp_dir(), 'gvz');
+        $tmpfile = (string) tempnam(sys_get_temp_dir(), 'gvz');
         file_put_contents($tmpfile, (string) $this);
 
         // escape the temp file for use as argument
