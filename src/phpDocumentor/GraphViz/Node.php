@@ -118,7 +118,7 @@ class Node
     {
         $attributes = [];
         foreach ($this->attributes as $value) {
-            $attributes[] = (string) $value;
+            $attributes[] = str_replace("\\", "\\\\", (string) $value);
         }
 
         $attributes = implode("\n", $attributes);
