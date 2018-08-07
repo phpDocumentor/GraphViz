@@ -1,5 +1,6 @@
 {
     "name":    "phpdocumentor/graphviz",
+    "description": "Wrapper for Graphviz",
     "type":    "library",
     "license": "MIT",
     "authors": [
