@@ -387,6 +387,8 @@ class GraphTest extends TestCase
 
     /**
      * Help avoid issue of "#Warning: Strings contain different line endings!" on Windows.
+     * @param string $string
+     * @return string
      */
     private function normalizeLineEndings($string)
     {
