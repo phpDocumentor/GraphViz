@@ -7,7 +7,7 @@
         {"name": "Mike van Riel", "email": "mike.vanriel@naenius.com"}
     ],
     "require": {
-        "php": ">=7.1"
+        "php": "^7.1"
     },
     "autoload": {
         "psr-0": {"phpDocumentor": ["src/", "tests/unit"]}
