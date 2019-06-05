@@ -15,3 +15,6 @@ tools/
 
 # By default the phpunit.xml.dist is provided; you can override this using a local config file
 phpunit.xml
+
+# A library does not need a composer.lock file
+composer.lock
