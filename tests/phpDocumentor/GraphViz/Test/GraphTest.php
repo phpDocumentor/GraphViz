@@ -54,7 +54,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::create
+     * @covers \phpDocumentor\GraphViz\Graph::create
      */
     public function testCreate()
     {
@@ -84,7 +84,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::setName
+     * @covers \phpDocumentor\GraphViz\Graph::setName
      */
     public function testSetName()
     {
@@ -96,7 +96,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::getName
+     * @covers \phpDocumentor\GraphViz\Graph::getName
      */
     public function testGetName()
     {
@@ -114,7 +114,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::setType
+     * @covers \phpDocumentor\GraphViz\Graph::setType
      */
     public function testSetType()
     {
@@ -136,7 +136,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::setType
+     * @covers \phpDocumentor\GraphViz\Graph::setType
      */
     public function testSetTypeException()
     {
@@ -145,7 +145,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::getType
+     * @covers \phpDocumentor\GraphViz\Graph::getType
      */
     public function testGetType()
     {
@@ -197,7 +197,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::__call
+     * @covers \phpDocumentor\GraphViz\Graph::__call
      */
     public function test__call()
     {
@@ -207,7 +207,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::addGraph
+     * @covers \phpDocumentor\GraphViz\Graph::addGraph
      */
     public function testAddGraph()
     {
@@ -222,7 +222,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::hasGraph
+     * @covers \phpDocumentor\GraphViz\Graph::hasGraph
      */
     public function testHasGraph()
     {
@@ -236,7 +236,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::getGraph
+     * @covers \phpDocumentor\GraphViz\Graph::getGraph
      */
     public function testGetGraph()
     {
@@ -252,7 +252,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::setNode
+     * @covers \phpDocumentor\GraphViz\Graph::setNode
      */
     public function testSetNode()
     {
@@ -266,7 +266,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::findNode
+     * @covers \phpDocumentor\GraphViz\Graph::findNode
      */
     public function testFindNode()
     {
@@ -295,7 +295,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::__set
+     * @covers \phpDocumentor\GraphViz\Graph::__set
      */
     public function test__set()
     {
@@ -308,7 +308,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::__get
+     * @covers \phpDocumentor\GraphViz\Graph::__get
      */
     public function test__get()
     {
@@ -322,7 +322,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::link
+     * @covers \phpDocumentor\GraphViz\Graph::link
      */
     public function testLink()
     {
@@ -335,7 +335,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::export
+     * @covers \phpDocumentor\GraphViz\Graph::export
      */
     public function testExportException()
     {
@@ -347,7 +347,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::export
+     * @covers \phpDocumentor\GraphViz\Graph::export
      */
     public function testExport()
     {
@@ -362,7 +362,7 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers phpDocumentor\GraphViz\Graph::__toString
+     * @covers \phpDocumentor\GraphViz\Graph::__toString
      */
     public function test__toString()
     {
