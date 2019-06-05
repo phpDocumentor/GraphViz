@@ -25,14 +25,13 @@ namespace phpDocumentor\GraphViz;
  */
 class Edge
 {
+    use Attributes;
+
     /** @var Node Node from where to link */
     protected $from = null;
 
     /** @var Node Node where to to link */
     protected $to = null;
-
-    /** @var Attribute[] List of attributes for this edge */
-    protected $attributes = [];
 
     /**
      * Creates a new Edge / Link between the given nodes.
@@ -87,23 +86,23 @@ class Edge
      * Set methods return this graph (fluent interface) whilst get methods
      * return the attribute value.
      *
-     * @param string  $name      name of the invoked method, expect it to be
+     * @param string  $name name of the invoked method, expect it to be
      *  setX or getX.
      * @param mixed[] $arguments Arguments for the setter, only 1 is expected: value
      *
      * @return Attribute|Edge|null
+     *
+     * @throws AttributeNotFound
      */
     public function __call(string $name, array $arguments)
     {
         $key = strtolower(substr($name, 3));
         if (strtolower(substr($name, 0, 3)) === 'set') {
-            $this->attributes[$key] = new Attribute($key, (string) $arguments[0]);
-
-            return $this;
+            return $this->setAttribute($key, (string) $arguments[0]);
         }
 
         if (strtolower(substr($name, 0, 3)) === 'get') {
-            return $this->attributes[$key];
+            return $this->getAttribute($key);
         }
 
         return null;

@@ -14,6 +14,7 @@
 
 namespace phpDocumentor\GraphViz\Test;
 
+use phpDocumentor\GraphViz\AttributeNotFound;
 use phpDocumentor\GraphViz\Node;
 use PHPUnit\Framework\TestCase;
 
@@ -102,6 +103,8 @@ class NodeTest extends TestCase
      * for the remaining method calls
      *
      * @covers \phpDocumentor\GraphViz\Node::__call
+     * @covers \phpDocumentor\GraphViz\Node::getAttribute
+     * @covers \phpDocumentor\GraphViz\Node::setAttribute
      */
     public function testCall()
     {
@@ -109,6 +112,18 @@ class NodeTest extends TestCase
         $this->assertInstanceOf(Node::class, $this->fixture->setfontname($fontname));
         $this->assertSame($fontname, $this->fixture->getfontname()->getValue());
         $this->assertNull($this->fixture->someNonExistingMethod());
+    }
+
+    /**
+     * @covers \phpDocumentor\GraphViz\Node::getAttribute
+     * @covers \phpDocumentor\GraphViz\AttributeNotFound::__construct
+     */
+    public function testGetNonExistingAttributeThrowsAttributeNotFound()
+    {
+        $this->expectException(AttributeNotFound::class);
+        $this->expectExceptionMessage('Attribute with name "fontname" was not found');
+
+        $this->fixture->getFontname();
     }
 
     /**

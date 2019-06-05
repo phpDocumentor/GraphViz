@@ -27,11 +27,10 @@ namespace phpDocumentor\GraphViz;
  */
 class Node
 {
+    use Attributes;
+
     /** @var string Name for this node */
     protected $name = '';
-
-    /** @var Attribute[] List of attributes for this node */
-    protected $attributes = [];
 
     /**
      * Creates a new node with name and optional label.
@@ -91,21 +90,22 @@ class Node
      * Set methods return this graph (fluent interface) whilst get methods
      * return the attribute value.
      *
-     * @param string  $name      Method name; either getX or setX is expected.
+     * @param string  $name Method name; either getX or setX is expected.
      * @param mixed[] $arguments List of arguments; only 1 is expected for setX.
      *
      * @return Attribute|Node|null
+     *
+     * @throws AttributeNotFound
      */
     public function __call(string $name, array $arguments)
     {
         $key = strtolower(substr($name, 3));
         if (strtolower(substr($name, 0, 3)) === 'set') {
-            $this->attributes[$key] = new Attribute($key, (string) $arguments[0]);
-            return $this;
+            return $this->setAttribute($key, (string) $arguments[0]);
         }
 
         if (strtolower(substr($name, 0, 3)) === 'get') {
-            return $this->attributes[$key];
+            return $this->getAttribute($key);
         }
 
         return null;
