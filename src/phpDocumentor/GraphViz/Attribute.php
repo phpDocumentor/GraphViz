@@ -128,6 +128,7 @@ class Attribute
     {
         $value = $this->getValue();
         $regex = '(\'|"|\\x00|\\\\(?![\\\\NGETHLnlr]))';
-        return preg_replace($regex, '\\\\$0', $value);
+
+        return (string) preg_replace($regex, '\\\\$0', $value);
     }
 }
