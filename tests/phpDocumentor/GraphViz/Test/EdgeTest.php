@@ -41,7 +41,7 @@ class EdgeTest extends TestCase
     /**
      * Tests the construct method
      *
-     * @covers phpDocumentor\GraphViz\Edge::__construct
+     * @covers \phpDocumentor\GraphViz\Edge::__construct
      */
     public function testConstruct()
     {
@@ -66,7 +66,7 @@ class EdgeTest extends TestCase
     /**
      * Tests the create method
      *
-     * @covers phpDocumentor\GraphViz\Edge::create
+     * @covers \phpDocumentor\GraphViz\Edge::create
      */
     public function testCreate()
     {
@@ -80,7 +80,7 @@ class EdgeTest extends TestCase
      * Tests whether the getFrom method returns the same node as passed
      * in the create method
      *
-     * @covers phpDocumentor\GraphViz\Edge::getFrom
+     * @covers \phpDocumentor\GraphViz\Edge::getFrom
      */
     public function testGetFrom()
     {
@@ -93,7 +93,7 @@ class EdgeTest extends TestCase
      * Tests the getTo method returns the same node as passed
      * in the create method
      *
-     * @covers phpDocumentor\GraphViz\Edge::getTo
+     * @covers \phpDocumentor\GraphViz\Edge::getTo
      */
     public function testGetTo()
     {
@@ -107,7 +107,7 @@ class EdgeTest extends TestCase
      * instance for a setX method, return the value for an getX method, and null
      * for the remaining method calls
      *
-     * @covers phpDocumentor\GraphViz\Edge::__call
+     * @covers \phpDocumentor\GraphViz\Edge::__call
      */
     public function testCall()
     {
@@ -122,7 +122,7 @@ class EdgeTest extends TestCase
      * Tests whether the magic __toString method returns a well formatted string
      * as specified in the DOT standard
      *
-     * @covers phpDocumentor\GraphViz\Edge::__toString
+     * @covers \phpDocumentor\GraphViz\Edge::__toString
      */
     public function testToString()
     {

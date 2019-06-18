@@ -41,7 +41,7 @@ class NodeTest extends TestCase
     /**
      * Tests the construct method
      *
-     * @covers phpDocumentor\GraphViz\Node::__construct
+     * @covers \phpDocumentor\GraphViz\Node::__construct
      *
      * @returnn void
      */
@@ -59,7 +59,7 @@ class NodeTest extends TestCase
     /**
      * Tests the create method
      *
-     * @covers phpDocumentor\GraphViz\Node::create
+     * @covers \phpDocumentor\GraphViz\Node::create
      *
      * @returnn void
      */
@@ -101,7 +101,7 @@ class NodeTest extends TestCase
      * instance for a setX method, return the value for an getX method, and null
      * for the remaining method calls
      *
-     * @covers phpDocumentor\GraphViz\Node::__call
+     * @covers \phpDocumentor\GraphViz\Node::__call
      */
     public function testCall()
     {
@@ -115,7 +115,7 @@ class NodeTest extends TestCase
      * Tests whether the magic __toString method returns a well formatted string
      * as specified in the DOT standard
      *
-     * @covers phpDocumentor\GraphViz\Node::__toString
+     * @covers \phpDocumentor\GraphViz\Node::__toString
      */
     public function testToString()
     {
@@ -137,7 +137,7 @@ DOT;
      * Tests whether the magic __toString method returns a well formatted string
      * as specified in the DOT standard when the label contains slashes.
      *
-     * @covers phpDocumentor\GraphViz\Node::__toString
+     * @covers \phpDocumentor\GraphViz\Node::__toString
      */
     public function testToStringWithLabelContainingSlashes()
     {
