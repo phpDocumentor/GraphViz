@@ -15,6 +15,7 @@
 namespace phpDocumentor\GraphViz\Test;
 
 use Mockery as m;
+use phpDocumentor\GraphViz\AttributeNotFound;
 use phpDocumentor\GraphViz\Edge;
 use phpDocumentor\GraphViz\Node;
 use PHPUnit\Framework\TestCase;
@@ -108,6 +109,8 @@ class EdgeTest extends TestCase
      * for the remaining method calls
      *
      * @covers \phpDocumentor\GraphViz\Edge::__call
+     * @covers \phpDocumentor\GraphViz\Edge::setAttribute
+     * @covers \phpDocumentor\GraphViz\Edge::getAttribute
      */
     public function testCall()
     {
@@ -116,6 +119,20 @@ class EdgeTest extends TestCase
         $this->assertInstanceOf(Edge::class, $fixture->setLabel($label));
         $this->assertSame($label, $fixture->getLabel()->getValue());
         $this->assertNull($fixture->someNonExcistingMethod());
+    }
+
+    /**
+     * @covers \phpDocumentor\GraphViz\Edge::getAttribute
+     * @covers \phpDocumentor\GraphViz\AttributeNotFound::__construct
+     */
+    public function testGetNonExistingAttributeThrowsAttributeNotFound()
+    {
+        $fixture = new Edge(new Node('from'), new Node('to'));
+
+        $this->expectException(AttributeNotFound::class);
+        $this->expectExceptionMessage('Attribute with name "label" was not found');
+
+        $fixture->getLabel();
     }
 
     /**

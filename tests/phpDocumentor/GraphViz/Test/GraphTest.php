@@ -15,6 +15,7 @@
 namespace phpDocumentor\GraphViz\Test;
 
 use Mockery as m;
+use phpDocumentor\GraphViz\AttributeNotFound;
 use phpDocumentor\GraphViz\Edge;
 use phpDocumentor\GraphViz\Graph;
 use phpDocumentor\GraphViz\Node;
@@ -198,12 +199,26 @@ class GraphTest extends TestCase
 
     /**
      * @covers \phpDocumentor\GraphViz\Graph::__call
+     * @covers \phpDocumentor\GraphViz\Graph::getAttribute
+     * @covers \phpDocumentor\GraphViz\Graph::setAttribute
      */
     public function test__call()
     {
         $this->assertNull($this->fixture->MyMethod());
         $this->assertSame($this->fixture, $this->fixture->setColor('black'));
         $this->assertSame('black', $this->fixture->getColor()->getValue());
+    }
+
+    /**
+     * @covers \phpDocumentor\GraphViz\Graph::getAttribute
+     * @covers \phpDocumentor\GraphViz\AttributeNotFound::__construct
+     */
+    public function testGetNonExistingAttributeThrowsAttributeNotFound()
+    {
+        $this->expectException(AttributeNotFound::class);
+        $this->expectExceptionMessage('Attribute with name "color" was not found');
+
+        $this->fixture->getColor();
     }
 
     /**

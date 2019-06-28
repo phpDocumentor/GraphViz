@@ -39,6 +39,8 @@ use \InvalidArgumentException;
  */
 class Graph
 {
+    use Attributes;
+
     /** @var string Name of this graph */
     protected $name = 'G';
 
@@ -47,9 +49,6 @@ class Graph
 
     /** @var bool If the graph is strict then multiple edges are not allowed between the same pairs of nodes */
     protected $strict = false;
-
-    /** @var Attribute[] A list of attributes for this Graph */
-    protected $attributes = [];
 
     /** @var Graph[] A list of subgraphs for this Graph */
     protected $graphs = [];
@@ -172,22 +171,22 @@ class Graph
      * Set methods return this graph (fluent interface) whilst get methods
      * return the attribute value.
      *
-     * @param string  $name      Name of the method including get/set
+     * @param string  $name Name of the method including get/set
      * @param mixed[] $arguments The arguments, should be 1: the value
      *
      * @return Attribute|Graph|null
+     *
+     * @throws AttributeNotFound
      */
     public function __call(string $name, array $arguments)
     {
         $key = strtolower(substr($name, 3));
         if (strtolower(substr($name, 0, 3)) === 'set') {
-            $this->attributes[$key] = new Attribute($key, $arguments[0]);
-
-            return $this;
+            return $this->setAttribute($key, (string) $arguments[0]);
         }
 
         if (strtolower(substr($name, 0, 3)) === 'get') {
-            return $this->attributes[$key];
+            return $this->getAttribute($key);
         }
 
         return null;
