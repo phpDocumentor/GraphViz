@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -12,7 +13,21 @@ declare(strict_types=1);
 
 namespace phpDocumentor\GraphViz;
 
-use \InvalidArgumentException;
+use InvalidArgumentException;
+use const DIRECTORY_SEPARATOR;
+use const PHP_EOL;
+use function array_merge;
+use function escapeshellarg;
+use function exec;
+use function file_put_contents;
+use function implode;
+use function in_array;
+use function realpath;
+use function strtolower;
+use function substr;
+use function sys_get_temp_dir;
+use function tempnam;
+use function unlink;
 
 /**
  * Class representing a graph; this may be a main graph but also a subgraph.
@@ -63,7 +78,7 @@ class Graph
      *
      * @return \phpDocumentor\GraphViz\Graph
      */
-    public static function create(string $name = 'G', bool $directional = true): self
+    public static function create(string $name = 'G', bool $directional = true) : self
     {
         $graph = new self();
         $graph
@@ -78,7 +93,7 @@ class Graph
      *
      * @param string $path The path to execute dot from
      */
-    public function setPath(string $path): self
+    public function setPath(string $path) : self
     {
         $realpath = realpath($path);
         if ($path && $path === $realpath) {
@@ -96,7 +111,7 @@ class Graph
      *
      * @param string $name The new name for this graph.
      */
-    public function setName(string $name): self
+    public function setName(string $name) : self
     {
         $this->name = $name;
         return $this;
@@ -105,7 +120,7 @@ class Graph
     /**
      * Returns the name for this Graph.
      */
-    public function getName(): string
+    public function getName() : string
     {
         return $this->name;
     }
@@ -114,10 +129,11 @@ class Graph
      * Sets the type for this graph.
      *
      * @param string $type Must be either "digraph", "graph" or "subgraph".
-     * @throws InvalidArgumentException if $type is not "digraph", "graph" or
+     *
+     * @throws InvalidArgumentException If $type is not "digraph", "graph" or
      * "subgraph".
      */
-    public function setType(string $type): self
+    public function setType(string $type) : self
     {
         if (!in_array($type, ['digraph', 'graph', 'subgraph'], true)) {
             throw new InvalidArgumentException(
@@ -133,7 +149,7 @@ class Graph
     /**
      * Returns the type of this Graph.
      */
-    public function getType(): string
+    public function getType() : string
     {
         return $this->type;
     }
@@ -142,13 +158,13 @@ class Graph
      * Set if the Graph should be strict. If the graph is strict then
      * multiple edges are not allowed between the same pairs of nodes
      */
-    public function setStrict(bool $isStrict): self
+    public function setStrict(bool $isStrict) : self
     {
         $this->strict = $isStrict;
         return $this;
     }
 
-    public function isStrict(): bool
+    public function isStrict() : bool
     {
         return $this->strict;
     }
@@ -163,7 +179,7 @@ class Graph
      * Set methods return this graph (fluent interface) whilst get methods
      * return the attribute value.
      *
-     * @param string  $name Name of the method including get/set
+     * @param string  $name      Name of the method including get/set
      * @param mixed[] $arguments The arguments, should be 1: the value
      *
      * @return Attribute|Graph|null
@@ -191,11 +207,12 @@ class Graph
      * Thus if you have 2 subgraphs with the same name that the first will be
      * overwritten by the latter.
      *
+     * @see Graph::create()
+     *
      * @param Graph $graph The graph to add onto this graph as
      * subgraph.
-     * @see Graph::create()
      */
-    public function addGraph(self $graph): self
+    public function addGraph(self $graph) : self
     {
         $graph->setType('subgraph');
         $this->graphs[$graph->getName()] = $graph;
@@ -207,7 +224,7 @@ class Graph
      *
      * @param string $name Name of the graph to find.
      */
-    public function hasGraph(string $name): bool
+    public function hasGraph(string $name) : bool
     {
         return isset($this->graphs[$name]);
     }
@@ -217,7 +234,7 @@ class Graph
      *
      * @param string $name Name of the requested graph.
      */
-    public function getGraph(string $name): self
+    public function getGraph(string $name) : self
     {
         return $this->graphs[$name];
     }
@@ -228,10 +245,11 @@ class Graph
      * Nodes can be retrieved by retrieving the property with the same name.
      * Thus 'node1' can be retrieved by invoking: $graph->node1
      *
-     * @param Node $node The node to set onto this Graph.
      * @see Node::create()
+     *
+     * @param Node $node The node to set onto this Graph.
      */
-    public function setNode(Node $node): self
+    public function setNode(Node $node) : self
     {
         $this->nodes[$node->getName()] = $node;
         return $this;
@@ -241,10 +259,8 @@ class Graph
      * Finds a node in this graph or any of its subgraphs.
      *
      * @param string $name Name of the node to find.
-     *
-     * @return Node|null
      */
-    public function findNode(string $name)
+    public function findNode(string $name) : ?Node
     {
         if (isset($this->nodes[$name])) {
             return $this->nodes[$name];
@@ -263,11 +279,12 @@ class Graph
     /**
      * Sets a node using a custom name.
      *
-     * @param string $name Name of the node.
-     * @param Node $value Node to set on the given name.
      * @see Graph::setNode()
+     *
+     * @param string $name  Name of the node.
+     * @param Node   $value Node to set on the given name.
      */
-    public function __set(string $name, Node $value): self
+    public function __set(string $name, Node $value) : self
     {
         $this->nodes[$name] = $value;
         return $this;
@@ -276,24 +293,23 @@ class Graph
     /**
      * Returns the requested node by its name.
      *
-     * @param string $name The name of the node to retrieve.
-     *
      * @see Graph::setNode()
      *
-     * @return Node|null
+     * @param string $name The name of the node to retrieve.
      */
-    public function __get(string $name)
+    public function __get(string $name) : ?Node
     {
-        return isset($this->nodes[$name]) ? $this->nodes[$name] : null;
+        return $this->nodes[$name] ?? null;
     }
 
     /**
      * Links two nodes to eachother and registers the Edge onto this graph.
      *
-     * @param Edge $edge The link between two classes.
      * @see Edge::create()
+     *
+     * @param Edge $edge The link between two classes.
      */
-    public function link(Edge $edge): self
+    public function link(Edge $edge) : self
     {
         $this->edges[] = $edge;
         return $this;
@@ -304,16 +320,18 @@ class Graph
      *
      * This is the only method that actually requires GraphViz.
      *
-     * @param string $type The type to export to; see the link above for a
-     * list of supported types.
-     * @param string $filename The path to write to.
-     * @uses GraphViz/dot
      * @link http://www.graphviz.org/content/output-formats
-     * @throws Exception if an error occurred in GraphViz.
+     * @uses GraphViz/dot
+     *
+     * @param string $type     The type to export to; see the link above for a
+     *     list of supported types.
+     * @param string $filename The path to write to.
+     *
+     * @throws Exception If an error occurred in GraphViz.
      */
-    public function export(string $type, string $filename): self
+    public function export(string $type, string $filename) : self
     {
-        $type = escapeshellarg($type);
+        $type     = escapeshellarg($type);
         $filename = escapeshellarg($filename);
 
         // write the dot file to a temporary file
@@ -325,7 +343,7 @@ class Graph
 
         // create the dot output
         $output = [];
-        $code = 0;
+        $code   = 0;
         exec($this->path . "dot -T${type} -o${filename} < ${tmpfileArg} 2>&1", $output, $code);
         unlink($tmpfile);
 
@@ -345,7 +363,7 @@ class Graph
      * GraphViz is not used in this method; it is safe to call it even without
      * GraphViz installed.
      */
-    public function __toString(): string
+    public function __toString() : string
     {
         $elements = array_merge(
             $this->graphs,

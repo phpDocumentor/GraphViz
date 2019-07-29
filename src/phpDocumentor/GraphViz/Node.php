@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -12,12 +13,14 @@ declare(strict_types=1);
 
 namespace phpDocumentor\GraphViz;
 
+use function addslashes;
+use function implode;
+use function strtolower;
+use function substr;
+
 /**
  * Class representing a node / element in a graph.
  *
- * @author    Mike van Riel <mike.vanriel@naenius.com>
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  *
  * @method void setLabel(string $name) Sets the label for this node.
@@ -35,12 +38,14 @@ class Node
      * @param string      $name  Name of the new node.
      * @param string|null $label Optional label text.
      */
-    public function __construct(string $name, string $label = null)
+    public function __construct(string $name, ?string $label = null)
     {
         $this->setName($name);
-        if ($label !== null) {
-            $this->setLabel($label);
+        if ($label === null) {
+            return;
         }
+
+        $this->setLabel($label);
     }
 
     /**
@@ -48,10 +53,10 @@ class Node
      *
      * See the examples for more details.
      *
-     * @param string $name Name of the new node.
+     * @param string      $name  Name of the new node.
      * @param string|null $label Optional label text.
      */
-    public static function create(string $name, string $label = null): self
+    public static function create(string $name, ?string $label = null) : self
     {
         return new self($name, $label);
     }
@@ -63,7 +68,7 @@ class Node
      *
      * @param string $name Name for this node.
      */
-    public function setName(string $name): self
+    public function setName(string $name) : self
     {
         $this->name = $name;
         return $this;
@@ -72,7 +77,7 @@ class Node
     /**
      * Returns the name for this node.
      */
-    public function getName(): string
+    public function getName() : string
     {
         return $this->name;
     }
@@ -87,7 +92,7 @@ class Node
      * Set methods return this graph (fluent interface) whilst get methods
      * return the attribute value.
      *
-     * @param string  $name Method name; either getX or setX is expected.
+     * @param string  $name      Method name; either getX or setX is expected.
      * @param mixed[] $arguments List of arguments; only 1 is expected for setX.
      *
      * @return Attribute|Node|null
@@ -111,7 +116,7 @@ class Node
     /**
      * Returns the node definition as is requested by GraphViz.
      */
-    public function __toString(): string
+    public function __toString() : string
     {
         $attributes = [];
         foreach ($this->attributes as $value) {

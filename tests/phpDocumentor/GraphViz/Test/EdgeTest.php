@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
@@ -25,7 +28,7 @@ class EdgeTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown() : void
     {
         m::close();
     }
@@ -35,11 +38,11 @@ class EdgeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Edge::__construct
      */
-    public function testConstruct()
+    public function testConstruct() : void
     {
         $fromNode = m::mock(Node::class);
-        $toNode = m::mock(Node::class);
-        $fixture = new Edge($fromNode, $toNode);
+        $toNode   = m::mock(Node::class);
+        $fixture  = new Edge($fromNode, $toNode);
 
         $this->assertInstanceOf(
             Edge::class,
@@ -60,7 +63,7 @@ class EdgeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Edge::create
      */
-    public function testCreate()
+    public function testCreate() : void
     {
         $this->assertInstanceOf(
             Edge::class,
@@ -74,7 +77,7 @@ class EdgeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Edge::getFrom
      */
-    public function testGetFrom()
+    public function testGetFrom() : void
     {
         $from = new Node('from');
         $edge = Edge::create($from, new Node('to'));
@@ -87,9 +90,9 @@ class EdgeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Edge::getTo
      */
-    public function testGetTo()
+    public function testGetTo() : void
     {
-        $to = new Node('to');
+        $to   = new Node('to');
         $edge = Edge::create(new Node('from'), $to);
         $this->assertSame($to, $edge->getTo());
     }
@@ -103,9 +106,9 @@ class EdgeTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Edge::setAttribute
      * @covers \phpDocumentor\GraphViz\Edge::getAttribute
      */
-    public function testCall()
+    public function testCall() : void
     {
-        $label = 'my label';
+        $label   = 'my label';
         $fixture = new Edge(new Node('from'), new Node('to'));
         $this->assertInstanceOf(Edge::class, $fixture->setLabel($label));
         $this->assertSame($label, $fixture->getLabel()->getValue());
@@ -116,7 +119,7 @@ class EdgeTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Edge::getAttribute
      * @covers \phpDocumentor\GraphViz\AttributeNotFound::__construct
      */
-    public function testGetNonExistingAttributeThrowsAttributeNotFound()
+    public function testGetNonExistingAttributeThrowsAttributeNotFound() : void
     {
         $fixture = new Edge(new Node('from'), new Node('to'));
 
@@ -132,7 +135,7 @@ class EdgeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Edge::__toString
      */
-    public function testToString()
+    public function testToString() : void
     {
         $fixture = new Edge(new Node('from'), new Node('to'));
         $fixture->setLabel('MyLabel');

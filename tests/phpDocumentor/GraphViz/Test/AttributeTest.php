@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
@@ -24,7 +27,7 @@ class AttributeTest extends TestCase
     /**
      * Initializes the fixture for this test.
      */
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->fixture = new Attribute('a', '1');
     }
@@ -33,10 +36,9 @@ class AttributeTest extends TestCase
      * Tests the construct method
      *
      * @covers \phpDocumentor\GraphViz\Attribute::__construct
-     *
      * @returnn void
      */
-    public function testConstruct()
+    public function testConstruct() : void
     {
         $fixture = new Attribute('MyKey', 'MyValue');
         $this->assertInstanceOf(
@@ -53,7 +55,7 @@ class AttributeTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Attribute::getKey
      * @covers \phpDocumentor\GraphViz\Attribute::setKey
      */
-    public function testKey()
+    public function testKey() : void
     {
         $this->assertSame(
             $this->fixture->getKey(),
@@ -78,7 +80,7 @@ class AttributeTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Attribute::getValue
      * @covers \phpDocumentor\GraphViz\Attribute::setValue
      */
-    public function testValue()
+    public function testValue() : void
     {
         $this->assertSame(
             $this->fixture->getValue(),
@@ -102,7 +104,7 @@ class AttributeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Attribute::isValueInHtml
      */
-    public function testIsValueInHtml()
+    public function testIsValueInHtml() : void
     {
         $this->fixture->setValue('a');
         $this->assertFalse(
@@ -122,7 +124,7 @@ class AttributeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Attribute::__toString
      */
-    public function testToString()
+    public function testToString() : void
     {
         $this->fixture = new Attribute('a', 'b');
         $this->assertSame(
@@ -159,7 +161,7 @@ class AttributeTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Attribute::__toString
      * @covers \phpDocumentor\GraphViz\Attribute::encodeSpecials
      */
-    public function testToStringWithSpecials()
+    public function testToStringWithSpecials() : void
     {
         $this->fixture = new Attribute('a', 'b');
 
@@ -188,7 +190,7 @@ class AttributeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Attribute::isValueContainingSpecials
      */
-    public function testIsValueContainingSpecials()
+    public function testIsValueContainingSpecials() : void
     {
         $this->fixture->setValue('+ name : string\l+ home_country : string\l');
         $this->assertTrue($this->fixture->isValueContainingSpecials());

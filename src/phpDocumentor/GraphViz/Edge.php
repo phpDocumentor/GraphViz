@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -12,12 +13,14 @@ declare(strict_types=1);
 
 namespace phpDocumentor\GraphViz;
 
+use function addslashes;
+use function implode;
+use function strtolower;
+use function substr;
+
 /**
  * Class representing an edge (arrow, line).
  *
- * @author    Mike van Riel <mike.vanriel@naenius.com>
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 class Edge
@@ -40,7 +43,7 @@ class Edge
     public function __construct(Node $from, Node $to)
     {
         $this->from = $from;
-        $this->to = $to;
+        $this->to   = $to;
     }
 
     /**
@@ -49,10 +52,10 @@ class Edge
      * See the examples for more details.
      *
      * @param Node $from Starting node to create an Edge from.
-     * @param Node $to Destination node where to create and
-     * edge to.
+     * @param Node $to   Destination node where to create and
+     *   edge to.
      */
-    public static function create(Node $from, Node $to): self
+    public static function create(Node $from, Node $to) : self
     {
         return new self($from, $to);
     }
@@ -60,7 +63,7 @@ class Edge
     /**
      * Returns the source Node for this Edge.
      */
-    public function getFrom(): Node
+    public function getFrom() : Node
     {
         return $this->from;
     }
@@ -68,7 +71,7 @@ class Edge
     /**
      * Returns the destination Node for this Edge.
      */
-    public function getTo(): Node
+    public function getTo() : Node
     {
         return $this->to;
     }
@@ -83,8 +86,8 @@ class Edge
      * Set methods return this graph (fluent interface) whilst get methods
      * return the attribute value.
      *
-     * @param string  $name name of the invoked method, expect it to be
-     *  setX or getX.
+     * @param string  $name      name of the invoked method, expect it to be
+     *       setX or getX.
      * @param mixed[] $arguments Arguments for the setter, only 1 is expected: value
      *
      * @return Attribute|Edge|null
@@ -108,7 +111,7 @@ class Edge
     /**
      * Returns the edge definition as is requested by GraphViz.
      */
-    public function __toString(): string
+    public function __toString() : string
     {
         $attributes = [];
         foreach ($this->attributes as $value) {
@@ -118,7 +121,7 @@ class Edge
         $attributes = implode("\n", $attributes);
 
         $from_name = addslashes($this->getFrom()->getName());
-        $to_name = addslashes($this->getTo()->getName());
+        $to_name   = addslashes($this->getTo()->getName());
 
         return <<<DOT
 "${from_name}" -> "${to_name}" [

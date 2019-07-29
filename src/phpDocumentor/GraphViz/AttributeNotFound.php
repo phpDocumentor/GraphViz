@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -11,6 +12,8 @@ declare(strict_types=1);
  */
 
 namespace phpDocumentor\GraphViz;
+
+use function sprintf;
 
 class AttributeNotFound extends Exception
 {
