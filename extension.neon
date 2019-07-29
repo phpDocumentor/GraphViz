@@ -1,0 +1,9 @@
+services:
+	-
+		class: phpDocumentor\GraphViz\PHPStan\MethodReflectionExtension
+		tags:
+			- phpstan.broker.methodsClassReflectionExtension
+	-
+		class: phpDocumentor\GraphViz\PHPStan\GraphNodeReflectionExtension
+		tags:
+			- phpstan.broker.propertiesClassReflectionExtension

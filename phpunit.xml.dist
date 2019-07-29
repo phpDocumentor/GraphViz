@@ -13,8 +13,11 @@
          stopOnFailure="true"
 >
     <testsuites>
-        <testsuite name="unit">
-            <directory>./tests/</directory>
+        <testsuite name="Graphviz suite">
+            <directory>./tests/phpDocumentor/GraphViz</directory>
+        </testsuite>
+        <testsuite name="PHPStan suite">
+            <directory>./tests/phpDocumentor/PHPStan</directory>
         </testsuite>
     </testsuites>
     <logging>

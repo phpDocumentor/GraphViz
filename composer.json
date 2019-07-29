@@ -19,12 +19,15 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "phpDocumentor\\GraphViz\\Test\\": "tests/phpDocumentor/GraphViz/Test"
+            "phpDocumentor\\GraphViz\\Test\\": "./tests/phpDocumentor/GraphViz/Test",
+            "phpDocumentor\\GraphViz\\PHPStan\\": ["./src/phpDocumentor/PHPStan", "./tests/phpDocumentor/PHPStan"]
         }
     },
     "require-dev": {
         "phpunit/phpunit": "^7.5",
-        "mockery/mockery": "^1.2"
+        "mockery/mockery": "^1.2",
+        "phpstan/phpstan": "^0.11.12",
+        "ext-simplexml": "*"
     },
     "extra": {
         "branch-alias": {

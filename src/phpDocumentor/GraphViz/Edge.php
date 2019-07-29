@@ -28,10 +28,10 @@ class Edge
     use Attributes;
 
     /** @var Node Node from where to link */
-    protected $from = null;
+    private $from;
 
     /** @var Node Node where to to link */
-    protected $to = null;
+    private $to;
 
     /**
      * Creates a new Edge / Link between the given nodes.

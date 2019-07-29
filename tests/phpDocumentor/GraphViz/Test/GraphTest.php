@@ -21,6 +21,7 @@ use phpDocumentor\GraphViz\Exception;
 use phpDocumentor\GraphViz\Graph;
 use phpDocumentor\GraphViz\Node;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use const PHP_EOL;
 use function is_readable;
 use function preg_replace;
@@ -204,8 +205,8 @@ class GraphTest extends TestCase
     public function test__call() : void
     {
         $this->assertNull($this->fixture->MyMethod());
-        $this->assertSame($this->fixture, $this->fixture->setColor('black'));
-        $this->assertSame('black', $this->fixture->getColor()->getValue());
+        $this->assertSame($this->fixture, $this->fixture->setBgColor('black'));
+        $this->assertSame('black', $this->fixture->getBgColor()->getValue());
     }
 
     /**
@@ -215,9 +216,9 @@ class GraphTest extends TestCase
     public function testGetNonExistingAttributeThrowsAttributeNotFound() : void
     {
         $this->expectException(AttributeNotFound::class);
-        $this->expectExceptionMessage('Attribute with name "color" was not found');
+        $this->expectExceptionMessage('Attribute with name "NotExisting" was not found');
 
-        $this->fixture->getColor();
+        $this->fixture->getNotExisting();
     }
 
     /**
@@ -356,6 +357,11 @@ class GraphTest extends TestCase
         $graph    = Graph::create('My First Graph');
         $filename = tempnam(sys_get_temp_dir(), 'tst');
 
+        if ($filename === false) {
+            $this->assertFalse('Failed to create destination file');
+            return;
+        }
+
         $this->expectException(Exception::class);
         $graph->export('fpd', $filename);
     }
@@ -367,6 +373,11 @@ class GraphTest extends TestCase
     {
         $graph    = Graph::create('My First Graph');
         $filename = tempnam(sys_get_temp_dir(), 'tst');
+
+        if ($filename === false) {
+            $this->assertFalse('Failed to create destination file');
+            return;
+        }
 
         $this->assertSame(
             $graph,
@@ -406,6 +417,11 @@ class GraphTest extends TestCase
      */
     private function normalizeLineEndings(string $string) : string
     {
-        return preg_replace('~\R~u', "\r\n", $string);
+        $result = preg_replace('~\R~u', "\r\n", $string);
+        if ($result === null) {
+            throw new RuntimeException('Normalize line endings failed');
+        }
+
+        return $result;
     }
 }
