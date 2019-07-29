@@ -216,7 +216,7 @@ class GraphTest extends TestCase
     public function testGetNonExistingAttributeThrowsAttributeNotFound() : void
     {
         $this->expectException(AttributeNotFound::class);
-        $this->expectExceptionMessage('Attribute with name "NotExisting" was not found');
+        $this->expectExceptionMessage('Attribute with name "notexisting" was not found');
 
         $this->fixture->getNotExisting();
     }
