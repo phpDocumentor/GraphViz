@@ -14,13 +14,14 @@
     },
     "autoload": {
         "psr-4": {
-            "phpDocumentor\\GraphViz\\": "src/phpDocumentor/GraphViz"
+            "phpDocumentor\\GraphViz\\": "src/phpDocumentor/GraphViz",
+            "phpDocumentor\\GraphViz\\PHPStan\\": "./src/phpDocumentor/PHPStan"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "phpDocumentor\\GraphViz\\Test\\": "./tests/phpDocumentor/GraphViz/Test",
-            "phpDocumentor\\GraphViz\\PHPStan\\": ["./src/phpDocumentor/PHPStan", "./tests/phpDocumentor/PHPStan"]
+            "phpDocumentor\\GraphViz\\PHPStan\\": "./tests/phpDocumentor/PHPStan"
         }
     },
     "config": {
