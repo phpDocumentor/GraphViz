@@ -7,9 +7,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author    Mike van Riel <mike.vanriel@naenius.com>
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -24,11 +21,6 @@ use \InvalidArgumentException;
  * When the name of the subgraph is prefixed with _cluster_ then the contents
  * of this graph will be grouped and a border will be added. Otherwise it is
  * used as logical container to place defaults in.
- *
- * @author    Mike van Riel <mike.vanriel@naenius.com>
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
  *
  * @method Graph setRankSep(string $rankSep)
  * @method Graph setCenter(string $center)

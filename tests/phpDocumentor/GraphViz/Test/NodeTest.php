@@ -5,10 +5,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   phpDocumentor\GraphViz\Tests
- * @author    Mike van Riel <mike.vanriel@naenius.com>
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -20,11 +16,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test for the the class representing a GraphViz node.
- *
- * @package phpDocumentor\GraphViz\Tests
- * @author  Mike van Riel <mike.vanriel@naenius.com>
- * @license http://www.opensource.org/licenses/mit-license.php MIT
- * @link    http://phpdoc.org
  */
 class NodeTest extends TestCase
 {
