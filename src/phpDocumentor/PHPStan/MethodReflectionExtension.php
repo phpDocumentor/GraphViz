@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 /**
- * phpDocumentor
+ * phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @link      http://phpdoc.org
+ * @see      http://phpdoc.org
  */
 
 namespace phpDocumentor\GraphViz\PHPStan;
@@ -26,16 +26,6 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use RuntimeException;
 use SimpleXMLElement;
-use function array_key_exists;
-use function array_map;
-use function file_get_contents;
-use function in_array;
-use function simplexml_load_string;
-use function sprintf;
-use function str_replace;
-use function stripos;
-use function strtolower;
-use function substr;
 
 final class MethodReflectionExtension implements MethodsClassReflectionExtension
 {
@@ -45,20 +35,9 @@ final class MethodReflectionExtension implements MethodsClassReflectionExtension
         Edge::class => 'edge',
     ];
 
-    public function hasMethod(ClassReflection $classReflection, string $methodName) : bool
+    public function getMethod(ClassReflection $classReflection, string $methodName): MethodReflection
     {
-        if (!array_key_exists($classReflection->getName(), static::SUPPORTED_CLASSES)) {
-            return false;
-        }
-
-        $methods           = $this->getMethodsFromSpec(static::SUPPORTED_CLASSES[$classReflection->getName()]);
-        $expectedAttribute = $this->getAttributeFromMethodName($methodName);
-        return in_array($expectedAttribute, $methods, true);
-    }
-
-    public function getMethod(ClassReflection $classReflection, string $methodName) : MethodReflection
-    {
-        if (stripos($methodName, 'get') === 0) {
+        if (0 === \mb_stripos($methodName, 'get')) {
             return new AttributeGetterMethodReflection($classReflection, $methodName);
         }
 
@@ -71,40 +50,35 @@ final class MethodReflectionExtension implements MethodsClassReflectionExtension
         );
     }
 
-    /**
-     * @return string[]
-     */
-    private function getMethodsFromSpec(string $className) : array
+    public function hasMethod(ClassReflection $classReflection, string $methodName): bool
     {
-        $simpleXml = $this->getAttributesXmlDoc();
-
-        $elements = $simpleXml->xpath(sprintf("xsd:complexType[@name='%s']/xsd:attribute", $className));
-
-        if ($elements === false) {
-            throw new InvalidArgumentException(
-                sprintf('Class "%s" does not exist in Graphviz spec', $className)
-            );
+        if (!\array_key_exists($classReflection->getName(), static::SUPPORTED_CLASSES)) {
+            return false;
         }
 
-        return array_map(
-            static function (SimpleXMLElement $attribute) : string {
-                return strtolower((string) $attribute['ref']);
-            },
-            $elements
-        );
+        $methods = $this->getMethodsFromSpec(static::SUPPORTED_CLASSES[$classReflection->getName()]);
+        $expectedAttribute = $this->getAttributeFromMethodName($methodName);
+
+        return \in_array($expectedAttribute, $methods, true);
     }
 
-    private function getAttributeInputType(string $ref) : Type
+    private function getAttributeFromMethodName(string $methodName): string
     {
-        $simpleXml  = $this->getAttributesXmlDoc();
-        $attributes = $simpleXml->xpath(sprintf("xsd:attribute[@name='%s']", $ref));
+        return \mb_strtolower(\mb_substr($methodName, 3));
+    }
+
+    private function getAttributeInputType(string $ref): Type
+    {
+        $simpleXml = $this->getAttributesXmlDoc();
+        $attributes = $simpleXml->xpath(\sprintf("xsd:attribute[@name='%s']", $ref));
 
         if (empty($attributes)) {
             return new StringType();
         }
 
         $type = $attributes[0]['type'];
-        $type = str_replace('xsd:', '', $type);
+        $type = \str_replace('xsd:', '', $type);
+
         switch ($type) {
             case 'boolean':
                 return new BooleanType();
@@ -116,24 +90,45 @@ final class MethodReflectionExtension implements MethodsClassReflectionExtension
         }
     }
 
-    private function getAttributesXmlDoc() : SimpleXMLElement
+    private function getAttributesXmlDoc(): SimpleXMLElement
     {
-        $fileContent = file_get_contents(__DIR__ . '/assets/attributes.xml');
+        $fileContent = \file_get_contents(__DIR__ . '/assets/attributes.xml');
 
-        if ($fileContent === false) {
+        if (false === $fileContent) {
             throw new RuntimeException('Cannot read attributes spec');
         }
 
-        $xml = simplexml_load_string($fileContent);
-        if ($xml === false) {
+        $xml = \simplexml_load_string($fileContent);
+
+        if (false === $xml) {
             throw new RuntimeException('Cannot read attributes spec');
         }
 
         return $xml;
     }
 
-    private function getAttributeFromMethodName(string $methodName) : string
+    /**
+     * @param string $className
+     *
+     * @return string[]
+     */
+    private function getMethodsFromSpec(string $className): array
     {
-        return strtolower(substr($methodName, 3));
+        $simpleXml = $this->getAttributesXmlDoc();
+
+        $elements = $simpleXml->xpath(\sprintf("xsd:complexType[@name='%s']/xsd:attribute", $className));
+
+        if (false === $elements) {
+            throw new InvalidArgumentException(
+                \sprintf('Class "%s" does not exist in Graphviz spec', $className)
+            );
+        }
+
+        return \array_map(
+            static function (SimpleXMLElement $attribute): string {
+                return \mb_strtolower((string) $attribute['ref']);
+            },
+            $elements
+        );
     }
 }

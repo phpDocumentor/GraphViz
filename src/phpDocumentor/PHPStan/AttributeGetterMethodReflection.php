@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 /**
- * phpDocumentor
+ * phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @link      http://phpdoc.org
+ * @see      http://phpdoc.org
  */
 
 namespace phpDocumentor\GraphViz\PHPStan;
@@ -32,35 +32,20 @@ final class AttributeGetterMethodReflection implements MethodReflection
     public function __construct(ClassReflection $classReflection, string $name)
     {
         $this->classReflection = $classReflection;
-        $this->name            = $name;
+        $this->name = $name;
     }
 
-    public function getDeclaringClass() : ClassReflection
+    public function getDeclaringClass(): ClassReflection
     {
         return $this->classReflection;
     }
 
-    public function isStatic() : bool
-    {
-        return false;
-    }
-
-    public function isPrivate() : bool
-    {
-        return false;
-    }
-
-    public function isPublic() : bool
-    {
-        return true;
-    }
-
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getPrototype() : ClassMemberReflection
+    public function getPrototype(): ClassMemberReflection
     {
         return $this;
     }
@@ -68,7 +53,7 @@ final class AttributeGetterMethodReflection implements MethodReflection
     /**
      * @return ParametersAcceptor[]
      */
-    public function getVariants() : array
+    public function getVariants(): array
     {
         return [new FunctionVariant(
             [],
@@ -76,5 +61,20 @@ final class AttributeGetterMethodReflection implements MethodReflection
             new ObjectType(Attribute::class)
         ),
         ];
+    }
+
+    public function isPrivate(): bool
+    {
+        return false;
+    }
+
+    public function isPublic(): bool
+    {
+        return true;
+    }
+
+    public function isStatic(): bool
+    {
+        return false;
     }
 }
