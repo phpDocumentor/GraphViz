@@ -13,10 +13,18 @@ declare(strict_types=1);
 
 namespace phpDocumentor\GraphViz;
 
-class AttributeNotFound extends Exception
+trait GraphAware
 {
-    public function __construct(string $name)
+    /** @var null|\phpDocumentor\GraphViz\Graph */
+    protected $graph;
+
+    public function getGraphRoot(): ?Graph
     {
-        parent::__construct(\sprintf('Attribute with name "%s" was not found.', $name));
+        return $this->graph;
+    }
+
+    public function setGraphRoot(Graph $graph): void
+    {
+        $this->graph = $graph;
     }
 }

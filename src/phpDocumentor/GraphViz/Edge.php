@@ -3,29 +3,28 @@
 declare(strict_types=1);
 
 /**
- * phpDocumentor
+ * phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @link      http://phpdoc.org
+ * @see      http://phpdoc.org
  */
 
 namespace phpDocumentor\GraphViz;
 
-use function addslashes;
-use function implode;
-use function strtolower;
-use function substr;
+use phpDocumentor\GraphViz\Contract\AttributesAwareInterface;
+use phpDocumentor\GraphViz\Contract\GraphAwareInterface;
 
 /**
  * Class representing an edge (arrow, line).
  *
- * @link      http://phpdoc.org
+ * @see      http://phpdoc.org
  */
-class Edge
+class Edge implements AttributesAwareInterface, GraphAwareInterface
 {
-    use Attributes;
+    use AttributesAware;
+    use GraphAware;
 
     /** @var Node Node from where to link */
     private $from;
@@ -43,37 +42,7 @@ class Edge
     public function __construct(Node $from, Node $to)
     {
         $this->from = $from;
-        $this->to   = $to;
-    }
-
-    /**
-     * Factory method used to assist with fluent interface handling.
-     *
-     * See the examples for more details.
-     *
-     * @param Node $from Starting node to create an Edge from.
-     * @param Node $to   Destination node where to create and
-     *   edge to.
-     */
-    public static function create(Node $from, Node $to) : self
-    {
-        return new self($from, $to);
-    }
-
-    /**
-     * Returns the source Node for this Edge.
-     */
-    public function getFrom() : Node
-    {
-        return $this->from;
-    }
-
-    /**
-     * Returns the destination Node for this Edge.
-     */
-    public function getTo() : Node
-    {
-        return $this->to;
+        $this->to = $to;
     }
 
     /**
@@ -90,43 +59,81 @@ class Edge
      *       setX or getX.
      * @param mixed[] $arguments Arguments for the setter, only 1 is expected: value
      *
-     * @return Attribute|Edge|null
-     *
      * @throws AttributeNotFound
+     *
+     * @return null|Attribute|Edge
      */
     public function __call(string $name, array $arguments)
     {
-        $key = strtolower(substr($name, 3));
-        if (strtolower(substr($name, 0, 3)) === 'set') {
+        $key = \mb_strtolower(\mb_substr($name, 3));
+
+        if ('set' === \mb_strtolower(\mb_substr($name, 0, 3))) {
             return $this->setAttribute($key, (string) $arguments[0]);
         }
 
-        if (strtolower(substr($name, 0, 3)) === 'get') {
+        if ('get' === \mb_strtolower(\mb_substr($name, 0, 3))) {
             return $this->getAttribute($key);
         }
-
-        return null;
     }
 
     /**
      * Returns the edge definition as is requested by GraphViz.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $attributes = [];
+
         foreach ($this->attributes as $value) {
             $attributes[] = (string) $value;
         }
 
-        $attributes = implode("\n", $attributes);
+        $attributes = \implode("\n", $attributes);
 
-        $from_name = addslashes($this->getFrom()->getName());
-        $to_name   = addslashes($this->getTo()->getName());
+        $from_name = \addslashes($this->getFrom()->getName());
+        $to_name = \addslashes($this->getTo()->getName());
+
+        $direction = '--';
+
+        if (null !== $graph = $this->getGraphRoot()) {
+            if ('digraph' === $graph->getType()) {
+                $direction = '->';
+            }
+        }
 
         return <<<DOT
-"${from_name}" -> "${to_name}" [
-${attributes}
+"{$from_name}" {$direction} "{$to_name}" [
+{$attributes}
 ]
 DOT;
+    }
+
+    /**
+     * Factory method used to assist with fluent interface handling.
+     *
+     * See the examples for more details.
+     *
+     * @param Node $from Starting node to create an Edge from.
+     * @param Node $to   Destination node where to create and
+     *   edge to.
+     */
+    public static function create(Node $from, Node $to): self
+    {
+        return new self($from, $to);
+    }
+
+    /**
+     * Returns the source Node for this Edge.
+     */
+    public function getFrom(): Node
+    {
+        return $this->from;
+    }
+
+    /**
+     * Returns the destination Node for this Edge.
+     */
+    public function getTo(): Node
+    {
+        return $this->to;
     }
 }

@@ -11,11 +11,13 @@ declare(strict_types=1);
  * @see      http://phpdoc.org
  */
 
-namespace phpDocumentor\GraphViz;
+namespace phpDocumentor\GraphViz\Contract;
 
-/**
- * Class representing an exception in this GraphViz component.
- */
-class Exception extends \Exception
+use phpDocumentor\GraphViz\Graph;
+
+interface GraphAwareInterface
 {
+    public function getGraphRoot(): ?Graph;
+
+    public function setGraphRoot(Graph $graph);
 }

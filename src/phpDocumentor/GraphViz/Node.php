@@ -3,31 +3,30 @@
 declare(strict_types=1);
 
 /**
- * phpDocumentor
+ * phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @link      http://phpdoc.org
+ * @see      http://phpdoc.org
  */
 
 namespace phpDocumentor\GraphViz;
 
-use function addslashes;
-use function implode;
-use function strtolower;
-use function substr;
+use phpDocumentor\GraphViz\Contract\AttributesAwareInterface;
+use phpDocumentor\GraphViz\Contract\GraphAwareInterface;
 
 /**
  * Class representing a node / element in a graph.
  *
- * @link      http://phpdoc.org
+ * @see      http://phpdoc.org
  *
  * @method void setLabel(string $name) Sets the label for this node.
  */
-class Node
+class Node implements AttributesAwareInterface, GraphAwareInterface
 {
-    use Attributes;
+    use AttributesAware;
+    use GraphAware;
 
     /** @var string Name for this node */
     protected $name = '';
@@ -36,50 +35,17 @@ class Node
      * Creates a new node with name and optional label.
      *
      * @param string      $name  Name of the new node.
-     * @param string|null $label Optional label text.
+     * @param null|string $label Optional label text.
      */
     public function __construct(string $name, ?string $label = null)
     {
         $this->setName($name);
-        if ($label === null) {
+
+        if (null === $label) {
             return;
         }
 
         $this->setLabel($label);
-    }
-
-    /**
-     * Factory method used to assist with fluent interface handling.
-     *
-     * See the examples for more details.
-     *
-     * @param string      $name  Name of the new node.
-     * @param string|null $label Optional label text.
-     */
-    public static function create(string $name, ?string $label = null) : self
-    {
-        return new self($name, $label);
-    }
-
-    /**
-     * Sets the name for this node.
-     *
-     * Not to confuse with the label.
-     *
-     * @param string $name Name for this node.
-     */
-    public function setName(string $name) : self
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * Returns the name for this node.
-     */
-    public function getName() : string
-    {
-        return $this->name;
     }
 
     /**
@@ -95,42 +61,77 @@ class Node
      * @param string  $name      Method name; either getX or setX is expected.
      * @param mixed[] $arguments List of arguments; only 1 is expected for setX.
      *
-     * @return Attribute|Node|null
-     *
      * @throws AttributeNotFound
+     *
+     * @return null|Attribute|Node
      */
     public function __call(string $name, array $arguments)
     {
-        $key = strtolower(substr($name, 3));
-        if (strtolower(substr($name, 0, 3)) === 'set') {
+        $key = \mb_strtolower(\mb_substr($name, 3));
+
+        if (0 === \mb_stripos($name, 'set')) {
             return $this->setAttribute($key, (string) $arguments[0]);
         }
 
-        if (strtolower(substr($name, 0, 3)) === 'get') {
+        if (0 === \mb_stripos($name, 'get')) {
             return $this->getAttribute($key);
         }
-
-        return null;
     }
 
     /**
      * Returns the node definition as is requested by GraphViz.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $attributes = [];
+
         foreach ($this->attributes as $value) {
             $attributes[] = (string) $value;
         }
 
-        $attributes = implode("\n", $attributes);
+        $attributes = \implode("\n", $attributes);
 
-        $name = addslashes($this->getName());
+        $name = \addslashes($this->getName());
 
         return <<<DOT
 "{$name}" [
-${attributes}
+{$attributes}
 ]
 DOT;
+    }
+
+    /**
+     * Factory method used to assist with fluent interface handling.
+     *
+     * See the examples for more details.
+     *
+     * @param string      $name  Name of the new node.
+     * @param null|string $label Optional label text.
+     */
+    public static function create(string $name, ?string $label = null): self
+    {
+        return new self($name, $label);
+    }
+
+    /**
+     * Returns the name for this node.
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * Sets the name for this node.
+     *
+     * Not to confuse with the label.
+     *
+     * @param string $name Name for this node.
+     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 }
