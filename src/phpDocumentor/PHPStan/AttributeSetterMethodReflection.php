@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 /**
- * phpDocumentor.
+ * phpDocumentor
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see      http://phpdoc.org
+ * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\GraphViz\PHPStan;
@@ -24,33 +24,47 @@ use PHPStan\Type\Type;
 
 final class AttributeSetterMethodReflection implements MethodReflection
 {
-    /** @var Type */
-    private $attributeType;
-
     /** @var ClassReflection */
     private $classReflection;
 
     /** @var string */
     private $name;
+    /** @var Type */
+    private $attributeType;
 
     public function __construct(ClassReflection $classReflection, string $name, Type $attributeType)
     {
         $this->classReflection = $classReflection;
-        $this->name = $name;
-        $this->attributeType = $attributeType;
+        $this->name            = $name;
+        $this->attributeType   = $attributeType;
     }
 
-    public function getDeclaringClass(): ClassReflection
+    public function getDeclaringClass() : ClassReflection
     {
         return $this->classReflection;
     }
 
-    public function getName(): string
+    public function isStatic() : bool
+    {
+        return false;
+    }
+
+    public function isPrivate() : bool
+    {
+        return false;
+    }
+
+    public function isPublic() : bool
+    {
+        return true;
+    }
+
+    public function getName() : string
     {
         return $this->name;
     }
 
-    public function getPrototype(): ClassMemberReflection
+    public function getPrototype() : ClassMemberReflection
     {
         return $this;
     }
@@ -58,7 +72,7 @@ final class AttributeSetterMethodReflection implements MethodReflection
     /**
      * @return ParametersAcceptor[]
      */
-    public function getVariants(): array
+    public function getVariants() : array
     {
         return [new FunctionVariant(
             [new DummyParameter('value', $this->attributeType, false)],
@@ -66,20 +80,5 @@ final class AttributeSetterMethodReflection implements MethodReflection
             new ObjectType($this->classReflection->getName())
         ),
         ];
-    }
-
-    public function isPrivate(): bool
-    {
-        return false;
-    }
-
-    public function isPublic(): bool
-    {
-        return true;
-    }
-
-    public function isStatic(): bool
-    {
-        return false;
     }
 }

@@ -17,7 +17,18 @@ use phpDocumentor\GraphViz\Attribute;
 
 interface AttributesAwareInterface
 {
+    /**
+     * @param string $name
+     *
+     * @return \phpDocumentor\GraphViz\Attribute
+     */
     public function getAttribute(string $name): Attribute;
 
+    /**
+     * @param string $name
+     * @param string $value
+     *
+     * @return mixed
+     */
     public function setAttribute(string $name, string $value);
 }

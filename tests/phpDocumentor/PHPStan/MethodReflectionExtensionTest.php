@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 /**
- * phpDocumentor.
+ * phpDocumentor
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see      http://phpdoc.org
+ * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\GraphViz\PHPStan;
@@ -21,24 +21,31 @@ use PHPStan\Type\FloatType;
 use PHPStan\Type\StringType;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- * @coversNothing
- */
 final class MethodReflectionExtensionTest extends TestCase
 {
     /** @var MethodReflectionExtension */
     private $fixture;
 
-    protected function setUp(): void
+    public function setUp() : void
     {
         $this->fixture = new MethodReflectionExtension();
     }
 
     /**
+     * @dataProvider existingMethodProvider
+     */
+    public function testNodeHasMethodReturnsTrue(string $className, string $methodName) : void
+    {
+        $classReflection = m::mock(ClassReflection::class);
+        $classReflection->shouldReceive('getName')->andReturn($className);
+
+        $this->assertTrue($this->fixture->hasMethod($classReflection, $methodName));
+    }
+
+    /**
      * @return array<string, array<string, string>>
      */
-    public function existingMethodProvider(): array
+    public function existingMethodProvider() : array
     {
         return [
             'node::getLabel' => [
@@ -60,37 +67,23 @@ final class MethodReflectionExtensionTest extends TestCase
         ];
     }
 
-    public function testAttributeType(): void
+    public function testAttributeType() : void
     {
         $classReflection = m::mock(ClassReflection::class);
         $classReflection->shouldReceive('getName')->andReturn(Node::class);
 
         $method = $this->fixture->getMethod($classReflection, 'setFontSize');
 
-        self::assertInstanceOf(FloatType::class, $method->getVariants()[0]->getParameters()[0]->getType());
+        $this->assertInstanceOf(FloatType::class, $method->getVariants()[0]->getParameters()[0]->getType());
     }
 
-    public function testAttributeTypeOfNoneExisting(): void
+    public function testAttributeTypeOfNoneExisting() : void
     {
         $classReflection = m::mock(ClassReflection::class);
         $classReflection->shouldReceive('getName')->andReturn(Node::class);
 
         $method = $this->fixture->getMethod($classReflection, 'setColor');
 
-        self::assertInstanceOf(StringType::class, $method->getVariants()[0]->getParameters()[0]->getType());
-    }
-
-    /**
-     * @dataProvider existingMethodProvider
-     *
-     * @param string $className
-     * @param string $methodName
-     */
-    public function testNodeHasMethodReturnsTrue(string $className, string $methodName): void
-    {
-        $classReflection = m::mock(ClassReflection::class);
-        $classReflection->shouldReceive('getName')->andReturn($className);
-
-        self::assertTrue($this->fixture->hasMethod($classReflection, $methodName));
+        $this->assertInstanceOf(StringType::class, $method->getVariants()[0]->getParameters()[0]->getType());
     }
 }

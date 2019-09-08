@@ -17,7 +17,15 @@ use phpDocumentor\GraphViz\Graph;
 
 interface GraphAwareInterface
 {
+    /**
+     * @return \phpDocumentor\GraphViz\Graph|null
+     */
     public function getGraphRoot(): ?Graph;
 
+    /**
+     * @param \phpDocumentor\GraphViz\Graph $graph
+     *
+     * @return mixed
+     */
     public function setGraphRoot(Graph $graph);
 }

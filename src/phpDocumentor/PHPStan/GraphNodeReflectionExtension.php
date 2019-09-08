@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 /**
- * phpDocumentor.
+ * phpDocumentor
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see      http://phpdoc.org
+ * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\GraphViz\PHPStan;
@@ -23,7 +23,16 @@ use PHPStan\Type\ObjectType;
 
 final class GraphNodeReflectionExtension implements PropertiesClassReflectionExtension
 {
-    public function getProperty(ClassReflection $classReflection, string $propertyName): PropertyReflection
+    public function hasProperty(ClassReflection $classReflection, string $propertyName) : bool
+    {
+        if ($classReflection->getName() === Graph::class) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getProperty(ClassReflection $classReflection, string $propertyName) : PropertyReflection
     {
         return new AnnotationPropertyReflection(
             $classReflection,
@@ -31,14 +40,5 @@ final class GraphNodeReflectionExtension implements PropertiesClassReflectionExt
             true,
             true
         );
-    }
-
-    public function hasProperty(ClassReflection $classReflection, string $propertyName): bool
-    {
-        if (Graph::class === $classReflection->getName()) {
-            return true;
-        }
-
-        return false;
     }
 }

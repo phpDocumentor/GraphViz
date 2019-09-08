@@ -3,23 +3,27 @@
 declare(strict_types=1);
 
 /**
- * phpDocumentor.
+ * phpDocumentor
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see      http://phpdoc.org
+ * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\GraphViz;
 
 use phpDocumentor\GraphViz\Contract\AttributesAwareInterface;
 use phpDocumentor\GraphViz\Contract\GraphAwareInterface;
+use function addslashes;
+use function implode;
+use function strtolower;
+use function substr;
 
 /**
  * Class representing a node / element in a graph.
  *
- * @see      http://phpdoc.org
+ * @link      http://phpdoc.org
  *
  * @method void setLabel(string $name) Sets the label for this node.
  */
@@ -35,17 +39,50 @@ class Node implements AttributesAwareInterface, GraphAwareInterface
      * Creates a new node with name and optional label.
      *
      * @param string      $name  Name of the new node.
-     * @param null|string $label Optional label text.
+     * @param string|null $label Optional label text.
      */
     public function __construct(string $name, ?string $label = null)
     {
         $this->setName($name);
-
-        if (null === $label) {
+        if ($label === null) {
             return;
         }
 
         $this->setLabel($label);
+    }
+
+    /**
+     * Factory method used to assist with fluent interface handling.
+     *
+     * See the examples for more details.
+     *
+     * @param string      $name  Name of the new node.
+     * @param string|null $label Optional label text.
+     */
+    public static function create(string $name, ?string $label = null) : self
+    {
+        return new self($name, $label);
+    }
+
+    /**
+     * Sets the name for this node.
+     *
+     * Not to confuse with the label.
+     *
+     * @param string $name Name for this node.
+     */
+    public function setName(string $name) : self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Returns the name for this node.
+     */
+    public function getName() : string
+    {
+        return $this->name;
     }
 
     /**
@@ -61,77 +98,42 @@ class Node implements AttributesAwareInterface, GraphAwareInterface
      * @param string  $name      Method name; either getX or setX is expected.
      * @param mixed[] $arguments List of arguments; only 1 is expected for setX.
      *
-     * @throws AttributeNotFound
+     * @return Attribute|Node|null
      *
-     * @return null|Attribute|Node
+     * @throws AttributeNotFound
      */
     public function __call(string $name, array $arguments)
     {
-        $key = \mb_strtolower(\mb_substr($name, 3));
-
-        if (0 === \mb_stripos($name, 'set')) {
+        $key = strtolower(substr($name, 3));
+        if (strtolower(substr($name, 0, 3)) === 'set') {
             return $this->setAttribute($key, (string) $arguments[0]);
         }
 
-        if (0 === \mb_stripos($name, 'get')) {
+        if (strtolower(substr($name, 0, 3)) === 'get') {
             return $this->getAttribute($key);
         }
+
+        return null;
     }
 
     /**
      * Returns the node definition as is requested by GraphViz.
      */
-    public function __toString(): string
+    public function __toString() : string
     {
         $attributes = [];
-
         foreach ($this->attributes as $value) {
             $attributes[] = (string) $value;
         }
 
-        $attributes = \implode("\n", $attributes);
+        $attributes = implode("\n", $attributes);
 
-        $name = \addslashes($this->getName());
+        $name = addslashes($this->getName());
 
         return <<<DOT
 "{$name}" [
-{$attributes}
+${attributes}
 ]
 DOT;
-    }
-
-    /**
-     * Factory method used to assist with fluent interface handling.
-     *
-     * See the examples for more details.
-     *
-     * @param string      $name  Name of the new node.
-     * @param null|string $label Optional label text.
-     */
-    public static function create(string $name, ?string $label = null): self
-    {
-        return new self($name, $label);
-    }
-
-    /**
-     * Returns the name for this node.
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * Sets the name for this node.
-     *
-     * Not to confuse with the label.
-     *
-     * @param string $name Name for this node.
-     */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 }
