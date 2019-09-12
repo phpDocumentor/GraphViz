@@ -142,7 +142,7 @@ class EdgeTest extends TestCase
         $fixture->setWeight(45);
 
         $dot = <<<DOT
-"from" -- "to" [
+"from" -> "to" [
 label="MyLabel"
 weight="45"
 ]

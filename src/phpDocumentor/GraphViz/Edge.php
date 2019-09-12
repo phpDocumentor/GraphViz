@@ -126,11 +126,11 @@ class Edge implements AttributesAwareInterface, GraphAwareInterface
         $from_name = addslashes($this->getFrom()->getName());
         $to_name   = addslashes($this->getTo()->getName());
 
-        $direction = '--';
+        $direction = '->';
 
         if (null !== $graph = $this->getGraphRoot()) {
-            if ('digraph' === $graph->getType()) {
-                $direction = '->';
+            if ('digraph' !== $graph->getType()) {
+                $direction = '--';
             }
         }
 
