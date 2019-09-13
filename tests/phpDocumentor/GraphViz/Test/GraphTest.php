@@ -42,7 +42,7 @@ class GraphTest extends TestCase
      */
     protected function setUp() : void
     {
-        $this->fixture = new Graph();
+        $this->fixture = Graph::create('G', true);
     }
 
     /**
@@ -345,7 +345,7 @@ class GraphTest extends TestCase
     public function testLink() : void
     {
         $mock = m::mock(Edge::class);
-        $mock->expects('setGraphRoot');
+        $mock->expects('isDirected')->andReturn(true);
 
         $this->assertSame(
             $this->fixture,

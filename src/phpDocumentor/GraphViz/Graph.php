@@ -82,6 +82,7 @@ class Graph implements AttributesAwareInterface
     public static function create(string $name = 'G', bool $directional = true) : self
     {
         $graph = new self();
+
         $graph
             ->setName($name)
             ->setType($directional ? 'digraph' : 'graph');
@@ -314,7 +315,9 @@ class Graph implements AttributesAwareInterface
      */
     public function link(Edge $edge) : self
     {
-        $edge->setGraphRoot($this);
+        if ($this->type === 'digraph' && $edge->isDirected() === false) {
+            throw new \Exception('Edge type is not compatible with the graph.');
+        }
 
         $this->edges[] = $edge;
         return $this;

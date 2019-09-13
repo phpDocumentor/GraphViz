@@ -25,10 +25,9 @@ use function substr;
  *
  * @link      http://phpdoc.org
  */
-class Edge implements AttributesAwareInterface, GraphAwareInterface
+class Edge implements AttributesAwareInterface
 {
     use AttributesAware;
-    use GraphAware;
 
     /** @var Node Node from where to link */
     private $from;
@@ -36,31 +35,81 @@ class Edge implements AttributesAwareInterface, GraphAwareInterface
     /** @var Node Node where to to link */
     private $to;
 
-    /**
-     * Creates a new Edge / Link between the given nodes.
-     *
-     * @param Node $from Starting node to create an Edge from.
-     * @param Node $to   Destination node where to create and
-     *  edge to.
-     */
-    public function __construct(Node $from, Node $to)
+    /** @var int The direction */
+    private $directed;
+
+  /**
+   * Creates a new Edge / Link between the given nodes.
+   *
+   * @param Node $from Starting node to create an Edge from.
+   * @param Node $to Destination node where to create and
+   *  edge to.
+   * @param int $direction
+   *   0 means undirected, greater than 0 means from FROM to TO, smaller than 0
+   *   means from TO to FROM.
+   */
+    public function __construct(Node $from, Node $to, int $direction = 1)
     {
-        $this->from = $from;
-        $this->to   = $to;
+        if ($direction >= 0) {
+            $this->from = $from;
+            $this->to = $to;
+        }
+
+        if ($direction < 0) {
+            $this->from = $to;
+            $this->to = $from;
+        }
+
+        $this->directed = ($direction ** 2) > 0;
     }
 
-    /**
-     * Factory method used to assist with fluent interface handling.
-     *
-     * See the examples for more details.
-     *
-     * @param Node $from Starting node to create an Edge from.
-     * @param Node $to   Destination node where to create and
-     *   edge to.
-     */
-    public static function create(Node $from, Node $to) : self
+  /**
+   * @return bool
+   */
+    public function isDirected(): bool
     {
-        return new self($from, $to);
+        return $this->directed;
+    }
+
+  /**
+   * Factory method used to assist with fluent interface handling.
+   *
+   * See the examples for more details.
+   *
+   * @param Node $from Starting node to create an Edge from.
+   * @param Node $to Destination node where to create and
+   *   edge to.
+   * @param int $direction
+   *   0 means undirected, greater than 0 means from FROM to TO, smaller than 0
+   *   means from TO to FROM.
+   *
+   * @return \phpDocumentor\GraphViz\Edge
+   */
+    public static function create(Node $from, Node $to, int $direction = 1) : self
+    {
+        return new self($from, $to, $direction);
+    }
+
+  /**
+   * @param \phpDocumentor\GraphViz\Node $from
+   * @param \phpDocumentor\GraphViz\Node $to
+   *
+   * @return \phpDocumentor\GraphViz\Edge
+   */
+    public static function directed(Node $from, Node $to) : self
+    {
+        return new self($from, $to, 1);
+    }
+
+  /**
+   * @param \phpDocumentor\GraphViz\Node $from
+   * @param \phpDocumentor\GraphViz\Node $to
+   *
+   * @return \phpDocumentor\GraphViz\Edge
+   */
+    public static function undirected(Node $from, Node $to) : self
+    {
+        return new self($from, $to, 0);
     }
 
     /**
@@ -100,11 +149,12 @@ class Edge implements AttributesAwareInterface, GraphAwareInterface
     public function __call(string $name, array $arguments)
     {
         $key = strtolower(substr($name, 3));
-        if (strtolower(substr($name, 0, 3)) === 'set') {
+
+        if (stripos($name, 'set') === 0) {
             return $this->setAttribute($key, (string) $arguments[0]);
         }
 
-        if (strtolower(substr($name, 0, 3)) === 'get') {
+        if (stripos($name, 'get') === 0) {
             return $this->getAttribute($key);
         }
 
@@ -126,13 +176,9 @@ class Edge implements AttributesAwareInterface, GraphAwareInterface
         $from_name = addslashes($this->getFrom()->getName());
         $to_name   = addslashes($this->getTo()->getName());
 
-        $direction = '->';
-
-        if (null !== $graph = $this->getGraphRoot()) {
-            if ('digraph' !== $graph->getType()) {
-                $direction = '--';
-            }
-        }
+        $direction = $this->isDirected() ?
+          '->' :
+          '--';
 
         return <<<DOT
 "${from_name}" ${direction} "${to_name}" [
