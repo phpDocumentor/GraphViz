@@ -55,7 +55,7 @@ jobs:
             all-tools-${{ github.sha }}-
             all-tools-
       - name: Install graphviz
-        run: apt-get update && apt-get install -y graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
       - name: Setup PHP
         uses: shivammathur/setup-php@master
         with:
