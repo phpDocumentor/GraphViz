@@ -159,7 +159,7 @@ jobs:
             all-tools-${{ github.sha }}-
             all-tools-
       - name: PHPStan
-        uses: docker://phpdoc/phpstan-ga:latest
+        uses: docker://phpdoc/phpstan-ga:0.12
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:

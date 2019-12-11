@@ -17,7 +17,7 @@ phpcs:
 
 .PHONY: phpstan
 phpstan:
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project phpstan-ga:latest analyse src tests --no-progress --level max --configuration phpstan.neon
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project phpdoc/phpstan-ga:0.12 analyse src tests --no-progress --level max --configuration phpstan.neon
 
 .PHONY: psaml
 psalm:
