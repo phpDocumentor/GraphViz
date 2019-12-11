@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phive xmlns="https://phar.io/phive">
+  <phar name="php-coveralls/php-coveralls" version="^2.2.0" installed="2.2.0" location="./tools/php-coveralls" copy="true"/>
+  <phar name="scrutinizer-ci/ocular" version="^1.6.0" installed="1.6.0" location="./tools/ocular" copy="true" force-accept-unsigned="true"/>
+</phive>

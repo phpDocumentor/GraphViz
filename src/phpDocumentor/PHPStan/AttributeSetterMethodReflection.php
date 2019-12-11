@@ -20,12 +20,9 @@ use PHPStan\Reflection\FunctionVariant;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptor;
 use PHPStan\Reflection\Php\DummyParameter;
-use PHPStan\Reflection\Php\PhpParameterReflection;
 use PHPStan\TrinaryLogic;
-use PHPStan\Type\Generic\TemplateTypeHelper;
 use PHPStan\Type\Generic\TemplateTypeMap;
 use PHPStan\Type\ObjectType;
-use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 
 final class AttributeSetterMethodReflection implements MethodReflection
