@@ -13,13 +13,19 @@ declare(strict_types=1);
 
 namespace phpDocumentor\GraphViz\PHPStan;
 
+use phpDocumentor\GraphViz\AttributeNotFound;
 use PHPStan\Reflection\ClassMemberReflection;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\FunctionVariant;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptor;
 use PHPStan\Reflection\Php\DummyParameter;
+use PHPStan\Reflection\Php\PhpParameterReflection;
+use PHPStan\TrinaryLogic;
+use PHPStan\Type\Generic\TemplateTypeHelper;
+use PHPStan\Type\Generic\TemplateTypeMap;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 
 final class AttributeSetterMethodReflection implements MethodReflection
@@ -75,10 +81,49 @@ final class AttributeSetterMethodReflection implements MethodReflection
     public function getVariants() : array
     {
         return [new FunctionVariant(
-            [new DummyParameter('value', $this->attributeType, false)],
+            TemplateTypeMap::createEmpty(),
+            TemplateTypeMap::createEmpty(),
+            [
+                new DummyParameter('value', $this->attributeType, false, null, false, null),
+            ],
             false,
             new ObjectType($this->classReflection->getName())
         ),
         ];
+    }
+
+    public function getDocComment() : ?string
+    {
+        return null;
+    }
+
+    public function isDeprecated() : TrinaryLogic
+    {
+        return TrinaryLogic::createNo();
+    }
+
+    public function getDeprecatedDescription() : ?string
+    {
+        return null;
+    }
+
+    public function isFinal() : TrinaryLogic
+    {
+        return TrinaryLogic::createNo();
+    }
+
+    public function isInternal() : TrinaryLogic
+    {
+        return TrinaryLogic::createNo();
+    }
+
+    public function getThrowType() : ?Type
+    {
+        return new ObjectType(AttributeNotFound::class);
+    }
+
+    public function hasSideEffects() : TrinaryLogic
+    {
+        return TrinaryLogic::createYes();
     }
 }

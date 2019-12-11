@@ -9,3 +9,4 @@ parameters:
         - '#Call to an undefined method phpDocumentor\\GraphViz\\Graph::MyMethod\(\)\.#'
         - '#Call to an undefined method phpDocumentor\\GraphViz\\Graph::getNotExisting\(\)\.#'
         - '#Call to an undefined method phpDocumentor\\GraphViz\\Node::someNonExistingMethod\(\)\.#'
+        - '#Call to method PHPStan\\Mockery\\Type\\Expects::andReturn\(\) on a separate line has no effect\.#'
