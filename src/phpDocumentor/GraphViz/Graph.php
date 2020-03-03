@@ -36,17 +36,20 @@ use function unlink;
  * When the name of the subgraph is prefixed with _cluster_ then the contents
  * of this graph will be grouped and a border will be added. Otherwise it is
  * used as logical container to place defaults in.
- *
- * @method Graph setRankSep(string $rankSep)
- * @method Graph setCenter(string $center)
- * @method Graph setRank(string $rank)
- * @method Graph setRankDir(string $rankDir)
- * @method Graph setSplines(string $splines)
- * @method Graph setConcentrate(string $concentrate)
  */
 class Graph
 {
     use Attributes;
+
+    public const RANK_SEP = 'RankSep';
+    public const CENTER = 'Center';
+    public const RANK = 'Rank';
+    public const RANK_DIR = 'RankDir';
+    public const SPLINES = 'Splines';
+    public const CONCENTRATE = 'Concentrate';
+    public const LABEL = 'Label';
+    public const SHAPE = 'Shape';
+    public const FONT_COLOR = 'FontColor';
 
     /** @var string Name of this graph */
     protected $name = 'G';
@@ -386,5 +389,95 @@ class Graph
 ${attributes}
 }
 DOT;
+    }
+
+    public function setRankSep(string $RankSep) : Graph
+    {
+        return $this->setAttribute(self::RANK_SEP, $RankSep);
+    }
+
+    public function setCenter(string $Center) : Graph
+    {
+        return $this->setAttribute(self::CENTER, $Center);
+    }
+
+    public function setRank(string $Rank) : Graph
+    {
+        return $this->setAttribute(self::RANK, $Rank);
+    }
+
+    public function setRankDir(string $RankDir) : Graph
+    {
+        return $this->setAttribute(self::RANK_DIR, $RankDir);
+    }
+
+    public function setSplines(string $Splines) : Graph
+    {
+        return $this->setAttribute(self::SPLINES, $Splines);
+    }
+
+    public function setConcentrate(string $Concentrate) : Graph
+    {
+        return $this->setAttribute(self::CONCENTRATE, $Concentrate);
+    }
+
+    public function setLabel(string $Label) : Graph
+    {
+        return $this->setAttribute(self::LABEL, $Label);
+    }
+
+    public function setShape(string $Shape) : Graph
+    {
+        return $this->setAttribute(self::SHAPE, $Shape);
+    }
+
+    public function setFontColor(string $FontColor) : Graph
+    {
+        return $this->setAttribute(self::FONT_COLOR, $FontColor);
+    }
+
+    public function getRankSep() : Attribute
+    {
+        return $this->getAttribute(self::RANK_SEP);
+    }
+
+    public function getCenter() : Attribute
+    {
+        return $this->getAttribute(self::CENTER);
+    }
+
+    public function getRank() : Attribute
+    {
+        return $this->getAttribute(self::RANK);
+    }
+
+    public function getRankDir() : Attribute
+    {
+        return $this->getAttribute(self::RANK_DIR);
+    }
+
+    public function getSplines() : Attribute
+    {
+        return $this->getAttribute(self::SPLINES);
+    }
+
+    public function getConcentrate() : Attribute
+    {
+        return $this->getAttribute(self::CONCENTRATE);
+    }
+
+    public function getLabel() : Attribute
+    {
+        return $this->getAttribute(self::LABEL);
+    }
+
+    public function getShape() : Attribute
+    {
+        return $this->getAttribute(self::SHAPE);
+    }
+
+    public function getFontColor() : Attribute
+    {
+        return $this->getAttribute(self::FONT_COLOR);
     }
 }
