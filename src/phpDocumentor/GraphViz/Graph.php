@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace phpDocumentor\GraphViz;
 
 use InvalidArgumentException;
-use const DIRECTORY_SEPARATOR;
-use const PHP_EOL;
 use function array_merge;
 use function escapeshellarg;
 use function exec;
@@ -28,6 +26,8 @@ use function substr;
 use function sys_get_temp_dir;
 use function tempnam;
 use function unlink;
+use const DIRECTORY_SEPARATOR;
+use const PHP_EOL;
 
 /**
  * Class representing a graph; this may be a main graph but also a subgraph.
@@ -76,7 +76,7 @@ class Graph
      * @param string $name        The name for this graph.
      * @param bool   $directional Whether this is a directed or undirected graph.
      *
-     * @return \phpDocumentor\GraphViz\Graph
+     * @return Graph
      */
     public static function create(string $name = 'G', bool $directional = true) : self
     {
@@ -114,6 +114,7 @@ class Graph
     public function setName(string $name) : self
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -143,6 +144,7 @@ class Graph
         }
 
         $this->type = $type;
+
         return $this;
     }
 
@@ -161,6 +163,7 @@ class Graph
     public function setStrict(bool $isStrict) : self
     {
         $this->strict = $isStrict;
+
         return $this;
     }
 
@@ -216,6 +219,7 @@ class Graph
     {
         $graph->setType('subgraph');
         $this->graphs[$graph->getName()] = $graph;
+
         return $this;
     }
 
@@ -252,6 +256,7 @@ class Graph
     public function setNode(Node $node) : self
     {
         $this->nodes[$node->getName()] = $node;
+
         return $this;
     }
 
@@ -287,6 +292,7 @@ class Graph
     public function __set(string $name, Node $value) : self
     {
         $this->nodes[$name] = $value;
+
         return $this;
     }
 
@@ -312,6 +318,7 @@ class Graph
     public function link(Edge $edge) : self
     {
         $this->edges[] = $edge;
+
         return $this;
     }
 

@@ -120,11 +120,11 @@ class Edge
 
         $attributes = implode("\n", $attributes);
 
-        $from_name = addslashes($this->getFrom()->getName());
-        $to_name   = addslashes($this->getTo()->getName());
+        $fromName = addslashes($this->getFrom()->getName());
+        $toName   = addslashes($this->getTo()->getName());
 
         return <<<DOT
-"${from_name}" -> "${to_name}" [
+"${fromName}" -> "${toName}" [
 ${attributes}
 ]
 DOT;

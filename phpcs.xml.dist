@@ -14,10 +14,6 @@
         <exclude-pattern>tests/phpDocumentor/GraphViz/Test/GraphTest\.php</exclude-pattern>
     </rule>
 
-    <rule ref="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingTraversableReturnTypeHintSpecification">
-        <exclude-pattern>tests/phpDocumentor/PHPStan/MethodReflectionExtensionTest\.php</exclude-pattern>
-    </rule>
-
     <rule ref="Generic.Formatting.SpaceAfterNot">
         <properties>
             <property name="spacing" value="0" />

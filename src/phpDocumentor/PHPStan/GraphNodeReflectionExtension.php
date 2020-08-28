@@ -25,11 +25,7 @@ final class GraphNodeReflectionExtension implements PropertiesClassReflectionExt
 {
     public function hasProperty(ClassReflection $classReflection, string $propertyName) : bool
     {
-        if ($classReflection->getName() === Graph::class) {
-            return true;
-        }
-
-        return false;
+        return $classReflection->getName() === Graph::class;
     }
 
     public function getProperty(ClassReflection $classReflection, string $propertyName) : PropertyReflection

@@ -47,12 +47,13 @@ final class MethodReflectionExtension implements MethodsClassReflectionExtension
 
     public function hasMethod(ClassReflection $classReflection, string $methodName) : bool
     {
-        if (!array_key_exists($classReflection->getName(), static::SUPPORTED_CLASSES)) {
+        if (!array_key_exists($classReflection->getName(), self::SUPPORTED_CLASSES)) {
             return false;
         }
 
-        $methods           = $this->getMethodsFromSpec(static::SUPPORTED_CLASSES[$classReflection->getName()]);
+        $methods           = $this->getMethodsFromSpec(self::SUPPORTED_CLASSES[$classReflection->getName()]);
         $expectedAttribute = $this->getAttributeFromMethodName($methodName);
+
         return in_array($expectedAttribute, $methods, true);
     }
 

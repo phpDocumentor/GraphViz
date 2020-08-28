@@ -22,11 +22,11 @@ use phpDocumentor\GraphViz\Graph;
 use phpDocumentor\GraphViz\Node;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use const PHP_EOL;
 use function is_readable;
 use function preg_replace;
 use function sys_get_temp_dir;
 use function tempnam;
+use const PHP_EOL;
 
 /**
  * Test for the the class representing a GraphViz graph.
@@ -359,6 +359,7 @@ class GraphTest extends TestCase
 
         if ($filename === false) {
             $this->assertFalse('Failed to create destination file');
+
             return;
         }
 
@@ -376,6 +377,7 @@ class GraphTest extends TestCase
 
         if ($filename === false) {
             $this->assertFalse('Failed to create destination file');
+
             return;
         }
 

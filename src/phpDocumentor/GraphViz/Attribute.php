@@ -50,6 +50,7 @@ class Attribute
     public function setKey(string $key) : self
     {
         $this->key = $key;
+
         return $this;
     }
 
@@ -69,6 +70,7 @@ class Attribute
     public function setValue(string $value) : self
     {
         $this->value = $value;
+
         return $this;
     }
 
