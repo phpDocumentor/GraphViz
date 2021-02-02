@@ -105,7 +105,7 @@ final class MethodReflectionExtension implements MethodsClassReflectionExtension
         }
 
         $type = $attributes[0]['type'];
-        $type = str_replace('xsd:', '', $type);
+        $type = str_replace('xsd:', '', (string) $type);
         switch ($type) {
             case 'boolean':
                 return new BooleanType();

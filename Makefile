@@ -10,23 +10,26 @@ install-phive:
 .PHONY: setup
 setup: install-phive
 	docker run -it --rm -v${PWD}:/opt/project -w /opt/project phpdoc/phar-ga:latest php tools/phive.phar install --force-accept-unsigned
+.PHONY: phpcbf
+phpcbf:
+	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project phpdoc/phpcs-ga:latest phpcbf ${ARGS}
 
 .PHONY: phpcs
 phpcs:
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project phpdoc/phpcs-ga:latest -d memory_limit=1024M
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project phpdoc/phpcs-ga:latest -d memory_limit=1024M -s
 
 .PHONY: phpstan
 phpstan:
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project phpdoc/phpstan-ga:0.12 analyse src tests --no-progress --level max --configuration phpstan.neon
+	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project phpdoc/phpstan-ga:latest analyse src tests --configuration phpstan.neon ${ARGS}
 
-.PHONY: psaml
+.PHONY: psalm
 psalm:
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project mickaelandrieu/psalm-ga
+	docker run -it --rm -v${CURDIR}:/data -w /data php:7.3 ./tools/psalm
 
 .PHONY: test
 test:
 	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:7.2 vendor/bin/phpunit
 
 .PHONY: pre-commit-test
-pre-commit-test: test phpcs phpstan psalm
+pre-commit-test: phpcs phpstan psalm test
 
