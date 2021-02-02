@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <psalm
-    totallyTyped="false"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config file:///composer/vendor/vimeo/psalm/config.xsd"
+        resolveFromConfigFile="true"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+        errorLevel="1"
 >
     <projectFiles>
         <directory name="src" />
@@ -14,5 +15,7 @@
 
     <issueHandlers>
         <LessSpecificReturnType errorLevel="info" />
+
+        <MissingDependency errorLevel="info" />
     </issueHandlers>
 </psalm>

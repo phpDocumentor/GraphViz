@@ -3,10 +3,10 @@ includes:
     - ./extension.neon
 
 parameters:
+    level: max
     ignoreErrors:
         #We have some runtime protection that needs to be tested. Ignore these errors
         - '#Call to an undefined method phpDocumentor\\GraphViz\\Edge::someNonExcistingMethod\(\)\.#'
         - '#Call to an undefined method phpDocumentor\\GraphViz\\Graph::MyMethod\(\)\.#'
         - '#Call to an undefined method phpDocumentor\\GraphViz\\Graph::getNotExisting\(\)\.#'
         - '#Call to an undefined method phpDocumentor\\GraphViz\\Node::someNonExistingMethod\(\)\.#'
-        - '#Call to method PHPStan\\Mockery\\Type\\Expects::andReturn\(\) on a separate line has no effect\.#'

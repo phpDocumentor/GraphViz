@@ -316,10 +316,9 @@ class GraphTest extends TestCase
     {
         $mock = m::mock(Node::class);
 
-        $this->assertSame(
-            $this->fixture,
-            $this->fixture->__set('myNode', $mock)
-        );
+        $this->fixture->__set('myNode', $mock);
+
+        self::assertSame($mock, $this->fixture->myNode);
     }
 
     /**
