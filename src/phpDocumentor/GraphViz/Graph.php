@@ -289,11 +289,9 @@ class Graph
      * @param string $name  Name of the node.
      * @param Node   $value Node to set on the given name.
      */
-    public function __set(string $name, Node $value) : self
+    public function __set(string $name, Node $value) : void
     {
         $this->nodes[$name] = $value;
-
-        return $this;
     }
 
     /**
