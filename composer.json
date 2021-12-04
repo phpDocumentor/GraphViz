@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^7.2 || 8.0.*"
+        "php": ">=7.2"
     },
     "autoload": {
         "psr-4": {
@@ -22,11 +22,6 @@
         "psr-4": {
             "phpDocumentor\\GraphViz\\Test\\": "./tests/phpDocumentor/GraphViz/Test",
             "phpDocumentor\\GraphViz\\PHPStan\\": "./tests/phpDocumentor/PHPStan"
-        }
-    },
-    "config": {
-        "platform": {
-            "php": "7.2.3"
         }
     },
     "require-dev": {
