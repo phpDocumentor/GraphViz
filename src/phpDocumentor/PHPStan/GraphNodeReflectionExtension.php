@@ -23,12 +23,12 @@ use PHPStan\Type\ObjectType;
 
 final class GraphNodeReflectionExtension implements PropertiesClassReflectionExtension
 {
-    public function hasProperty(ClassReflection $classReflection, string $propertyName) : bool
+    public function hasProperty(ClassReflection $classReflection, string $propertyName): bool
     {
         return $classReflection->getName() === Graph::class;
     }
 
-    public function getProperty(ClassReflection $classReflection, string $propertyName) : PropertyReflection
+    public function getProperty(ClassReflection $classReflection, string $propertyName): PropertyReflection
     {
         return new AnnotationPropertyReflection(
             $classReflection,

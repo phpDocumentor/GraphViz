@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\GraphViz;
 
 use InvalidArgumentException;
+
 use function array_merge;
 use function escapeshellarg;
 use function exec;
@@ -26,6 +27,7 @@ use function substr;
 use function sys_get_temp_dir;
 use function tempnam;
 use function unlink;
+
 use const DIRECTORY_SEPARATOR;
 use const PHP_EOL;
 
@@ -78,7 +80,7 @@ class Graph
      *
      * @return Graph
      */
-    public static function create(string $name = 'G', bool $directional = true) : self
+    public static function create(string $name = 'G', bool $directional = true): self
     {
         $graph = new self();
         $graph
@@ -93,7 +95,7 @@ class Graph
      *
      * @param string $path The path to execute dot from
      */
-    public function setPath(string $path) : self
+    public function setPath(string $path): self
     {
         $realpath = realpath($path);
         if ($path && $path === $realpath) {
@@ -111,7 +113,7 @@ class Graph
      *
      * @param string $name The new name for this graph.
      */
-    public function setName(string $name) : self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -121,7 +123,7 @@ class Graph
     /**
      * Returns the name for this Graph.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -134,7 +136,7 @@ class Graph
      * @throws InvalidArgumentException If $type is not "digraph", "graph" or
      * "subgraph".
      */
-    public function setType(string $type) : self
+    public function setType(string $type): self
     {
         if (!in_array($type, ['digraph', 'graph', 'subgraph'], true)) {
             throw new InvalidArgumentException(
@@ -151,7 +153,7 @@ class Graph
     /**
      * Returns the type of this Graph.
      */
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -160,14 +162,14 @@ class Graph
      * Set if the Graph should be strict. If the graph is strict then
      * multiple edges are not allowed between the same pairs of nodes
      */
-    public function setStrict(bool $isStrict) : self
+    public function setStrict(bool $isStrict): self
     {
         $this->strict = $isStrict;
 
         return $this;
     }
 
-    public function isStrict() : bool
+    public function isStrict(): bool
     {
         return $this->strict;
     }
@@ -215,7 +217,7 @@ class Graph
      * @param Graph $graph The graph to add onto this graph as
      * subgraph.
      */
-    public function addGraph(self $graph) : self
+    public function addGraph(self $graph): self
     {
         $graph->setType('subgraph');
         $this->graphs[$graph->getName()] = $graph;
@@ -228,7 +230,7 @@ class Graph
      *
      * @param string $name Name of the graph to find.
      */
-    public function hasGraph(string $name) : bool
+    public function hasGraph(string $name): bool
     {
         return isset($this->graphs[$name]);
     }
@@ -238,7 +240,7 @@ class Graph
      *
      * @param string $name Name of the requested graph.
      */
-    public function getGraph(string $name) : self
+    public function getGraph(string $name): self
     {
         return $this->graphs[$name];
     }
@@ -253,7 +255,7 @@ class Graph
      *
      * @param Node $node The node to set onto this Graph.
      */
-    public function setNode(Node $node) : self
+    public function setNode(Node $node): self
     {
         $this->nodes[$node->getName()] = $node;
 
@@ -265,7 +267,7 @@ class Graph
      *
      * @param string $name Name of the node to find.
      */
-    public function findNode(string $name) : ?Node
+    public function findNode(string $name): ?Node
     {
         if (isset($this->nodes[$name])) {
             return $this->nodes[$name];
@@ -289,7 +291,7 @@ class Graph
      * @param string $name  Name of the node.
      * @param Node   $value Node to set on the given name.
      */
-    public function __set(string $name, Node $value) : void
+    public function __set(string $name, Node $value): void
     {
         $this->nodes[$name] = $value;
     }
@@ -301,7 +303,7 @@ class Graph
      *
      * @param string $name The name of the node to retrieve.
      */
-    public function __get(string $name) : ?Node
+    public function __get(string $name): ?Node
     {
         return $this->nodes[$name] ?? null;
     }
@@ -313,7 +315,7 @@ class Graph
      *
      * @param Edge $edge The link between two classes.
      */
-    public function link(Edge $edge) : self
+    public function link(Edge $edge): self
     {
         $this->edges[] = $edge;
 
@@ -334,7 +336,7 @@ class Graph
      *
      * @throws Exception If an error occurred in GraphViz.
      */
-    public function export(string $type, string $filename) : self
+    public function export(string $type, string $filename): self
     {
         $type     = escapeshellarg($type);
         $filename = escapeshellarg($filename);
@@ -368,7 +370,7 @@ class Graph
      * GraphViz is not used in this method; it is safe to call it even without
      * GraphViz installed.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $elements = array_merge(
             $this->graphs,

@@ -47,7 +47,7 @@ class Attribute
      *
      * @param string $key The new name of this attribute.
      */
-    public function setKey(string $key) : self
+    public function setKey(string $key): self
     {
         $this->key = $key;
 
@@ -57,7 +57,7 @@ class Attribute
     /**
      * Returns the name for this attribute.
      */
-    public function getKey() : string
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -67,7 +67,7 @@ class Attribute
      *
      * @param string $value The new value.
      */
-    public function setValue(string $value) : self
+    public function setValue(string $value): self
     {
         $this->value = $value;
 
@@ -77,7 +77,7 @@ class Attribute
     /**
      * Returns the value for this attribute.
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
@@ -85,7 +85,7 @@ class Attribute
     /**
      * Returns the attribute definition as is requested by GraphViz.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $key = $this->getKey();
         if ($key === 'url') {
@@ -105,7 +105,7 @@ class Attribute
     /**
      * Returns whether the value contains HTML.
      */
-    public function isValueInHtml() : bool
+    public function isValueInHtml(): bool
     {
         $value = $this->getValue();
 
@@ -115,7 +115,7 @@ class Attribute
     /**
      * Checks whether the value contains any any special characters needing escaping.
      */
-    public function isValueContainingSpecials() : bool
+    public function isValueContainingSpecials(): bool
     {
         return strstr($this->getValue(), '\\') !== false;
     }
@@ -125,7 +125,7 @@ class Attribute
      *
      * @see http://www.graphviz.org/doc/info/attrs.html#k:escString
      */
-    protected function encodeSpecials() : string
+    protected function encodeSpecials(): string
     {
         $value = $this->getValue();
         $regex = '(\'|"|\\x00|\\\\(?![\\\\NGETHLnlr]))';

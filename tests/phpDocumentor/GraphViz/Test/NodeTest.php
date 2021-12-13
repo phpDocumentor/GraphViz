@@ -28,7 +28,7 @@ class NodeTest extends TestCase
     /**
      * Initializes the fixture for this test.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->fixture = new Node('name', 'label');
     }
@@ -39,7 +39,7 @@ class NodeTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Node::__construct
      * @returnn void
      */
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $fixture = new Node('MyName', 'MyLabel');
         $this->assertInstanceOf(
@@ -56,7 +56,7 @@ class NodeTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Node::create
      * @returnn void
      */
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $this->assertInstanceOf(
             Node::class,
@@ -70,7 +70,7 @@ class NodeTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Node::getName
      * @covers \phpDocumentor\GraphViz\Node::setName
      */
-    public function testName() : void
+    public function testName(): void
     {
         $this->assertSame(
             $this->fixture->getName(),
@@ -98,7 +98,7 @@ class NodeTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Node::getAttribute
      * @covers \phpDocumentor\GraphViz\Node::setAttribute
      */
-    public function testCall() : void
+    public function testCall(): void
     {
         $fontname = 'Bitstream Vera Sans';
         $this->assertInstanceOf(Node::class, $this->fixture->setfontname($fontname));
@@ -110,7 +110,7 @@ class NodeTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Node::getAttribute
      * @covers \phpDocumentor\GraphViz\AttributeNotFound::__construct
      */
-    public function testGetNonExistingAttributeThrowsAttributeNotFound() : void
+    public function testGetNonExistingAttributeThrowsAttributeNotFound(): void
     {
         $this->expectException(AttributeNotFound::class);
         $this->expectExceptionMessage('Attribute with name "fontname" was not found');
@@ -124,7 +124,7 @@ class NodeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Node::__toString
      */
-    public function testToString() : void
+    public function testToString(): void
     {
         $this->fixture->setfontsize(12);
         $this->fixture->setfontname('Bitstream Vera Sans');
@@ -146,7 +146,7 @@ DOT;
      *
      * @covers \phpDocumentor\GraphViz\Node::__toString
      */
-    public function testToStringWithLabelContainingSlashes() : void
+    public function testToStringWithLabelContainingSlashes(): void
     {
         $this->fixture->setfontsize(12);
         $this->fixture->setfontname('Bitstream Vera Sans');
