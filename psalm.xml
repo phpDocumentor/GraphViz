@@ -17,5 +17,10 @@
         <LessSpecificReturnType errorLevel="info" />
 
         <MissingDependency errorLevel="info" />
+        <MixedArgumentTypeCoercion>
+            <errorLevel type="suppress">
+                <file name="src/phpDocumentor/GraphViz/Graph.php" />
+            </errorLevel>
+        </MixedArgumentTypeCoercion>
     </issueHandlers>
 </psalm>

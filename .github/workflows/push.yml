@@ -172,4 +172,4 @@ jobs:
           composer install --no-progress --prefer-dist --optimize-autoloader
 
       - name: Psalm
-        run: psalm --output-format=github
+        run: vendor/bin/psalm.phar --output-format=github
