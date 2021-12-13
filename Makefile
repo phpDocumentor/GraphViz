@@ -24,11 +24,11 @@ phpstan:
 
 .PHONY: psalm
 psalm:
-	docker run -it --rm -v${CURDIR}:/data -w /data php:7.3 ./tools/psalm
+	docker run -it --rm -v${CURDIR}:/data -w /data php:7.3 vendor/bin/psalm.phar
 
 .PHONY: test
 test:
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:7.2 vendor/bin/phpunit
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:7.3 vendor/bin/phpunit
 
 .PHONY: pre-commit-test
 pre-commit-test: phpcs phpstan psalm test

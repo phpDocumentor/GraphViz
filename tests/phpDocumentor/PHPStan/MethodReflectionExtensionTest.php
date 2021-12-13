@@ -26,7 +26,7 @@ final class MethodReflectionExtensionTest extends TestCase
     /** @var MethodReflectionExtension */
     private $fixture;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->fixture = new MethodReflectionExtension();
     }
@@ -34,7 +34,7 @@ final class MethodReflectionExtensionTest extends TestCase
     /**
      * @dataProvider existingMethodProvider
      */
-    public function testNodeHasMethodReturnsTrue(string $className, string $methodName) : void
+    public function testNodeHasMethodReturnsTrue(string $className, string $methodName): void
     {
         $classReflection = m::mock(ClassReflection::class);
         $classReflection->shouldReceive('getName')->andReturn($className);
@@ -45,7 +45,7 @@ final class MethodReflectionExtensionTest extends TestCase
     /**
      * @return array<string, array<string, string>>
      */
-    public function existingMethodProvider() : array
+    public function existingMethodProvider(): array
     {
         return [
             'node::getLabel' => [
@@ -67,7 +67,7 @@ final class MethodReflectionExtensionTest extends TestCase
         ];
     }
 
-    public function testAttributeType() : void
+    public function testAttributeType(): void
     {
         $classReflection = m::mock(ClassReflection::class);
         $classReflection->shouldReceive('getName')->andReturn(Node::class);
@@ -77,7 +77,7 @@ final class MethodReflectionExtensionTest extends TestCase
         $this->assertInstanceOf(FloatType::class, $method->getVariants()[0]->getParameters()[0]->getType());
     }
 
-    public function testAttributeTypeOfNoneExisting() : void
+    public function testAttributeTypeOfNoneExisting(): void
     {
         $classReflection = m::mock(ClassReflection::class);
         $classReflection->shouldReceive('getName')->andReturn(Node::class);

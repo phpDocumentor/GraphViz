@@ -26,6 +26,7 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use RuntimeException;
 use SimpleXMLElement;
+
 use function array_key_exists;
 use function array_map;
 use function file_get_contents;
@@ -45,7 +46,7 @@ final class MethodReflectionExtension implements MethodsClassReflectionExtension
         Edge::class => 'edge',
     ];
 
-    public function hasMethod(ClassReflection $classReflection, string $methodName) : bool
+    public function hasMethod(ClassReflection $classReflection, string $methodName): bool
     {
         if (!array_key_exists($classReflection->getName(), self::SUPPORTED_CLASSES)) {
             return false;
@@ -57,7 +58,7 @@ final class MethodReflectionExtension implements MethodsClassReflectionExtension
         return in_array($expectedAttribute, $methods, true);
     }
 
-    public function getMethod(ClassReflection $classReflection, string $methodName) : MethodReflection
+    public function getMethod(ClassReflection $classReflection, string $methodName): MethodReflection
     {
         if (stripos($methodName, 'get') === 0) {
             return new AttributeGetterMethodReflection($classReflection, $methodName);
@@ -75,7 +76,7 @@ final class MethodReflectionExtension implements MethodsClassReflectionExtension
     /**
      * @return string[]
      */
-    private function getMethodsFromSpec(string $className) : array
+    private function getMethodsFromSpec(string $className): array
     {
         $simpleXml = $this->getAttributesXmlDoc();
 
@@ -88,14 +89,14 @@ final class MethodReflectionExtension implements MethodsClassReflectionExtension
         }
 
         return array_map(
-            static function (SimpleXMLElement $attribute) : string {
+            static function (SimpleXMLElement $attribute): string {
                 return strtolower((string) $attribute['ref']);
             },
             $elements
         );
     }
 
-    private function getAttributeInputType(string $ref) : Type
+    private function getAttributeInputType(string $ref): Type
     {
         $simpleXml  = $this->getAttributesXmlDoc();
         $attributes = $simpleXml->xpath(sprintf("xsd:attribute[@name='%s']", $ref));
@@ -109,15 +110,17 @@ final class MethodReflectionExtension implements MethodsClassReflectionExtension
         switch ($type) {
             case 'boolean':
                 return new BooleanType();
+
             case 'decimal':
                 return new FloatType();
+
             case 'string':
             default:
                 return new StringType();
         }
     }
 
-    private function getAttributesXmlDoc() : SimpleXMLElement
+    private function getAttributesXmlDoc(): SimpleXMLElement
     {
         $fileContent = file_get_contents(__DIR__ . '/assets/attributes.xml');
 
@@ -133,7 +136,7 @@ final class MethodReflectionExtension implements MethodsClassReflectionExtension
         return $xml;
     }
 
-    private function getAttributeFromMethodName(string $methodName) : string
+    private function getAttributeFromMethodName(string $methodName): string
     {
         return strtolower(substr($methodName, 3));
     }

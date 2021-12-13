@@ -28,7 +28,8 @@
         "phpunit/phpunit": "^8.2 || ^9.2",
         "mockery/mockery": "^1.2",
         "phpstan/phpstan": "^0.12",
-        "ext-simplexml": "*"
+        "ext-simplexml": "*",
+        "psalm/phar": "^4.15"
     },
     "extra": {
         "branch-alias": {

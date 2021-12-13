@@ -22,10 +22,12 @@ use phpDocumentor\GraphViz\Graph;
 use phpDocumentor\GraphViz\Node;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+
 use function is_readable;
 use function preg_replace;
 use function sys_get_temp_dir;
 use function tempnam;
+
 use const PHP_EOL;
 
 /**
@@ -40,7 +42,7 @@ class GraphTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->fixture = new Graph();
     }
@@ -49,7 +51,7 @@ class GraphTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         m::close();
     }
@@ -57,7 +59,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::create
      */
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $fixture = Graph::create();
         $this->assertInstanceOf(
@@ -87,7 +89,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::setName
      */
-    public function testSetName() : void
+    public function testSetName(): void
     {
         $this->assertSame(
             $this->fixture,
@@ -99,7 +101,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::getName
      */
-    public function testGetName() : void
+    public function testGetName(): void
     {
         $this->assertSame(
             $this->fixture->getName(),
@@ -117,7 +119,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::setType
      */
-    public function testSetType() : void
+    public function testSetType(): void
     {
         $this->assertSame(
             $this->fixture,
@@ -139,7 +141,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::setType
      */
-    public function testSetTypeException() : void
+    public function testSetTypeException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->fixture->setType('fakegraphg');
@@ -148,7 +150,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::getType
      */
-    public function testGetType() : void
+    public function testGetType(): void
     {
         $this->assertSame(
             $this->fixture->getType(),
@@ -161,7 +163,7 @@ class GraphTest extends TestCase
         );
     }
 
-    public function testSetStrict() : void
+    public function testSetStrict(): void
     {
         $this->assertSame(
             $this->fixture,
@@ -175,7 +177,7 @@ class GraphTest extends TestCase
         );
     }
 
-    public function testIsStrict() : void
+    public function testIsStrict(): void
     {
         $this->assertSame(
             $this->fixture->isStrict(),
@@ -188,7 +190,7 @@ class GraphTest extends TestCase
         );
     }
 
-    public function testSetPath() : void
+    public function testSetPath(): void
     {
         $this->assertSame(
             $this->fixture,
@@ -202,7 +204,7 @@ class GraphTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Graph::getAttribute
      * @covers \phpDocumentor\GraphViz\Graph::setAttribute
      */
-    public function test__call() : void
+    public function test__call(): void
     {
         $this->assertNull($this->fixture->MyMethod());
         $this->assertSame($this->fixture, $this->fixture->setBgColor('black'));
@@ -213,7 +215,7 @@ class GraphTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Graph::getAttribute
      * @covers \phpDocumentor\GraphViz\AttributeNotFound::__construct
      */
-    public function testGetNonExistingAttributeThrowsAttributeNotFound() : void
+    public function testGetNonExistingAttributeThrowsAttributeNotFound(): void
     {
         $this->expectException(AttributeNotFound::class);
         $this->expectExceptionMessage('Attribute with name "notexisting" was not found');
@@ -224,7 +226,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::addGraph
      */
-    public function testAddGraph() : void
+    public function testAddGraph(): void
     {
         $mock = m::mock(Graph::class);
         $mock->expects('setType');
@@ -239,7 +241,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::hasGraph
      */
-    public function testHasGraph() : void
+    public function testHasGraph(): void
     {
         $mock = m::mock(Graph::class);
         $mock->expects('getName')->andReturn('MyName');
@@ -253,7 +255,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::getGraph
      */
-    public function testGetGraph() : void
+    public function testGetGraph(): void
     {
         $mock = m::mock(Graph::class);
         $mock->expects('setType');
@@ -269,7 +271,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::setNode
      */
-    public function testSetNode() : void
+    public function testSetNode(): void
     {
         $mock = m::mock(Node::class);
         $mock->expects('getName')->andReturn('MyName');
@@ -283,7 +285,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::findNode
      */
-    public function testFindNode() : void
+    public function testFindNode(): void
     {
         $this->assertNull($this->fixture->findNode('MyNode'));
 
@@ -312,7 +314,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::__set
      */
-    public function test__set() : void
+    public function test__set(): void
     {
         $mock = m::mock(Node::class);
 
@@ -324,7 +326,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::__get
      */
-    public function test__get() : void
+    public function test__get(): void
     {
         $mock = m::mock(Node::class);
 
@@ -338,7 +340,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::link
      */
-    public function testLink() : void
+    public function testLink(): void
     {
         $mock = m::mock(Edge::class);
 
@@ -351,7 +353,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::export
      */
-    public function testExportException() : void
+    public function testExportException(): void
     {
         $graph    = Graph::create('My First Graph');
         $filename = tempnam(sys_get_temp_dir(), 'tst');
@@ -369,7 +371,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::export
      */
-    public function testExport() : void
+    public function testExport(): void
     {
         $graph    = Graph::create('My First Graph');
         $filename = tempnam(sys_get_temp_dir(), 'tst');
@@ -390,7 +392,7 @@ class GraphTest extends TestCase
     /**
      * @covers \phpDocumentor\GraphViz\Graph::__toString
      */
-    public function test__toString() : void
+    public function test__toString(): void
     {
         $graph = Graph::create('My First Graph');
         $this->assertSame(
@@ -416,7 +418,7 @@ class GraphTest extends TestCase
     /**
      * Help avoid issue of "#Warning: Strings contain different line endings!" on Windows.
      */
-    private function normalizeLineEndings(string $string) : string
+    private function normalizeLineEndings(string $string): string
     {
         $result = preg_replace('~\R~u', "\r\n", $string);
         if ($result === null) {

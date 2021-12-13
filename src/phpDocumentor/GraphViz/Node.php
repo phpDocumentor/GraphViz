@@ -56,7 +56,7 @@ class Node
      * @param string      $name  Name of the new node.
      * @param string|null $label Optional label text.
      */
-    public static function create(string $name, ?string $label = null) : self
+    public static function create(string $name, ?string $label = null): self
     {
         return new self($name, $label);
     }
@@ -68,7 +68,7 @@ class Node
      *
      * @param string $name Name for this node.
      */
-    public function setName(string $name) : self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -78,7 +78,7 @@ class Node
     /**
      * Returns the name for this node.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -117,7 +117,7 @@ class Node
     /**
      * Returns the node definition as is requested by GraphViz.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $attributes = [];
         foreach ($this->attributes as $value) {

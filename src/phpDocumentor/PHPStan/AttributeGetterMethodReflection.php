@@ -39,32 +39,32 @@ final class AttributeGetterMethodReflection implements MethodReflection
         $this->name            = $name;
     }
 
-    public function getDeclaringClass() : ClassReflection
+    public function getDeclaringClass(): ClassReflection
     {
         return $this->classReflection;
     }
 
-    public function isStatic() : bool
+    public function isStatic(): bool
     {
         return false;
     }
 
-    public function isPrivate() : bool
+    public function isPrivate(): bool
     {
         return false;
     }
 
-    public function isPublic() : bool
+    public function isPublic(): bool
     {
         return true;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getPrototype() : ClassMemberReflection
+    public function getPrototype(): ClassMemberReflection
     {
         return $this;
     }
@@ -72,49 +72,50 @@ final class AttributeGetterMethodReflection implements MethodReflection
     /**
      * @return ParametersAcceptor[]
      */
-    public function getVariants() : array
+    public function getVariants(): array
     {
-        return [new FunctionVariant(
-            TemplateTypeMap::createEmpty(),
-            null,
-            [],
-            false,
-            new ObjectType(Attribute::class)
-        ),
+        return [
+            new FunctionVariant(
+                TemplateTypeMap::createEmpty(),
+                null,
+                [],
+                false,
+                new ObjectType(Attribute::class)
+            ),
         ];
     }
 
-    public function getDocComment() : ?string
+    public function getDocComment(): ?string
     {
         return null;
     }
 
-    public function isDeprecated() : TrinaryLogic
+    public function isDeprecated(): TrinaryLogic
     {
         return TrinaryLogic::createNo();
     }
 
-    public function getDeprecatedDescription() : ?string
+    public function getDeprecatedDescription(): ?string
     {
         return null;
     }
 
-    public function isFinal() : TrinaryLogic
+    public function isFinal(): TrinaryLogic
     {
         return TrinaryLogic::createNo();
     }
 
-    public function isInternal() : TrinaryLogic
+    public function isInternal(): TrinaryLogic
     {
         return TrinaryLogic::createNo();
     }
 
-    public function getThrowType() : ?Type
+    public function getThrowType(): ?Type
     {
         return new ObjectType(AttributeNotFound::class);
     }
 
-    public function hasSideEffects() : TrinaryLogic
+    public function hasSideEffects(): TrinaryLogic
     {
         return TrinaryLogic::createMaybe();
     }

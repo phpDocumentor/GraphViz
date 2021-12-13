@@ -28,7 +28,7 @@ class EdgeTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         m::close();
     }
@@ -38,7 +38,7 @@ class EdgeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Edge::__construct
      */
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $fromNode = m::mock(Node::class);
         $toNode   = m::mock(Node::class);
@@ -63,7 +63,7 @@ class EdgeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Edge::create
      */
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $this->assertInstanceOf(
             Edge::class,
@@ -77,7 +77,7 @@ class EdgeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Edge::getFrom
      */
-    public function testGetFrom() : void
+    public function testGetFrom(): void
     {
         $from = new Node('from');
         $edge = Edge::create($from, new Node('to'));
@@ -90,7 +90,7 @@ class EdgeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Edge::getTo
      */
-    public function testGetTo() : void
+    public function testGetTo(): void
     {
         $to   = new Node('to');
         $edge = Edge::create(new Node('from'), $to);
@@ -106,7 +106,7 @@ class EdgeTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Edge::setAttribute
      * @covers \phpDocumentor\GraphViz\Edge::getAttribute
      */
-    public function testCall() : void
+    public function testCall(): void
     {
         $label   = 'my label';
         $fixture = new Edge(new Node('from'), new Node('to'));
@@ -119,7 +119,7 @@ class EdgeTest extends TestCase
      * @covers \phpDocumentor\GraphViz\Edge::getAttribute
      * @covers \phpDocumentor\GraphViz\AttributeNotFound::__construct
      */
-    public function testGetNonExistingAttributeThrowsAttributeNotFound() : void
+    public function testGetNonExistingAttributeThrowsAttributeNotFound(): void
     {
         $fixture = new Edge(new Node('from'), new Node('to'));
 
@@ -135,7 +135,7 @@ class EdgeTest extends TestCase
      *
      * @covers \phpDocumentor\GraphViz\Edge::__toString
      */
-    public function testToString() : void
+    public function testToString(): void
     {
         $fixture = new Edge(new Node('from'), new Node('to'));
         $fixture->setLabel('MyLabel');

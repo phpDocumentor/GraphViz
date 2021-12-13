@@ -20,7 +20,7 @@ trait Attributes
     /** @var Attribute[] */
     protected $attributes = [];
 
-    public function setAttribute(string $name, string $value) : self
+    public function setAttribute(string $name, string $value): self
     {
         $this->attributes[$name] = new Attribute($name, $value);
 
@@ -30,7 +30,7 @@ trait Attributes
     /**
      * @throws AttributeNotFound
      */
-    public function getAttribute(string $name) : Attribute
+    public function getAttribute(string $name): Attribute
     {
         if (!array_key_exists($name, $this->attributes)) {
             throw new AttributeNotFound($name);

@@ -55,7 +55,7 @@ class Edge
      * @param Node $to   Destination node where to create and
      *   edge to.
      */
-    public static function create(Node $from, Node $to) : self
+    public static function create(Node $from, Node $to): self
     {
         return new self($from, $to);
     }
@@ -63,7 +63,7 @@ class Edge
     /**
      * Returns the source Node for this Edge.
      */
-    public function getFrom() : Node
+    public function getFrom(): Node
     {
         return $this->from;
     }
@@ -71,7 +71,7 @@ class Edge
     /**
      * Returns the destination Node for this Edge.
      */
-    public function getTo() : Node
+    public function getTo(): Node
     {
         return $this->to;
     }
@@ -111,7 +111,7 @@ class Edge
     /**
      * Returns the edge definition as is requested by GraphViz.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $attributes = [];
         foreach ($this->attributes as $value) {
