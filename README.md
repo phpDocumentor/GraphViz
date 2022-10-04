@@ -5,8 +5,6 @@
 [![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/phpDocumentor/GraphViz.svg)](https://scrutinizer-ci.com/g/phpDocumentor/GraphViz/?branch=master)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/phpDocumentor/GraphViz.svg)](https://scrutinizer-ci.com/g/phpDocumentor/GraphViz/?branch=master)
 [![Stable Version](https://img.shields.io/packagist/v/phpDocumentor/GraphViz.svg)](https://packagist.org/packages/phpDocumentor/GraphViz)
-[![Unstable Version](https://img.shields.io/packagist/vpre/phpDocumentor/GraphViz.svg)](https://packagist.org/packages/phpDocumentor/GraphViz)
-
 
 GraphViz
 ========
@@ -19,7 +17,7 @@ fluent interface.
 
 This library contains a number of magic methods to set attributes on `Node`, `Graph` and `Edge`
 this will result in errors when using the library with checks by PHPStan. For your convenience this
-library provides an phpStan extension so your code can be checked correctly by phpstan.
+library provides a PHPStan extension so your code can be checked correctly by PHPStan.
 
 ```
 includes:
