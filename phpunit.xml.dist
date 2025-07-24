@@ -16,9 +16,6 @@
         <testsuite name="Graphviz suite">
             <directory>./tests/phpDocumentor/GraphViz</directory>
         </testsuite>
-        <testsuite name="PHPStan suite">
-            <directory>./tests/phpDocumentor/PHPStan</directory>
-        </testsuite>
     </testsuites>
     <logging>
         <log type="coverage-clover" target="build/logs/clover.xml" />

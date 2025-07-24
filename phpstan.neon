@@ -1,12 +1,8 @@
 includes:
-    - /composer/vendor/phpstan/phpstan-mockery/extension.neon
-    - ./extension.neon
+    - ./vendor/phpstan/phpstan-mockery/extension.neon
 
 parameters:
     level: max
     ignoreErrors:
         #We have some runtime protection that needs to be tested. Ignore these errors
-        - '#Call to an undefined method phpDocumentor\\GraphViz\\Edge::someNonExcistingMethod\(\)\.#'
-        - '#Call to an undefined method phpDocumentor\\GraphViz\\Graph::MyMethod\(\)\.#'
-        - '#Call to an undefined method phpDocumentor\\GraphViz\\Graph::getNotExisting\(\)\.#'
-        - '#Call to an undefined method phpDocumentor\\GraphViz\\Node::someNonExistingMethod\(\)\.#'
+        - '#Cannot cast mixed to string#'

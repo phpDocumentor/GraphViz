@@ -21,14 +21,16 @@ use function strstr;
  * Class representing a single GraphViz attribute.
  *
  * @link      http://phpdoc.org
+ *
+ * @psalm-suppress ClassMustBeFinal
  */
 class Attribute
 {
-    /** @var string The name of this attribute */
-    protected $key = '';
+    /** The name of this attribute */
+    protected string $key = '';
 
-    /** @var string The value of this attribute */
-    protected $value = '';
+    /** The value of this attribute */
+    protected string $value = '';
 
     /**
      * Creating a new attribute.

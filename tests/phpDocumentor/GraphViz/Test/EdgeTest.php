@@ -110,8 +110,8 @@ class EdgeTest extends TestCase
     {
         $label   = 'my label';
         $fixture = new Edge(new Node('from'), new Node('to'));
-        $this->assertInstanceOf(Edge::class, $fixture->setLabel($label));
-        $this->assertSame($label, $fixture->getLabel()->getValue());
+        $this->assertInstanceOf(Edge::class, $fixture->setAttribute('label', $label));
+        $this->assertSame($label, $fixture->getAttribute('label')->getValue());
         $this->assertNull($fixture->someNonExcistingMethod());
     }
 
@@ -126,7 +126,7 @@ class EdgeTest extends TestCase
         $this->expectException(AttributeNotFound::class);
         $this->expectExceptionMessage('Attribute with name "label" was not found');
 
-        $fixture->getLabel();
+        $fixture->getAttribute('label');
     }
 
     /**
@@ -138,8 +138,8 @@ class EdgeTest extends TestCase
     public function testToString(): void
     {
         $fixture = new Edge(new Node('from'), new Node('to'));
-        $fixture->setLabel('MyLabel');
-        $fixture->setWeight(45);
+        $fixture->setAttribute('label', 'MyLabel');
+        $fixture->setAttribute('weight', 45);
 
         $dot = <<<DOT
 "from" -> "to" [

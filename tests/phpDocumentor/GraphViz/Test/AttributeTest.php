@@ -21,8 +21,7 @@ use PHPUnit\Framework\TestCase;
  */
 class AttributeTest extends TestCase
 {
-    /** @var Attribute */
-    protected $fixture = null;
+    protected Attribute $fixture;
 
     /**
      * Initializes the fixture for this test.

@@ -45,31 +45,33 @@ use const PHP_EOL;
  * @method Graph setRankDir(string $rankDir)
  * @method Graph setSplines(string $splines)
  * @method Graph setConcentrate(string $concentrate)
+ *
+ * @psalm-suppress ClassMustBeFinal
  */
-class Graph
+class Graph implements \Stringable
 {
     use Attributes;
 
-    /** @var string Name of this graph */
-    protected $name = 'G';
+    /** Name of this graph */
+    protected string $name = 'G';
 
-    /** @var string Type of this graph; may be digraph, graph or subgraph */
-    protected $type = 'digraph';
+    /** Type of this graph; may be digraph, graph or subgraph */
+    protected string $type = 'digraph';
 
-    /** @var bool If the graph is strict then multiple edges are not allowed between the same pairs of nodes */
-    protected $strict = false;
+    /** If the graph is strict then multiple edges are not allowed between the same pairs of nodes */
+    protected bool $strict = false;
 
     /** @var Graph[] A list of subgraphs for this Graph */
-    protected $graphs = [];
+    protected array $graphs = [];
 
     /** @var Node[] A list of nodes for this Graph */
-    protected $nodes = [];
+    protected array $nodes = [];
 
     /** @var Edge[] A list of edges / arrows for this Graph */
-    protected $edges = [];
+    protected array $edges = [];
 
-    /** @var string The path to execute dot from */
-    protected $path = '';
+    /** The path to execute dot from */
+    protected string $path = '';
 
     /**
      * Factory method to instantiate a Graph so that you can use fluent coding
@@ -175,37 +177,6 @@ class Graph
     }
 
     /**
-     * Magic method to provide a getter/setter to add attributes on the Graph.
-     *
-     * Using this method we make sure that we support any attribute without
-     * too much hassle. If the name for this method does not start with get
-     * or set we return null.
-     *
-     * Set methods return this graph (fluent interface) whilst get methods
-     * return the attribute value.
-     *
-     * @param string  $name      Name of the method including get/set
-     * @param mixed[] $arguments The arguments, should be 1: the value
-     *
-     * @return Attribute|Graph|null
-     *
-     * @throws AttributeNotFound
-     */
-    public function __call(string $name, array $arguments)
-    {
-        $key = strtolower(substr($name, 3));
-        if (strtolower(substr($name, 0, 3)) === 'set') {
-            return $this->setAttribute($key, (string) $arguments[0]);
-        }
-
-        if (strtolower(substr($name, 0, 3)) === 'get') {
-            return $this->getAttribute($key);
-        }
-
-        return null;
-    }
-
-    /**
      * Adds a subgraph to this graph; automatically changes the type to subgraph.
      *
      * Please note that an index is maintained using the name of the subgraph.
@@ -260,6 +231,15 @@ class Graph
         $this->nodes[$node->getName()] = $node;
 
         return $this;
+    }
+
+    public function getNode(string $name): Node
+    {
+        if (!isset($this->nodes[$name])) {
+            throw new \LogicException("Node with name '$name' does not exist in this graph.");
+        }
+
+        return $this->nodes[$name];
     }
 
     /**
@@ -351,7 +331,7 @@ class Graph
         // create the dot output
         $output = [];
         $code   = 0;
-        exec($this->path . "dot -T${type} -o${filename} < ${tmpfileArg} 2>&1", $output, $code);
+        exec($this->path . "dot -T{$type} -o{$filename} < {$tmpfileArg} 2>&1", $output, $code);
         unlink($tmpfile);
 
         if ($code !== 0) {
@@ -390,7 +370,7 @@ class Graph
 
         return <<<DOT
 {$strict}{$this->getType()} "{$this->getName()}" {
-${attributes}
+{$attributes}
 }
 DOT;
     }
