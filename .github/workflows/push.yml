@@ -1,175 +1,52 @@
-on:
+# https://docs.github.com/en/actions
+
+name: "Integrate"
+
+on: # yamllint disable-line rule:truthy
   push:
     branches:
-      - master
-  pull_request:
-name: Qa workflow
-env:
-  extensions: mbstring, intl, iconv, libxml, dom, json, simplexml, zlib, fileinfo
-  key: cache-v1 # can be any string, change to clear the extension cache.
-  defaultPHPVersion: '7.3'
+      - "master"
+  pull_request: null
+  schedule:
+    - cron: "0 14 * * 1"
+  # Allow manually triggering the workflow.
+  workflow_dispatch: true
+
 jobs:
-  phpunit-with-coverage:
-    runs-on: ubuntu-latest
-    name: Unit tests
-    steps:
-      - uses: actions/checkout@v2
+  code-coverage:
+    name: "Code Coverage"
+    uses: "phpDocumentor/.github/.github/workflows/code-coverage.yml@main"
+    with:
+      composer-root-version: "1.x-dev"
 
-      - name: Install graphviz
-        run: sudo apt-get update && sudo apt-get install -y graphviz
+  coding-standards:
+    name: "Coding Standards"
+    uses: "phpDocumentor/.github/.github/workflows/coding-standards.yml@v0.8"
+    with:
+      composer-root-version: "1.x-dev"
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ env.defaultPHPVersion }}
-          ini-values: memory_limit=2G, display_errors=On, error_reporting=-1
-          tools: phive
+  dependency-analysis:
+    name: "Dependency analysis"
+    uses: "phpDocumentor/.github/.github/workflows/dependency-analysis.yml@v0.8"
+    with:
+      composer-root-version: "1.x-dev"
 
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+  lint-root:
+    name: "Lint root"
+    uses: "phpDocumentor/.github/.github/workflows/lint.yml@main"
+    with:
+      composer-options: "--no-check-publish --ansi"
 
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: composer-
+  static-analysis:
+    name: "Static analysis"
+    uses: "phpDocumentor/.github/.github/workflows/static-analysis.yml@v0.8"
+    with:
+      php-extensions: "none, ctype, dom, json, mbstring, phar, simplexml, tokenizer, xml, xmlwriter, fileinfo, pcntl, posix"
+      composer-root-version: "1.x-dev"
 
-      - name: Install Composer dependencies
-        run: |
-          composer install --no-progress --prefer-dist --optimize-autoloader
-
-      - name: Run PHPUnit
-        run: php vendor/bin/phpunit
-
-  phpunit:
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      matrix:
-        operating-system:
-          - ubuntu-latest
-        php-versions: ['8.2', '8.3', '8.4']
-    name: Unit tests for PHP version ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
-    needs:
-      - phpunit-with-coverage
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install graphviz
-        run: sudo apt-get update && sudo apt-get install -y graphviz
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-versions }}
-          extension-csv: mbstring, simplexml
-          ini-values: memory_limit=2G, display_errors=On, error_reporting=-1
-
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: composer-
-
-      - name: Install Composer dependencies
-        run: |
-          composer install --no-progress --prefer-dist --optimize-autoloader
-
-      - name: Run PHPUnit
-        run: php vendor/bin/phpunit
-
-  codestyle:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Restore/cache vendor folder
-        uses: actions/cache@v1
-        with:
-          path: vendor
-          key: all-build-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            all-build-${{ hashFiles('**/composer.lock') }}
-            all-build-
-      - name: Restore/cache tools folder
-        uses: actions/cache@v1
-        with:
-          path: tools
-          key: all-tools-${{ github.sha }}
-          restore-keys: |
-            all-tools-${{ github.sha }}-
-            all-tools-
-      - name: Code style check
-        uses: docker://phpdoc/phpcs-ga:latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: -d memory_limit=1024M
-
-  phpstan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ env.defaultPHPVersion }}
-          ini-values: memory_limit=2G, display_errors=On, error_reporting=-1
-          tools: pecl
-
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: composer-
-
-      - name: Install Composer dependencies
-        run: |
-          composer install --no-progress --prefer-dist --optimize-autoloader
-
-      - name: PHPStan
-        uses: phpDocumentor/phpstan-ga@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: analyse src
-
-  psalm:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.2
-          ini-values: memory_limit=2G, display_errors=On, error_reporting=-1
-          tools: pecl, psalm
-
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: composer-
-
-      - name: Install Composer dependencies
-        run: |
-          composer install --no-progress --prefer-dist --optimize-autoloader
-
-      - name: Psalm
-        run: vendor/bin/psalm.phar --output-format=github
+  unit-tests:
+    name: "Unit test"
+    uses: "phpDocumentor/.github/.github/workflows/continuous-integration.yml@v0.8"
+    with:
+      composer-root-version: "1.x-dev"
+      upcoming-releases: true
