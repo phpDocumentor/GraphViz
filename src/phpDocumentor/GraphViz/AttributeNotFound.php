@@ -15,6 +15,9 @@ namespace phpDocumentor\GraphViz;
 
 use function sprintf;
 
+/**
+ * @psalm-suppress ClassMustBeFinal
+ */
 class AttributeNotFound extends Exception
 {
     public function __construct(string $name)

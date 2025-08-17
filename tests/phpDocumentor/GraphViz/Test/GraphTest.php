@@ -31,12 +31,11 @@ use function tempnam;
 use const PHP_EOL;
 
 /**
- * Test for the the class representing a GraphViz graph.
+ * Test for the class representing a GraphViz graph.
  */
 class GraphTest extends TestCase
 {
-    /** @var Graph */
-    protected $fixture;
+    protected Graph $fixture;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -207,8 +206,8 @@ class GraphTest extends TestCase
     public function test__call(): void
     {
         $this->assertNull($this->fixture->MyMethod());
-        $this->assertSame($this->fixture, $this->fixture->setBgColor('black'));
-        $this->assertSame('black', $this->fixture->getBgColor()->getValue());
+        $this->assertSame($this->fixture, $this->fixture->setAttribute('bgColor', 'black'));
+        $this->assertSame('black', $this->fixture->getAttribute('bgColor')->getValue());
     }
 
     /**
@@ -218,7 +217,7 @@ class GraphTest extends TestCase
     public function testGetNonExistingAttributeThrowsAttributeNotFound(): void
     {
         $this->expectException(AttributeNotFound::class);
-        $this->expectExceptionMessage('Attribute with name "notexisting" was not found');
+        $this->expectExceptionMessage('Attribute with name "notExisting" was not found');
 
         $this->fixture->getNotExisting();
     }
@@ -312,29 +311,29 @@ class GraphTest extends TestCase
     }
 
     /**
-     * @covers \phpDocumentor\GraphViz\Graph::__set
+     * @covers \phpDocumentor\GraphViz\Graph::getNode
      */
-    public function test__set(): void
+    public function testGetNode(): void
     {
-        $mock = m::mock(Node::class);
+        $node = new Node('My');
+        $this->fixture->setNode($node);
 
-        $this->fixture->__set('myNode', $mock);
-
-        self::assertSame($mock, $this->fixture->myNode);
+        $this->assertSame(
+            $node,
+            $this->fixture->getNode('My'),
+        );
     }
 
     /**
-     * @covers \phpDocumentor\GraphViz\Graph::__get
+     * @covers \phpDocumentor\GraphViz\Graph::getNode
      */
-    public function test__get(): void
+    public function testGetNodeNodeDoesNotExist(): void
     {
-        $mock = m::mock(Node::class);
+        $node = new Node('My');
+        $this->fixture->setNode($node);
 
-        $this->fixture->myNode = $mock;
-        $this->assertSame(
-            $mock,
-            $this->fixture->myNode
-        );
+        $this->expectException(\LogicException::class);
+        $this->fixture->getNode('Alien');
     }
 
     /**
@@ -400,7 +399,7 @@ class GraphTest extends TestCase
             $this->normalizeLineEndings(('digraph "My First Graph" {' . PHP_EOL . PHP_EOL . '}'))
         );
 
-        $graph->setLabel('PigeonPost');
+        $graph->setAttribute('label', 'PigeonPost');
         $this->assertSame(
             $this->normalizeLineEndings((string) $graph),
             $this->normalizeLineEndings(('digraph "My First Graph" {' . PHP_EOL . 'label="PigeonPost"' . PHP_EOL . '}'))

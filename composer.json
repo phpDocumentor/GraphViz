@@ -10,30 +10,35 @@
         }
     ],
     "require": {
-        "php": "^7.2 || ^8.0"
+        "php": "^8.2"
     },
     "autoload": {
         "psr-4": {
-            "phpDocumentor\\GraphViz\\": "src/phpDocumentor/GraphViz",
-            "phpDocumentor\\GraphViz\\PHPStan\\": "./src/phpDocumentor/PHPStan"
+            "phpDocumentor\\GraphViz\\": "src/phpDocumentor/GraphViz"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "phpDocumentor\\GraphViz\\Test\\": "./tests/phpDocumentor/GraphViz/Test",
-            "phpDocumentor\\GraphViz\\PHPStan\\": "./tests/phpDocumentor/PHPStan"
+            "phpDocumentor\\GraphViz\\Test\\": "./tests/phpDocumentor/GraphViz/Test"
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.2 || ^9.2",
-        "mockery/mockery": "^1.2",
-        "phpstan/phpstan": "^0.12",
+        "phpunit/phpunit": "^11.0",
+        "mockery/mockery": "@stable",
+        "phpstan/phpstan": "@stable",
         "ext-simplexml": "*",
-        "psalm/phar": "^4.15 || ^5.0"
+        "psalm/phar": "@stable",
+        "squizlabs/php_codesniffer": "@stable",
+        "phpstan/phpstan-mockery": "@stable"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.x-dev"
+            "dev-master": "3.x-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ondrejmirtes/composer-attribute-collector": true
         }
     }
 }

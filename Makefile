@@ -14,21 +14,26 @@ setup: install-phive
 phpcbf:
 	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project phpdoc/phpcs-ga:latest phpcbf ${ARGS}
 
+
+.PHONY: build-test-image
+build-test-image:
+	docker build -t php-graphviz -f tests/Resources/Dockerfile tests/Resources
+
 .PHONY: phpcs
-phpcs:
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project phpdoc/phpcs-ga:latest -d memory_limit=1024M -s
+phpcs: build-test-image
+	docker run -it --rm -v${CURDIR}:/data -w /data php-graphviz vendor/bin/phpcs
 
 .PHONY: phpstan
-phpstan:
-	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project phpdoc/phpstan-ga:latest analyse src tests --configuration phpstan.neon ${ARGS}
+phpstan: build-test-image
+	docker run -it --rm -v${CURDIR}:/data -w /data php-graphviz ./vendor/phpstan/phpstan/phpstan analyse src ${ARGS}
 
 .PHONY: psalm
-psalm:
-	docker run -it --rm -v${CURDIR}:/data -w /data php:7.3 vendor/bin/psalm.phar
+psalm: build-test-image
+	docker run -it --rm -v${CURDIR}:/data -w /data php-graphviz vendor/bin/psalm.phar
 
 .PHONY: test
-test:
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:7.3 vendor/bin/phpunit
+test: build-test-image
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php-graphviz ./vendor/bin/phpunit
 
 .PHONY: pre-commit-test
 pre-commit-test: phpcs phpstan psalm test

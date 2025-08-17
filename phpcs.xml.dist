@@ -6,9 +6,6 @@
     <file>tests</file>
     <arg value="p"/>
     <rule ref="PSR2" />
-    <rule ref="Doctrine">
-        <exclude name="SlevomatCodingStandard.TypeHints.UselessConstantTypeHint.UselessDocComment" />
-    </rule>
 
     <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
         <exclude-pattern>tests/phpDocumentor/GraphViz/Test/GraphTest\.php</exclude-pattern>

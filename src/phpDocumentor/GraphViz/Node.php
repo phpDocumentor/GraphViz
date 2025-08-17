@@ -24,13 +24,15 @@ use function substr;
  * @link      http://phpdoc.org
  *
  * @method void setLabel(string $name) Sets the label for this node.
+ *
+ * @psalm-suppress ClassMustBeFinal
  */
-class Node
+class Node implements \Stringable
 {
     use Attributes;
 
-    /** @var string Name for this node */
-    protected $name = '';
+    /** Name for this node */
+    protected string $name = '';
 
     /**
      * Creates a new node with name and optional label.
@@ -84,37 +86,6 @@ class Node
     }
 
     /**
-     * Magic method to provide a getter/setter to add attributes on the Node.
-     *
-     * Using this method we make sure that we support any attribute without
-     * too much hassle. If the name for this method does not start with get or
-     * set we return null.
-     *
-     * Set methods return this graph (fluent interface) whilst get methods
-     * return the attribute value.
-     *
-     * @param string  $name      Method name; either getX or setX is expected.
-     * @param mixed[] $arguments List of arguments; only 1 is expected for setX.
-     *
-     * @return Attribute|Node|null
-     *
-     * @throws AttributeNotFound
-     */
-    public function __call(string $name, array $arguments)
-    {
-        $key = strtolower(substr($name, 3));
-        if (strtolower(substr($name, 0, 3)) === 'set') {
-            return $this->setAttribute($key, (string) $arguments[0]);
-        }
-
-        if (strtolower(substr($name, 0, 3)) === 'get') {
-            return $this->getAttribute($key);
-        }
-
-        return null;
-    }
-
-    /**
      * Returns the node definition as is requested by GraphViz.
      */
     public function __toString(): string
@@ -130,7 +101,7 @@ class Node
 
         return <<<DOT
 "{$name}" [
-${attributes}
+{$attributes}
 ]
 DOT;
     }

@@ -22,8 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class NodeTest extends TestCase
 {
-    /** @var Node */
-    protected $fixture = null;
+    protected Node $fixture;
 
     /**
      * Initializes the fixture for this test.
@@ -47,7 +46,7 @@ class NodeTest extends TestCase
             $fixture
         );
         $this->assertSame('MyName', $fixture->getName());
-        $this->assertSame('MyLabel', $fixture->getLabel()->getValue());
+        $this->assertSame('MyLabel', $fixture->getAttribute('label')->getValue());
     }
 
     /**
@@ -101,8 +100,8 @@ class NodeTest extends TestCase
     public function testCall(): void
     {
         $fontname = 'Bitstream Vera Sans';
-        $this->assertInstanceOf(Node::class, $this->fixture->setfontname($fontname));
-        $this->assertSame($fontname, $this->fixture->getfontname()->getValue());
+        $this->assertInstanceOf(Node::class, $this->fixture->setAttribute('fontname', $fontname));
+        $this->assertSame($fontname, $this->fixture->getAttribute('fontname')->getValue());
         $this->assertNull($this->fixture->someNonExistingMethod());
     }
 
@@ -115,7 +114,7 @@ class NodeTest extends TestCase
         $this->expectException(AttributeNotFound::class);
         $this->expectExceptionMessage('Attribute with name "fontname" was not found');
 
-        $this->fixture->getFontname();
+        $this->fixture->getAttribute('fontname');
     }
 
     /**
@@ -126,8 +125,8 @@ class NodeTest extends TestCase
      */
     public function testToString(): void
     {
-        $this->fixture->setfontsize(12);
-        $this->fixture->setfontname('Bitstream Vera Sans');
+        $this->fixture->setAttribute('fontsize', 12);
+        $this->fixture->setAttribute('fontname', 'Bitstream Vera Sans');
 
         $dot = <<<DOT
 "name" [
@@ -148,8 +147,8 @@ DOT;
      */
     public function testToStringWithLabelContainingSlashes(): void
     {
-        $this->fixture->setfontsize(12);
-        $this->fixture->setfontname('Bitstream Vera Sans');
+        $this->fixture->setAttribute('fontsize', 12);
+        $this->fixture->setAttribute('fontname', 'Bitstream Vera Sans');
         $this->fixture->setLabel('\phpDocumentor\Descriptor\ProjectDescriptor');
 
         $dot = <<<DOT
